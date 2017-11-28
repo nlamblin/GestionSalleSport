@@ -11,7 +11,11 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+
+
 
 Route::get('/', function () {
     return view('home');
@@ -20,3 +24,7 @@ Route::get('/', function () {
 Route::get('/testDatabase', 'ExampleController@example');
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
