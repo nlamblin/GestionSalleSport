@@ -55,6 +55,10 @@ Finally, execute both following commands :
     
 ## Usage
 
+### Create controllers
+
+    php artisan make:controller controller_name
+
 ### Create models
 
     php artisan make:model Models/model_name

@@ -2,6 +2,7 @@
 
 @section('css', asset('css/home.css'))
 
+
 @section('content')
 
     <!-- Header Carousel -->

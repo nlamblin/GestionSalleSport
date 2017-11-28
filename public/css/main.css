@@ -38,8 +38,8 @@ body {
     position: relative;
 }
 
-/*.navbar {
-    margin-bottom: 0;
-}*/
-
 /* footer */
+
+footer {
+    margin-top: 20px;
+}
