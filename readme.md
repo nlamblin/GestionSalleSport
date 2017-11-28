@@ -1,3 +1,5 @@
+# M1 CSI
+
 ## Requirements
 At least PHP 5.5.
 
@@ -49,9 +51,15 @@ Finally, execute both following commands :
 
     composer update
     php artisan key:generate
+    
+    
+## Usage
 
+### Create models
 
-## Directory Structure 
+    php artisan make:model Models/model_name
+
+### Directory Structure 
 
 
 Javascript files : `public/js/`.
