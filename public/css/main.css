@@ -1,16 +1,45 @@
-/* HEADER */
+/* Global Styles */
 
-.navbar-inverse {
-    background-color: #f5f5f5;
-    border-radius: 0;
-    border: none;
+html,
+body {
+    height: 100%;
 }
 
-.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
-    background-color: darkgray;
+.img-portfolio {
+    margin-bottom: 30px;
 }
 
-/* FOOTER */
+.img-hover:hover {
+    opacity: 0.8;
+}
 
+/* Responsive Styles */
 
+@media(max-width:991px) {
+    .customer-img,
+    .img-related {
+        margin-bottom: 30px;
+    }
+}
 
+@media(max-width:767px) {
+    .img-portfolio {
+        margin-bottom: 15px;
+    }
+
+    header.carousel .carousel {
+        height: 70%;
+    }
+}
+
+/* header */
+
+.navbar-fixed-bottom, .navbar-fixed-top {
+    position: relative;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+/* footer */
