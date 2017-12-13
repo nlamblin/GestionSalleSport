@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -15,20 +16,19 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
+        'nomUtilisateur', ''
     ];
 
     protected $table = 'Utilisateur';
 
-    protected $primaryKey = 'id_utilsateur';
+    protected $primaryKey = 'idUtilsateur';
 
+    /**
+     * Get email of the current user
+     *
+     * @return user email
+     */
+    public function getEmail() {
+        return DB::select('SELECT mailUtilisateur FROM Connexion WHERE idUtilisateur = ?', [$this->id]);
+    }
 }
