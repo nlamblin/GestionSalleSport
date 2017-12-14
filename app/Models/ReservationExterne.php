@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReservationExterne extends Model
 {
-    protected $table = 'ReservationExterne';
+    protected $table = 'reservation_externe';
 
-    protected $primaryKey = 'idReservation';
+    protected $primaryKey = 'id_reservation';
 }

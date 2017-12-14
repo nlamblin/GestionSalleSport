@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Statut extends Model
 {
-    protected $table = 'Statut';
+    protected $table = 'statut';
 
-    protected $primaryKey = 'idStatut';
+    protected $primaryKey = 'id_statut';
 }

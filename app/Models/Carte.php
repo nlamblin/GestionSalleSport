@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Carte extends Model
 {
-    protected $table = 'Carte';
+    protected $table = 'carte';
 
-    protected $primaryKey = 'idCarte';
+    protected $primaryKey = 'id_carte';
 }

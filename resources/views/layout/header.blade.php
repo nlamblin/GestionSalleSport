@@ -9,16 +9,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ url('/') }}">Start Bootstrap</a>
+                <a class="navbar-brand" href="{{ url('/') }}">Fit' Miage</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="{{ url('/login')  }}"><span class="glyphicon glyphicon-log-in"></span> Sign In</a>
+                        <a href="{{ url('/login')  }}"><span class="glyphicon glyphicon-log-in"></span> Se connecter</a>
                     </li>
                     <li>
-                        <a href="{{ url('/register') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+                        <a href="{{ url('/register') }}"><span class="glyphicon glyphicon-user"></span> S'inscrire</a>
                     </li>
                 </ul>
             </div>

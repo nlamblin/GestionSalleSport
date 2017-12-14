@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Activite extends Model
 {
-    protected $table = 'Activite';
+    protected $table = 'activite';
 
-    protected $primaryKey = 'idActivite';
+    protected $primaryKey = 'id_activite';
 }

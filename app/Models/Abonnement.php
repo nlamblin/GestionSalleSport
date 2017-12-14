@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Abonnement extends Model
 {
-    protected $table = 'Abonnement';
+    protected $table = 'abonnement';
 
-    protected $primaryKey = 'idAbonnement';
+    protected $primaryKey = 'id_abonnement';
 }

@@ -19,9 +19,11 @@ class User extends Authenticatable
         'nomUtilisateur', ''
     ];
 
-    protected $table = 'Utilisateur';
+    protected $table = 'utilisateur';
 
-    protected $primaryKey = 'idUtilsateur';
+    protected $primaryKey = 'idutilisateur';
+
+    public $timestamps = false;
 
     /**
      * Get email of the current user

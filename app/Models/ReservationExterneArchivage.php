@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReservationExterneArchivage extends Model
 {
-    protected $table = 'ReservationExterneArchivage';
+    protected $table = 'reservation_externe_archivage';
 
-    protected $primaryKey = 'idReservation';
+    protected $primaryKey = 'id_reservation';
 }
