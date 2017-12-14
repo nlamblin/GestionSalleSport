@@ -13,7 +13,7 @@ class Connexion extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'id_utilisateur', 'mail_utilisateur', 'password',
+        'id_utilisateur', 'email', 'password',
     ];
 
     /**
@@ -28,4 +28,6 @@ class Connexion extends Authenticatable
     protected $table = 'connexion';
 
     protected $primaryKey = 'id_connexion';
+
+    public $timestamps = false;
 }

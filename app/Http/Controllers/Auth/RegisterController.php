@@ -51,14 +51,14 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'last-name'     => 'required|string|max:30',
             'first-name'    => 'required|string|max:30',
-             // 'email'         => 'required|string|email|max:100|unique:connexion',
+            'email'         => 'required|string|email|max:100|unique:connexion',
             'password'      => 'required|string|min:6|confirmed',
             'birth-date'    => 'required|date'
         ]);
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * Create a new user and connexion instance after a valid registration.
      *
      * @param  array  $data
      * @return \App\Models\User
@@ -68,14 +68,14 @@ class RegisterController extends Controller
         $user = User::create([
             'nom_utilisateur'        => $data['last-name'],
             'prenom_utilisateur'     => $data['first-name'],
-            'date_naiss_utilisateur'  => $data['birth-date'],
+            'date_naiss_utilisateur' => $data['birth-date'],
             'id_statut'              => 4
         ]);
 
         Connexion::create([
-            'id_utilisateur' => $user->id,
-            'email'         => $data['email'],
-            'password'      => bcrypt($data['password'])
+            'id_utilisateur'    => $user->id_utilisateur,
+            'email'             => $data['email'],
+            'password'          => bcrypt($data['password'])
         ]);
 
         return $user;

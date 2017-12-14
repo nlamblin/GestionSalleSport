@@ -49,7 +49,7 @@ Then, create a `.env` into root folder (like `.env.example`) file which content 
     
 Finally, execute both following commands : 
 
-    composer update
+    composer install
     php artisan key:generate
     
     
