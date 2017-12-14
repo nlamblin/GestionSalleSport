@@ -32,7 +32,7 @@ class Connexion extends Authenticatable
     public $timestamps = false;
 
 
-    
+
     /*
      * POUR EVITER D'AJOUTER UNE COLONNE DANS LA BDD POUR LA DECONNEXION ON DEFINIT LES 3 METHODES SUIVANTES
      * getRememberToken()

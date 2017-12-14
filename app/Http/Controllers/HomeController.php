@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\ReservationExterneArchivage;
+use App\Models\ReservationInterneArchivage;
+use App\Models\SeanceArchivage;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -13,7 +17,6 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
     }
 
     /**
@@ -23,6 +26,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        /*$nbCoach = User::nbCoach();
+        $nbReservationsArchivees = ReservationInterneArchivage::nbReservations() + ReservationExterneArchivage::nbReservations();*/
+
+        $nbSeancesArchivees = SeanceArchivage::count();
+        $nbReservationsArchivees = ReservationExterneArchivage::count() + ReservationInterneArchivage::count();
+        $nbCoach = User::getNbCoach();
+
+        return view('home', [
+            'nbSeancesArchivees'      => $nbSeancesArchivees,
+            'nbReservationsArchivees' => $nbReservationsArchivees,
+            'nbCoach'                 => $nbCoach
+        ]);
     }
 }

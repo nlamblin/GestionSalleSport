@@ -26,11 +26,26 @@ class User extends Authenticatable
     public $timestamps = false;
 
     /**
-     * Get email of the current user
+     * Récupère l'email de l'utilisateur courant
      *
      * @return user email
      */
     public function getEmail() {
-        return DB::select('SELECT mailUtilisateur FROM Connexion WHERE idUtilisateur = ?', [$this->id]);
+        return DB::table('connexion')
+            ->where('id_utilisateur', $this->id_utilisateur)
+            ->get();
     }
+
+    /**
+     * Compte le nombre de coach
+     *
+     * @return le nombre de coach
+     */
+    public static function getNbCoach() {
+        return DB::table('utilisateur')
+            ->where('id_statut', 2)
+            ->where('actif', true)
+            ->count();
+    }
+
 }

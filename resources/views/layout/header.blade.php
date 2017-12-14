@@ -14,12 +14,18 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="{{ url('/login')  }}"><span class="glyphicon glyphicon-log-in"></span> Se connecter</a>
-                    </li>
-                    <li>
-                        <a href="{{ url('/register') }}"><span class="glyphicon glyphicon-user"></span> S'inscrire</a>
-                    </li>
+                    @if (Auth::guest())
+                        <li>
+                            <a href="{{ url('/login') }}"><span class="glyphicon glyphicon-log-in"></span> Se connecter</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/register') }}"><span class="glyphicon glyphicon-user"></span> S'inscrire</a>
+                        </li>
+                    @else
+                        <li>
+                            <a href="{{ url('/logout') }}"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</a>
+                        </li>
+                    @endif
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
