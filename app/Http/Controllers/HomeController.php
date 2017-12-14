@@ -6,6 +6,7 @@ use App\Models\ReservationExterneArchivage;
 use App\Models\ReservationInterneArchivage;
 use App\Models\SeanceArchivage;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
