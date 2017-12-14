@@ -26,9 +26,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        /*$nbCoach = User::nbCoach();
-        $nbReservationsArchivees = ReservationInterneArchivage::nbReservations() + ReservationExterneArchivage::nbReservations();*/
-
         $nbSeancesArchivees = SeanceArchivage::count();
         $nbReservationsArchivees = ReservationExterneArchivage::count() + ReservationInterneArchivage::count();
         $nbCoach = User::getNbCoach();
