@@ -17,11 +17,11 @@ class ListeSeancesController extends Controller
     	
     	$listeActivites = Activite::get();
 
-    	$listeSeances = Seance::join('activite', 'activite.id_activite', '=', 'seance.id_activite')->get();
+    	$listeSeances = Seance::join('activite', 'activite.id_activite', '=', 'seance.id_activite')->where('places_restantes', '>' ,0)->get();
 
         return view('listeseances', [
-            'listeactivite'      => $listeActivites,
-            'listeseance'		 => $listeSeances,
+            'listeActivites'      => $listeActivites,
+            'listeSeances'		 => $listeSeances,
         ]);
     }
 }

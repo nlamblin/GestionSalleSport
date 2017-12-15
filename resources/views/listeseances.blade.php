@@ -40,16 +40,16 @@
                 </div>
                 <div class = "row">
                     <span> 
-                        @if($seance->type_seance="individuelle")
+                        @if($seance->type_seance=='individuelle')
                         Coach personnel : 
-                            @if($seance->avec_coach=true)
+                            @if($seance->avec_coach==true)
                                 disponible
                             @else
                                 indisponible
                             @endif
                         @else
                         Coach collectif :
-                        @if($seance->avec_coach=true)
+                        @if($seance->avec_coach==true)
                                 disponible
                             @else
                                 indisponible
@@ -60,6 +60,16 @@
                 <div class = "row">
                     <span> 
                         Date : {{$seance->date_seance}} - Heure : {{$seance->heure_seance}}
+                    </span>
+                </div>
+                <div class = "row">
+                    <span> 
+                        Capacité : {{$seance->capacite_seance}}
+                    </span>
+                </div>
+                <div class = "row">
+                    <span> 
+                        Places restantes : {{$seance->places_restantes}}
                     </span>
                 </div>
             </div>
