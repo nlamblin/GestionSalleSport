@@ -94,12 +94,12 @@
                             <label for="relance" class="col-md-4 control-label">Demande de relance </label>
 
                             <div class="col-md-6">
-                                <input id="demande_relance" type="checkbox" class="form-control" name="demande_relance" >
+                                <input id="demande_relance" type="checkbox" class="form-control" name="demande_relance" checked>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <div id="divDelai" style="visibility:hidden;">
+                            <div id="divDelai" >
                                 <label for="select_delai" class="col-md-4 control-label">Delai de relance (jours)</label>
 
                                 <div class="col-md-6">

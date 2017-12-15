@@ -1,10 +1,10 @@
 $(document).ready(function () {
     $('#demande_relance').change(function()  {
         if($(this).is(":checked")) {
-           $('#divDelai').show();
+           $('#divDelai').show('500');
         }
         else {
-            $('#divDelai').hide();
+            $('#divDelai').hide('500');
         }
     });
 });
