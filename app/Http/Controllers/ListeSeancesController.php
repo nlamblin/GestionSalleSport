@@ -15,14 +15,13 @@ class ListeSeancesController extends Controller
     public function index()
     {
     	
-    	$listeactivite = Activite::get();
+    	$listeActivites = Activite::get();
 
-    	$listeseance = Seance::join('activite', 'activite.id_activite', '=', 'seance.id_activite')->get();
-
+    	$listeSeances = Seance::join('activite', 'activite.id_activite', '=', 'seance.id_activite')->get();
 
         return view('listeseances', [
-            'listeactivite'      => $listeactivite,
-            'listeseance'		 => $listeseance,
+            'listeactivite'      => $listeActivites,
+            'listeseance'		 => $listeSeances,
         ]);
     }
 }

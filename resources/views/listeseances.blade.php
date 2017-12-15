@@ -15,15 +15,15 @@
             <label for="select_activite" class="col-md-4 control-label">Choisissez une activité : </label>
             <div class="col-md-6">
                 <select id="select_activite" class="form-control" name="select_activite">
-                    @foreach($listeactivite as $value)
-                        <option value=$value.id_activite>{{$value->nom_activite}}</option>
+                    @foreach($listeActivites as $activite)
+                        <option value=$value.id_activite>{{$activite->nom_activite}}</option>
                     @endforeach
                 </select>
             </div>
 
         </div>
        <!-- Project One -->
-       @foreach($listeseance as $value)
+       @foreach($listeSeances as $seance)
         <div class="row">
             <div class="col-md-7">
                 <a href="#">
@@ -31,35 +31,35 @@
                 </a>
             </div>
             <div class="col-md-5">
-                <h3>Activité : {{$value->nom_activite}} </h3>
-                <h4>Séance : {{$value->type_seance}}</h4>
+                <h3>Activité : {{$seance->nom_activite}} </h3>
+                <h4>Séance : {{$seance->type_seance}}</h4>
                 <div class = "row">
                     <span> 
-                        Niveau : {{$value->niveau_seance}}
+                        Niveau : {{$seance->niveau_seance}}
                     </span>
                 </div>
                 <div class = "row">
                     <span> 
-                        @if($value->type_seance="individuelle")
+                        @if($seance->type_seance="individuelle")
                         Coach personnel : 
-                            @if($value->avec_coach=true) 
-                            disponible 
+                            @if($seance->avec_coach=true)
+                                disponible
                             @else
-                            indisponible
+                                indisponible
                             @endif
                         @else
                         Coach collectif :
-                        @if($value->avec_coach=true) 
-                            disponible 
+                        @if($seance->avec_coach=true)
+                                disponible
                             @else
-                            indisponible
+                                indisponible
                             @endif
                         @endif
                     </span>
                 </div>
                 <div class = "row">
                     <span> 
-                        Date : {{$value->date_seance}} - Heure : {{$value->heure_seance}}
+                        Date : {{$seance->date_seance}} - Heure : {{$seance->heure_seance}}
                     </span>
                 </div>
             </div>
