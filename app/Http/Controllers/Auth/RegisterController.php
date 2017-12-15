@@ -53,7 +53,7 @@ class RegisterController extends Controller
             'first-name'    => 'required|string|max:30',
             'email'         => 'required|string|email|max:100|unique:connexion',
             'password'      => 'required|string|min:6|confirmed',
-            'birth-date'    => 'required|date'
+            'birth-date'    => 'required|date',
         ]);
     }
 
@@ -71,7 +71,8 @@ class RegisterController extends Controller
             'prenom_utilisateur'     => $data['first-name'],
             'date_naiss_utilisateur' => $data['birth-date'],
             'id_statut'              => 4,
-            'demande_relance'        => isset($data['demande_relance'])
+            'demande_relance'        => isset($data['demande_relance']),
+            'delai_relance'          => $data['select_delai']
         ]);
 
         Connexion::create([

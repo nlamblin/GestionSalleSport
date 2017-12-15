@@ -1,3 +1,14 @@
 $(document).ready(function () {
-    console.log('thats works');
+    $('#demande_relance').change(function()  {
+        if($(this).is(":checked")) {
+           $('#divDelai').show();
+        }
+        else {
+            $('#divDelai').hide();
+        }
+    });
 });
+
+
+
+

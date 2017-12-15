@@ -98,7 +98,23 @@
                             </div>
                         </div>
 
-                        <!-- RELANCE HERE -->
+                        <div class="form-group">
+                            <div id="divDelai" style="visibility:hidden;">
+                                <label for="select_delai" class="col-md-4 control-label">Delai de relance (jours)</label>
+
+                                <div class="col-md-6">
+                                        <select id="select_delai" class="form-control" name="select_delai">
+                                            <option value="1" selected>1</option>
+                                            <option value="2" >2</option>
+                                            <option value="3" >3</option>
+                                            <option value="4" >4</option>
+                                            <option value="5" >5</option>
+                                            <option value="6" >6</option>
+                                            <option value="7" >7</option>
+                                        </select>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
