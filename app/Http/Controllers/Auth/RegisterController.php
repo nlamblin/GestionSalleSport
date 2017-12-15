@@ -65,15 +65,28 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        if(isset($data['demande_relance']))
+        {
 
-        $user = User::create([
-            'nom_utilisateur'        => $data['last-name'],
-            'prenom_utilisateur'     => $data['first-name'],
-            'date_naiss_utilisateur' => $data['birth-date'],
-            'id_statut'              => 4,
-            'demande_relance'        => isset($data['demande_relance']),
-            'delai_relance'          => $data['select_delai']
-        ]);
+            $user = User::create([
+                'nom_utilisateur'        => $data['last-name'],
+                'prenom_utilisateur'     => $data['first-name'],
+                'date_naiss_utilisateur' => $data['birth-date'],
+                'id_statut'              => 4,
+                'demande_relance'        => isset($data['demande_relance']),
+                'delai_relance'          => $data['select_delai']
+            ]);
+        }
+        else 
+        {
+            $user = User::create([
+                'nom_utilisateur'        => $data['last-name'],
+                'prenom_utilisateur'     => $data['first-name'],
+                'date_naiss_utilisateur' => $data['birth-date'],
+                'id_statut'              => 4,
+                'demande_relance'        => isset($data['demande_relance'])
+            ]);
+        }
 
         Connexion::create([
             'id_utilisateur'    => $user->id_utilisateur,
