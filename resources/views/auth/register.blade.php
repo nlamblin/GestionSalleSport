@@ -89,6 +89,15 @@
                             </div>
                         </div>
 
+
+                        <div class="form-group">
+                            <label for="relance" class="col-md-4 control-label">Demande de relance </label>
+
+                            <div class="col-md-6">
+                                <input id="demande_relance" type="checkbox" class="form-control" name="demande_relance" >
+                            </div>
+                        </div>
+
                         <!-- RELANCE HERE -->
 
                         <div class="form-group">

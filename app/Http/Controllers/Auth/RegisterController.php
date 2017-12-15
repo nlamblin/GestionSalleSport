@@ -65,11 +65,13 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
         $user = User::create([
             'nom_utilisateur'        => $data['last-name'],
             'prenom_utilisateur'     => $data['first-name'],
             'date_naiss_utilisateur' => $data['birth-date'],
-            'id_statut'              => 4
+            'id_statut'              => 4,
+            'demande_relance'        => isset($data['demande_relance'])
         ]);
 
         Connexion::create([
@@ -77,6 +79,8 @@ class RegisterController extends Controller
             'email'             => $data['email'],
             'password'          => bcrypt($data['password'])
         ]);
+
+        dd($user);
 
         return $user;
     }
