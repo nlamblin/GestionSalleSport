@@ -20,4 +20,6 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::get('listeseances','ListeSeancesController@index');
 
+Route::get('formulaireActivite','formulaireActivite@index');
+
 Auth::routes();
