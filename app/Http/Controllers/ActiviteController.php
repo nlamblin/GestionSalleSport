@@ -7,21 +7,18 @@ use App\Models\Activite;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class AdministrateurController extends Controller
+class ActiviteController extends Controller
 {
     public function index()
     {
         return view('formulaireActivite');
     }
 
-    
-    public function creerActivite(Request $request){
-
+    protected function create(array $data)
+    {
         Activite::create([
             'nom_activite'    => $data['nom-activite']
         ]);
-
-        return redirect()->action('formulaireActiviteController@index');
     }
 }
 
