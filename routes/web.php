@@ -22,4 +22,6 @@ Route::get('listeseances','ListeSeancesController@index');
 
 Route::get('ajax/listeSeances','ListeSeancesController@seancesParActivites');
 
+Route::get('formulaireActivite','formulaireActiviteController@index');
+
 Auth::routes();
