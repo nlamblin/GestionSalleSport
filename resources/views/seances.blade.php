@@ -15,7 +15,7 @@
             <div class="col-md-6">
                 <select id="select_activite" class="form-control" name="select_activite">
                     @foreach($listeActivites as $activite)
-                        <option value=$value.id_activite>{{$activite->nom_activite}}</option>
+                        <option value={{ $activite->id_activite }}>{{ $activite->nom_activite }}</option>
                     @endforeach
                         <option value='4'>Activité 4</option>
                         <option value='2'>Activité 2</option>

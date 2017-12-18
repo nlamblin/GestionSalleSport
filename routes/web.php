@@ -18,10 +18,10 @@ Route::get('/', 'HomeController@index');
 
 Route::get('logout', 'Auth\LoginController@logout');
 
-Route::get('listeseances','ListeSeancesController@index');
+Route::get('seances','SeancesController@index');
 
-Route::get('ajax/listeSeances','ListeSeancesController@seancesParActivites');
+Route::get('ajax/listeSeances','SeancesController@seancesParActivites');
 
-Route::get('formulaireActivite','formulaireActiviteController@index');
+Route::get('formulaireActivite','ActiviteController@index');
 
 Auth::routes();

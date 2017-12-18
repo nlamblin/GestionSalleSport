@@ -7,7 +7,7 @@ use App\Models\Activite;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class formulaireActiviteController extends Controller
+class ActiviteController extends Controller
 {
     public function index()
     {

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Seance;
 use App\Models\Activite;
 
-class ListeSeancesController extends Controller
+class SeancesController extends Controller
 {
 
     public function index()
