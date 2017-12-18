@@ -3,27 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Seance;
 use App\Models\Activite;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class ListeSeancesController extends Controller
 {
 
     public function index()
     {
-    	
     	$listeActivites = Activite::get();
 
-    	$listeSeances = Seance::join('activite', 'activite.id_activite', '=', 'seance.id_activite')->where('places_restantes', '>' ,0)->get();
-
-        return view('listeseances', [
-            'listeActivites'      => $listeActivites,
-            'listeSeances'		 => $listeSeances,
+        return view('seances', [
+            'listeActivites'    => $listeActivites
         ]);
     }
-}
 
-    
+    /**
+     * Méthode qui affiche les seances disponibles en fonction d'une activité
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function seancesParActivites(Request $request) {
+
+        $listeSeances = Seance::where('places_restantes', '>' ,0)
+                                ->where('id_activite', $request->id_activite)
+                                ->get();
+
+        return view('listeSeances', [
+            'id'    => $request->id_activite,
+            'listeSeances' => $listeSeances
+        ]);
+    }
+
+}

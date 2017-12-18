@@ -16,9 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index');
 
-Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('logout', 'Auth\LoginController@logout');
 
 Route::get('listeseances','ListeSeancesController@index');
+
+Route::get('ajax/listeSeances','ListeSeancesController@seancesParActivites');
 
 Route::get('formulaireActivite','formulaireActiviteController@index');
 
