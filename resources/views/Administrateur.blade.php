@@ -11,7 +11,8 @@
                 <div class="panel-heading">Création d'une nouvelle activité</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('home') }}">
+                    <form id="form-activite" class="form-horizontal" method="POST" 
+                    action="{{action('AdministrateurController@creerActivite')}}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('nom-activite') ? ' has-error' : '' }}">
@@ -30,7 +31,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary" form="form-activite">
                                     Enregistrer l'activité
                                 </button>
                             </div>

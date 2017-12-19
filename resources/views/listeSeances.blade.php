@@ -1,5 +1,6 @@
 <div class="listeSeances">
     <!-- Project One -->
+    {{$id}}
     @foreach($listeSeances as $seance)
         <div class="row">
             <div class="col-md-7">
