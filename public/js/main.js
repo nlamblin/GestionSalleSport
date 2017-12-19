@@ -14,19 +14,23 @@ $(document).ready(function () {
     $('#select_activite').change(function() {
         // on supprime les seances deja affichées
         $('.listeSeances').remove();
+        
+        // si ce n'est pas l'option par defaut
+        if($(this).val() !== 'default') {
 
-        $.ajax({
-            method : 'GET',
-            url : 'ajax/listeSeances/',
-            data : {
-                id_activite : $(this).val()
-            },
-            xhrFields: { withCredentials: true },
-            crossDomain : true
-        }).done(function (data) {
-            // on affiche les nouvelles seances
-            $('.rowSelectActivite').after(data);
-        });
+            $.ajax({
+                method : 'GET',
+                url : 'ajax/listeSeances/',
+                data : {
+                    id_activite : $(this).val()
+                },
+                xhrFields: { withCredentials: true },
+                crossDomain : true
+            }).done(function (data) {
+                // on affiche les nouvelles seances
+                $('.rowSelectActivite').after(data);
+            });
+        }
     });
 
 });
