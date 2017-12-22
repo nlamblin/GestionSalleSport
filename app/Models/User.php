@@ -48,4 +48,23 @@ class User extends Authenticatable
             ->count();
     }
 
+    /**
+     * Donne tous les utilisateurs valides (carte active ou abonnement valide)
+     *
+     * @return liste d'utilsiateur valides
+     */
+    public static function getUtilisateursValides() {
+        /*
+         * CETTE REQUETE NE FONCTIONNE PAS (normalement) !!!
+         */
+        return DB::table('utilisateur')
+            ->select('email', 'id_utilisateur')
+            ->join('connexion', 'utilisateur.id_utilisateur', '=', 'connexion.id_utilisateur')
+            ->join('carte', 'utilisateur.id_utilisateur', '=', 'carte.id_utilisateur')
+            ->join('abonnement', 'utilisateur.id_utilisateur', '=', 'abonnement.id_utilisateur')
+            ->where('carte.active', true)
+            ->where('abonnement.datefinabo', '>', date('Y-m-d', time()))
+            ->get();
+    }
+
 }

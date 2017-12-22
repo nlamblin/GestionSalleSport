@@ -14,7 +14,7 @@ $(document).ready(function () {
     $('#select_activite').change(function() {
         // on supprime les seances deja affichées
         $('.listeSeances').remove();
-        
+
         // si ce n'est pas l'option par defaut
         if($(this).val() !== 'default') {
 
@@ -31,6 +31,19 @@ $(document).ready(function () {
                 $('.rowSelectActivite').after(data);
             });
         }
+    });
+
+    // fonction appelée à l'ouverture du modal pour les reservations
+    $(document).on('show.bs.modal', '.reservationModal', function (e) {
+        console.log($(this).data('seance'));
+        $.ajax({
+            method : 'POST',
+            url : 'ajax/validUser',
+            xhrFields: { withCredentials: true },
+            crossDomain : true
+        }).done(function (data) {
+
+        });
     });
 
 });

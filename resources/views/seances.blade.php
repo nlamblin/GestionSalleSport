@@ -14,7 +14,7 @@
             <label for="select_activite" class="col-md-4 control-label">Choisissez une activité : </label>
             <div class="col-md-6">
                 <select id="select_activite" class="form-control" name="select_activite">
-                    <option value="default">--- Selectionner une activité ---</option>
+                    <option value="default">Selectionner une activité</option>
                     @foreach($listeActivites as $activite)
                         <option value={{ $activite->id_activite }}>{{ $activite->nom_activite }}</option>
                     @endforeach
