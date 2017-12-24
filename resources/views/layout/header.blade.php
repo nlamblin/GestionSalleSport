@@ -23,7 +23,7 @@
                         </li>
                     @else
                         <li>
-                            <a href="{{ url('/seances') }}"><span class="glyphicon glyphicons-basketball"></span> Séances</a>
+                            <a href="{{ url('/seances') }}"><span class="glyphicon glyphicon-basketball"></span> Séances</a>
                         </li>
                         <li>
                             <a href="{{ url('/logout') }}"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</a>

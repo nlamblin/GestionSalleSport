@@ -63,15 +63,26 @@
                         <form class="form-horizontal">
 
                             <div class="form-group">
-                                <label for="ajout-personne" class="col-md-4 control-label">Ajouter des personnes</label>
+                                <label for="ajout-personne-{{ $seance->id_seance }}" class="col-md-4 control-label">Ajouter des personnes</label>
 
                                 <div class="col-md-6">
-                                    <div class="input-group">
-                                        <input id="ajout-personne" type="text" class="form-control" name="ajout-personne" placeholder="email@gmail.com">
+                                    <ul class="input-group">
+                                        <select id="ajout-personne-{{ $seance->id_seance }}" class="form-control" name="ajout-personne-{{ $seance->id_seance }}">
+
+                                            <option value="1" data-name="Lamblin" data-prenom="Nicolas" data-email="nico@gmail.com">Nico</option>
+                                            <option value="2" data-name="Thiriot" data-prenom="Anais" data-email="anais@gmail.com">Anais</option>
+                                            <option value="3" data-name="Mansuy" data-prenom="Claire" data-email="claire@gmail.com">Claire</option>
+                                            <option value="4" data-name="Fernandes" data-prenom="Charlotte" data-email="charlotte@gmail.com">Charlotte</option>
+
+                                        </select>
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-primary bouton-ajout-personne">Ajouter</button>
+                                            <button type="button" class="btn btn-primary bouton-ajout-personne" data-seance="{{ $seance->id_seance }}">Ajouter</button>
                                         </span>
-                                    </div>
+                                    </ul>
+
+                                    <ul class="list-group listePersonneAAjouter">
+
+                                    </ul>
                                 </div>
                             </div>
 

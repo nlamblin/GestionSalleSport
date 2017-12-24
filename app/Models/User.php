@@ -58,7 +58,7 @@ class User extends Authenticatable
          * CETTE REQUETE NE FONCTIONNE PAS (normalement) !!!
          */
         return DB::table('utilisateur')
-            ->select('email', 'id_utilisateur')
+            ->select('email', 'id_utilisateur', 'nom', 'prenom')
             ->join('connexion', 'utilisateur.id_utilisateur', '=', 'connexion.id_utilisateur')
             ->join('carte', 'utilisateur.id_utilisateur', '=', 'carte.id_utilisateur')
             ->join('abonnement', 'utilisateur.id_utilisateur', '=', 'abonnement.id_utilisateur')

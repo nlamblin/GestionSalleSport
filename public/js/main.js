@@ -33,17 +33,48 @@ $(document).ready(function () {
         }
     });
 
+
     // fonction appelée à l'ouverture du modal pour les reservations
     $(document).on('show.bs.modal', '.reservationModal', function (e) {
-        console.log($(this).data('seance'));
-        $.ajax({
-            method : 'POST',
-            url : 'ajax/validUser',
-            xhrFields: { withCredentials: true },
-            crossDomain : true
-        }).done(function (data) {
 
+        var id_seance = $(this).data('seance')
+            , personneAAjouter = {};
+
+        // quand on ajoute une personne
+        $('.bouton-ajout-personne').on('click', function () {
+            var idUtilisateur = $('#ajout-personne-' + id_seance).val()
+
+            // Si la personne n'a pas déjà été ajoutée
+            if(personneAAjouter[idUtilisateur] === undefined) {
+
+                var optionSelected      = $('#ajout-personne-' + id_seance + ' option:selected')[0]
+                    , nomUtilisateur    = $(optionSelected).data('name')
+                    , prenomUtilisateur = $(optionSelected).data('prenom')
+                    , emailUtilisateur  = $(optionSelected).data('email');
+
+                personneAAjouter[idUtilisateur] = [];
+                personneAAjouter[idUtilisateur]['nom'] = nomUtilisateur;
+                personneAAjouter[idUtilisateur]['prenom'] = prenomUtilisateur;
+                personneAAjouter[idUtilisateur]['email'] = emailUtilisateur;
+
+                // ajout de la personne dans la liste
+                $('.listePersonneAAjouter').append('<li class="list-group-item" id="li-utilisateur-' + idUtilisateur + '"><span data-idUtilisateur="' + idUtilisateur + '" class="badge removePersonne">X</span>' + prenomUtilisateur + ' ' + nomUtilisateur + ' &lt' + emailUtilisateur + '&gt </li>');
+            }
+
+            // quand on supprime une personne
+            $('.removePersonne').on('click', function () {
+                idUtilisateur = $(this).data('idutilisateur');
+
+                console.log(idUtilisateur);
+
+                delete personneAAjouter[idUtilisateur];
+                $('li').remove('#li-utilisateur-' + idUtilisateur);
+            });
         });
+    });
+
+    $(document).on('hide.bs.modal', '.reservationModal', function(e) {
+        $('.listePersonneAAjouter').children().remove();
     });
 
 });

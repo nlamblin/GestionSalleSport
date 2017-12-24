@@ -32,8 +32,9 @@ class SeancesController extends Controller
                                 ->get();
 
         return view('listeSeances', [
-            'id'    => $request->id_activite,
-            'listeSeances' => $listeSeances
+            'id'                    => $request->id_activite,
+            'listeSeances'          => $listeSeances
+            // 'utilisateursValides'   => User::getUtilisateursValides()
         ]);
     }
 
