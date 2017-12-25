@@ -52,7 +52,7 @@
 
         <hr>
 
-        <div class="modal fade reservationModal" id="reservationModal-{{ $seance->id_seance }}" data-seance='{{ $seance->id_seance }}' tabindex="-1" role="dialog" aria-labelledby="reservationModal-{{ $seance->id_seance }}" aria-hidden="true">
+        <div class="modal fade reservationModal" id="reservationModal-{{ $seance->id_seance }}" data-seance='{{ $seance->id_seance }}' role="dialog" aria-labelledby="reservationModal-{{ $seance->id_seance }}" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -83,6 +83,26 @@
                                     <ul class="list-group listePersonneAAjouter">
 
                                     </ul>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="choix-coach" class="col-md-4 control-label"> Souhaitez-vous un coach lors de la séance ?</label>
+
+                                <div class="col-md-6">
+                                    <input id="choix-coach" type="checkbox" class="form-control" name="choix-coach" checked>
+                                </div>
+                            </div>
+
+                            <div class="form-group div-choix-coach">
+                                <label for="select-coach" class="col-md-4 control-label"> Veuillez choisir votre coach</label>
+
+                                <div class="col-md-6">
+                                    <select id="select-coach" class="form-control" name="select-coach">
+                                        <option>Coach 1</option>
+                                        <option>Coach 2</option>
+                                        <option>Coach 3</option>
+                                    </select>
                                 </div>
                             </div>
 

@@ -33,7 +33,6 @@ $(document).ready(function () {
         }
     });
 
-
     // fonction appelée à l'ouverture du modal pour les reservations
     $(document).on('show.bs.modal', '.reservationModal', function (e) {
 
@@ -45,12 +44,12 @@ $(document).ready(function () {
             var idUtilisateur = $('#ajout-personne-' + id_seance).val()
 
             // Si la personne n'a pas déjà été ajoutée
-            if(personneAAjouter[idUtilisateur] === undefined) {
+            if (personneAAjouter[idUtilisateur] === undefined) {
 
-                var optionSelected      = $('#ajout-personne-' + id_seance + ' option:selected')[0]
-                    , nomUtilisateur    = $(optionSelected).data('name')
+                var optionSelected = $('#ajout-personne-' + id_seance + ' option:selected')[0]
+                    , nomUtilisateur = $(optionSelected).data('name')
                     , prenomUtilisateur = $(optionSelected).data('prenom')
-                    , emailUtilisateur  = $(optionSelected).data('email');
+                    , emailUtilisateur = $(optionSelected).data('email');
 
                 personneAAjouter[idUtilisateur] = [];
                 personneAAjouter[idUtilisateur]['nom'] = nomUtilisateur;
@@ -64,15 +63,23 @@ $(document).ready(function () {
             // quand on supprime une personne
             $('.removePersonne').on('click', function () {
                 idUtilisateur = $(this).data('idutilisateur');
-
-                console.log(idUtilisateur);
-
                 delete personneAAjouter[idUtilisateur];
                 $('li').remove('#li-utilisateur-' + idUtilisateur);
             });
         });
+
+        // affichage / ou non du choix du coach
+        $('#choix-coach').change(function () {
+            if ($(this).is(":checked")) {
+                $('.div-choix-coach').show('500');
+            }
+            else {
+                $('.div-choix-coach').hide('500');
+            }
+        });
     });
 
+    // fonction appelée à la fermeture du modal
     $(document).on('hide.bs.modal', '.reservationModal', function(e) {
         $('.listePersonneAAjouter').children().remove();
     });
