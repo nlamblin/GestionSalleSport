@@ -57,7 +57,11 @@ $(document).ready(function () {
                 personneAAjouter[idUtilisateur]['email'] = emailUtilisateur;
 
                 // ajout de la personne dans la liste
-                $('.listePersonneAAjouter').append('<li class="list-group-item" id="li-utilisateur-' + idUtilisateur + '"><span data-idUtilisateur="' + idUtilisateur + '" class="badge removePersonne">X</span>' + prenomUtilisateur + ' ' + nomUtilisateur + ' &lt' + emailUtilisateur + '&gt </li>');
+                $('.listePersonneAAjouter').append(
+                    '<li class="list-group-item" id="li-utilisateur-' + idUtilisateur + '">' +
+                        '<span data-idUtilisateur="' + idUtilisateur + '" class="badge removePersonne">X</span>' +
+                        prenomUtilisateur + ' ' + nomUtilisateur + ' &lt' + emailUtilisateur + '&gt ' +
+                    '</li>');
             }
 
             // quand on supprime une personne
