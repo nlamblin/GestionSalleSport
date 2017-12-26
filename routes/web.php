@@ -24,6 +24,6 @@ Route::get('ajax/listeSeances','SeancesController@seancesParActivites');
 
 Route::get('formulaireActivite','ActiviteController@index');
 
-Route::post('ajax/validUser', 'SeancesController@recupererUtilisateursAAjouter');
+Route::post('ajax/effectuerReservation', 'SeancesController@effectuerReservation');
 
 Auth::routes();

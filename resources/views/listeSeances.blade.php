@@ -99,9 +99,9 @@
 
                                 <div class="col-md-6">
                                     <select id="select-coach" class="form-control" name="select-coach">
-                                        <option>Coach 1</option>
-                                        <option>Coach 2</option>
-                                        <option>Coach 3</option>
+                                        <option value="1">Coach 1</option>
+                                        <option value="2">Coach 2</option>
+                                        <option value="3">Coach 3</option>
                                     </select>
                                 </div>
                             </div>
@@ -110,7 +110,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                        <button type="button" class="btn btn-primary">Réserver</button>
+                        <button type="button" class="btn btn-primary" id="reservation-seance-{{ $seance->id_seance }}">Réserver</button>
                     </div>
                 </div>
             </div>

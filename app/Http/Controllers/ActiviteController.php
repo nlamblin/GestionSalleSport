@@ -17,7 +17,7 @@ class ActiviteController extends Controller
     protected function create(array $data)
     {
         Activite::create([
-            'nom_activite'    => $data['nom-activite']
+            'nom_activite' => $data['nom-activite']
         ]);
     }
 }

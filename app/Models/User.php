@@ -51,7 +51,7 @@ class User extends Authenticatable
     /**
      * Donne tous les utilisateurs valides (carte active ou abonnement valide)
      *
-     * @return liste d'utilsiateur valides
+     * @return liste d'utilisateur valides
      */
     public static function getUtilisateursValides() {
         /*
