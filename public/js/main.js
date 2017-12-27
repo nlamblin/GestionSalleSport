@@ -9,7 +9,7 @@ $(document).ready(function () {
     // affichage / ou non de délai de relance
     $('#demande_relance').change(function()  {
         if($(this).is(":checked")) {
-           $('#divDelai').show('500');
+            $('#divDelai').show('500');
         }
         else {
             $('#divDelai').hide('500');
@@ -39,21 +39,19 @@ $(document).ready(function () {
         }
     });
 
-    // fonction appelée à l'ouverture du modal pour les reservations
-    $(document).on('show.bs.modal', '.reservationModal', function (e) {
+    $(document).on('shown.bs.modal', '#reservationModal', function (e) {
+        
+        var personnesAAjouter = [];
 
-        var id_seance = $(this).data('seance')
-            , personnesAAjouter = [];
-
-        // quand on ajoute une personne
         $('.bouton-ajout-personne').on('click', function () {
-            var idUtilisateur = $('#ajout-personne-' + id_seance).val()
+
+            var idUtilisateur = $('#ajout-personne').val();
 
             if(idUtilisateur !== 'default') {
                 // Si la personne n'a pas déjà été ajoutée
                 if (personnesAAjouter[idUtilisateur] === undefined) {
 
-                    var optionSelected = $('#ajout-personne-' + id_seance + ' option:selected')[0]
+                    var optionSelected = $('#ajout-personne option:selected')[0]
                         , nomUtilisateur = $(optionSelected).data('name')
                         , prenomUtilisateur = $(optionSelected).data('prenom')
                         , emailUtilisateur = $(optionSelected).data('email');
@@ -91,7 +89,7 @@ $(document).ready(function () {
         });
 
         // ajax pour effectuer la réservation
-        $('#reservation-seance-' + id_seance).on('click', function() {
+        $('#reservation-seance').on('click', function() {
 
             var idCoach = null;
 
@@ -103,7 +101,7 @@ $(document).ready(function () {
                 method  : 'POST',
                 url     : 'ajax/effectuerReservation',
                 data    : {
-                    'idSeance'          : id_seance,
+                    'idSeance'          : $(e.relatedTarget).data('seance'),
                     'personnesAAjouter' : getIdPersonnesAAjouter(personnesAAjouter),
                     'idCoach'           : idCoach
                 },
@@ -115,10 +113,11 @@ $(document).ready(function () {
                 alert(data);
             });
         });
+
     });
 
     // fonction appelée à la fermeture du modal
-    $(document).on('hide.bs.modal', '.reservationModal', function(e) {
+    $(document).on('hidden.bs.modal', '.reservationModal', function(e) {
         $('.listePersonneAAjouter').children().remove();
     });
 
