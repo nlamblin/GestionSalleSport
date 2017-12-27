@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ReservationInterne;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Seance;
 use App\Models\Activite;
@@ -32,11 +33,12 @@ class SeancesController extends Controller
                                 ->where('id_activite', $request->id_activite)
                                 ->get();
 
-
+        $user = User::getUser(Auth::user()->id_utilisateur);
 
         return view('listeSeances', [
             'idActivites'           => $request->id_activite,
             'listeSeances'          => $listeSeances
+            // 'utilisateurValide'     => $user->estValide()
             // 'utilisateursValides'   => User::getUtilisateursValides()
         ]);
     }

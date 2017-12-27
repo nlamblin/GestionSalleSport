@@ -31,9 +31,39 @@ class User extends Authenticatable
      * @return user email
      */
     public function getEmail() {
-        return DB::table('connexion')
-            ->where('id_utilisateur', $this->id_utilisateur)
-            ->get();
+        return Connexion::where('id_utilisateur', $this->id_utilisateur)->get();
+    }
+
+    /**
+     * Informe si l'utilisateur est valide ou non
+     *
+     * @return mixed
+     */
+    public function estValide() {
+        $validite = User::select('carte.active', 'abonnement.date_fin_abo', 'utilisateur.actif')
+            ->join('carte', 'utilisateur.id_utilisateur', '=', 'carte.id_utilisateur')
+            ->join('abonnement', 'utilisateur.id_utilisateur', '=', 'abonnement.id_utilisateur')
+            ->where('utilisateur.id_utilisateur', '=', $this->id_utilisateur)
+            ->get()[0];
+
+        if($validite->active && $validite->date_fin_abo > date('Y-m-d', time()) && $validite->actif) {
+            $res = true;
+        }
+        else {
+            $res = false;
+        }
+
+        return $res;
+    }
+
+    /**
+     * Retourne l'instance de l'utilisateur connecté
+     *
+     * @param $idUtilisateur
+     * @return mixed
+     */
+    public static function getUser($idUtilisateur) {
+        return User::find($idUtilisateur);
     }
 
     /**
@@ -42,8 +72,7 @@ class User extends Authenticatable
      * @return le nombre de coach
      */
     public static function getNbCoach() {
-        return DB::table('utilisateur')
-            ->where('id_statut', 2)
+        return User::where('id_statut', 2)
             ->where('actif', true)
             ->count();
     }
@@ -57,13 +86,12 @@ class User extends Authenticatable
         /*
          * CETTE REQUETE NE FONCTIONNE PAS (normalement) !!!
          */
-        return DB::table('utilisateur')
-            ->select('email', 'id_utilisateur', 'nom', 'prenom')
+        return User::select('email', 'id_utilisateur', 'nom', 'prenom')
             ->join('connexion', 'utilisateur.id_utilisateur', '=', 'connexion.id_utilisateur')
             ->join('carte', 'utilisateur.id_utilisateur', '=', 'carte.id_utilisateur')
             ->join('abonnement', 'utilisateur.id_utilisateur', '=', 'abonnement.id_utilisateur')
             ->where('carte.active', true)
-            ->where('abonnement.datefinabo', '>', date('Y-m-d', time()))
+            ->where('abonnement.date_fin_abo', '>', date('Y-m-d', time()))
             ->get();
     }
 

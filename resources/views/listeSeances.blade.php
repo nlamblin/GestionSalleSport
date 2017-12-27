@@ -1,4 +1,11 @@
 <div class="listeSeances">
+
+    @if($utilisateurValide == false)
+        <div class="alert alert-danger">
+            Votre abonnement ou votre carte n'est pas valide, vous ne pourrez pas effectuer de réservation.
+        </div>
+    @endif
+
     <!-- Project One -->
     @foreach($listeSeances as $seance)
         <div class="row">
@@ -17,16 +24,16 @@
                 </div>
                 <div class = "row">
                         <span>
-                            @if($seance->type_seance=='individuelle')
+                            @if($seance->type_seance == 'individuelle')
                                 Coach personnel :
-                                @if($seance->avec_coach==true)
+                                @if($seance->avec_coach == true)
                                     disponible
                                 @else
                                     indisponible
                                 @endif
                             @else
                                 Coach collectif :
-                                @if($seance->avec_coach==true)
+                                @if($seance->avec_coach == true)
                                     disponible
                                 @else
                                     indisponible
@@ -44,7 +51,10 @@
                     <span> Places restantes : {{ $seance->places_restantes }}</span>
                 </div>
                 <div class="row">
-                    <button class="btn btn-primary bouton-reservation" data-toggle="modal" data-target="#reservationModal-{{ $seance->id_seance }}">Réserver</button>
+                    <button class="btn btn-primary bouton-reservation" data-toggle="modal" data-target="#reservationModal-{{ $seance->id_seance }}"
+                    @if($utilisateurValide == false)
+                        disabled
+                    @endif>Réserver</button>
                 </div>
             </div>
         </div>
