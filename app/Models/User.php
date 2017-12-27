@@ -31,7 +31,9 @@ class User extends Authenticatable
      * @return user email
      */
     public function getEmail() {
-        return Connexion::where('id_utilisateur', $this->id_utilisateur)->get();
+        return Connexion::select('email')
+            ->where('id_utilisateur', $this->id_utilisateur)
+            ->get()[0];
     }
 
     /**
