@@ -37,7 +37,8 @@ class SeancesController extends Controller
 
         return view('listeSeances', [
             'idActivites'           => $request->id_activite,
-            'listeSeances'          => $listeSeances
+            'listeSeances'          => $listeSeances,
+            'utilisateurValide'     => true
             // 'utilisateurValide'     => $user->estValide()
             // 'utilisateursValides'   => User::getUtilisateursValides()
         ]);
@@ -59,20 +60,28 @@ class SeancesController extends Controller
         if($seance->places_restantes >= sizeof($request->personnesAAjouter) + 1) {
 
             // on reserve pour la personne connectée
-            ReservationInterne::create([
+            /*ReservationInterne::create([
                 'etat_res'       => 'reservee',
                 'id_utilisateur' => Auth::user()->id_utilisateur,
                 'id_seance'      => $seance->id_seance
             ]);
 
             // on reserve pour toutes les personnes ajoutées
-            foreach ($request->personnesAAjouter as $personneAAjouter) {
+            foreach ($request->personnesAAjouter as $idPersonneAAjouter) {
                 ReservationInterne::create([
                     'etat_res'       => 'reservee',
-                    'id_utilisateur' => $personneAAjouter,
+                    'id_utilisateur' => $idPersonneAAjouter,
                     'id_seance'      => $seance->id_seance
                 ]);
             }
+
+            /*
+            // on assigne le coach à la séance
+            if ($request->idCoach !== null) {
+                Seance::where('id_seance', $seance->id_seance)
+                    ->update('id_coach', $request->idCoach);
+            }
+            */
 
             $message = "Votre réservation a bien été prise en compte.";
         }

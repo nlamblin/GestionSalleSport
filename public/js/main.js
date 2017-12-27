@@ -105,6 +105,7 @@ $(document).ready(function () {
                 crossDomain : true
             }).done(function (data) {
                 $('.reservationModal').modal('hide');
+                window.location.reload();
                 alert(data);
             });
         });
