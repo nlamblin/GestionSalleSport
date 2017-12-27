@@ -20,3 +20,7 @@ header.carousel .fill {
 .carousel-inner {
     margin-top: -20px;
 }
+
+#select_activite {
+    margin-bottom: 20px;
+}

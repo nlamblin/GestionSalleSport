@@ -23,27 +23,27 @@
                         </li>
                     @else
                         <li>
-                            <a href="{{ url('/seances') }}"><span class="glyphicon glyphicon-basketball"></span>Réserver une séance</a>
+                            <a href="{{ url('/seances') }}"><span class="glyphicon glyphicon-shopping-cart"></span> Réserver une séance</a>
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" id="dropdownMesSeances" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                Mes séances
+                                <span class="glyphicon glyphicon-list"></span> Mes séances
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMesSeances">
-                                <li><a href="#">Mes séances à venir</a></li>
-                                <li><a href="#">Mes séances passées</a></li>
+                                <li><a href="{{ url('/seancesVenir') }}">Mes séances à venir</a></li>
+                                <li><a href="{{ url('/seancesPassees') }}">Mes séances passées</a></li>
                             </ul>
                         </li>
 
                         <li class="dropdown">
                             <a class="dropdown-toggle" id="dropdownMonCompte" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                Mon compte
+                                <span class="glyphicon glyphicon-user"></span> Mon compte
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMonCompte">
-                                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Mon compte</a></li>
-                                <li><a href="{{ url('/logout') }}"><span class="glyphicon glyphicon-log-out"></span> Déconnexion</a></li>
+                                <li><a href="{{ url('/compte') }}">Mon compte</a></li>
+                                <li><a href="{{ url('/logout') }}">Déconnexion</a></li>
                             </ul>
                         </li>
                     @endif
