@@ -79,6 +79,7 @@
                                     <ul class="input-group">
                                         <select id="ajout-personne-{{ $seance->id_seance }}" class="form-control" name="ajout-personne-{{ $seance->id_seance }}">
 
+                                            <option value="default">Selectionner les personnes à ajouter</option>
                                             <option value="1" data-name="Lamblin" data-prenom="Nicolas" data-email="nico@gmail.com">Nico</option>
                                             <option value="2" data-name="Thiriot" data-prenom="Anais" data-email="anais@gmail.com">Anais</option>
                                             <option value="3" data-name="Mansuy" data-prenom="Claire" data-email="claire@gmail.com">Claire</option>
@@ -109,6 +110,7 @@
 
                                 <div class="col-md-6">
                                     <select id="select-coach" class="form-control" name="select-coach">
+                                        <option value="default">Selectionner un coach</option>
                                         <option value="1">Coach 1</option>
                                         <option value="2">Coach 2</option>
                                         <option value="3">Coach 3</option>

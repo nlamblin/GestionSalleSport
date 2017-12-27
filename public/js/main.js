@@ -49,25 +49,27 @@ $(document).ready(function () {
         $('.bouton-ajout-personne').on('click', function () {
             var idUtilisateur = $('#ajout-personne-' + id_seance).val()
 
-            // Si la personne n'a pas déjà été ajoutée
-            if (personnesAAjouter[idUtilisateur] === undefined) {
+            if(idUtilisateur !== 'default') {
+                // Si la personne n'a pas déjà été ajoutée
+                if (personnesAAjouter[idUtilisateur] === undefined) {
 
-                var optionSelected = $('#ajout-personne-' + id_seance + ' option:selected')[0]
-                    , nomUtilisateur = $(optionSelected).data('name')
-                    , prenomUtilisateur = $(optionSelected).data('prenom')
-                    , emailUtilisateur = $(optionSelected).data('email');
+                    var optionSelected = $('#ajout-personne-' + id_seance + ' option:selected')[0]
+                        , nomUtilisateur = $(optionSelected).data('name')
+                        , prenomUtilisateur = $(optionSelected).data('prenom')
+                        , emailUtilisateur = $(optionSelected).data('email');
 
-                personnesAAjouter[idUtilisateur] = [];
-                personnesAAjouter[idUtilisateur]['nom'] = nomUtilisateur;
-                personnesAAjouter[idUtilisateur]['prenom'] = prenomUtilisateur;
-                personnesAAjouter[idUtilisateur]['email'] = emailUtilisateur;
+                    personnesAAjouter[idUtilisateur] = [];
+                    personnesAAjouter[idUtilisateur]['nom'] = nomUtilisateur;
+                    personnesAAjouter[idUtilisateur]['prenom'] = prenomUtilisateur;
+                    personnesAAjouter[idUtilisateur]['email'] = emailUtilisateur;
 
-                // ajout de la personne dans la liste
-                $('.listePersonneAAjouter').append(
-                    '<li class="list-group-item" id="li-utilisateur-' + idUtilisateur + '">' +
+                    // ajout de la personne dans la liste
+                    $('.listePersonneAAjouter').append(
+                        '<li class="list-group-item" id="li-utilisateur-' + idUtilisateur + '">' +
                         '<span data-idUtilisateur="' + idUtilisateur + '" class="badge removePersonne">&times;</span>' +
                         prenomUtilisateur + ' ' + nomUtilisateur + ' &lt' + emailUtilisateur + '&gt ' +
-                    '</li>');
+                        '</li>');
+                }
             }
 
             // quand on supprime une personne
@@ -91,7 +93,11 @@ $(document).ready(function () {
         // ajax pour effectuer la réservation
         $('#reservation-seance-' + id_seance).on('click', function() {
 
-            var choixCoach = ($('#choix-coach').is(':checked')) ? $('#select-coach').val() : null;
+            var idCoach = null;
+
+            if($('#choix-coach').is(':checked') && $('#choix-coach').val() !== "default") {
+                idCoach = $('#choix-coach').val();
+            }
 
             $.ajax({
                 method  : 'POST',
@@ -99,7 +105,7 @@ $(document).ready(function () {
                 data    : {
                     'idSeance'          : id_seance,
                     'personnesAAjouter' : getIdPersonnesAAjouter(personnesAAjouter),
-                    'idCoach'           : choixCoach
+                    'idCoach'           : idCoach
                 },
                 xhrFields: { withCredentials: true },
                 crossDomain : true
