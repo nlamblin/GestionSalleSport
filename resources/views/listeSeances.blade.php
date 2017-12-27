@@ -77,7 +77,7 @@
             </div>
 
             <div class="modal-body">
-                <form class="form-horizontal">
+                <form class="form-horizontal reservationForm">
 
                     <div class="form-group">
                         <label for="ajout-personne" class="col-md-4 control-label">Ajouter des personnes</label>
