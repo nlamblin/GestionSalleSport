@@ -30,4 +30,6 @@ Route::get('seancesPassees', 'MesSeancesController@seancesPassees');
 
 Route::get('seancesVenir', 'MesSeancesController@seancesVenir');
 
+Route::get('compte', 'Compte@index');
+
 Auth::routes();
