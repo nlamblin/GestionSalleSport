@@ -42,7 +42,7 @@
                         </span>
                 </div>
                 <div class="row">
-                    <span> Date : {{ $seance->date_seance }} - Heure : {{ $seance->heure_seance }} </span>
+                    <span> Date : {{ date('d/m/Y', strtotime($seance->date_seance)) }} - Heure : {{ date('H:i', strtotime($seance->heure_seance)) }} </span>
                 </div>
                 <div class="row">
                     <span> Capacité : {{ $seance->capacite_seance }} </span>
