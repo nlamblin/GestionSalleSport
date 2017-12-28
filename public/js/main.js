@@ -39,6 +39,24 @@ $(document).ready(function () {
         }
     });
 
+    // appel ajax pour annuler la reservation
+    $('.bouton-annuler-reservation').on('click', function() {
+        id_seance = $(this).data('seance');
+
+        $.ajax({
+            method  : 'POST',
+            url     : 'annulerReservation',
+            data    : {
+                id_seance : $(this).data('seance')
+            },
+            xhrFields: { withCredentials: true },
+            crossDomain : true
+        }).done(function(data) {
+            alert(data);
+            window.location.reload();
+        })
+    });
+
 });
 
 //**********************************************************************

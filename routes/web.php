@@ -32,4 +32,6 @@ Route::get('seancesVenir', 'MesSeancesController@seancesVenir');
 
 Route::get('compte', 'Compte@index');
 
+Route::post('annulerReservation', 'ReservationController@annulerReservation');
+
 Auth::routes();
