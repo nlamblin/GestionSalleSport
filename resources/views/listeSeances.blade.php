@@ -34,9 +34,9 @@
                             @else
                                 Coach collectif :
                                 @if($seance->avec_coach == true)
-                                    disponible
+                                    présent
                                 @else
-                                    indisponible
+                                    non présent
                                 @endif
                             @endif
                         </span>
