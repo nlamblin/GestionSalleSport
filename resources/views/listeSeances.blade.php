@@ -24,21 +24,12 @@
                 </div>
                 <div class = "row">
                         <span>
-                            @if($seance->type_seance == 'individuelle')
-                                Coach personnel :
+                        	Coach : 
                                 @if($seance->avec_coach == true)
                                     disponible
                                 @else
                                     indisponible
                                 @endif
-                            @else
-                                Coach collectif :
-                                @if($seance->avec_coach == true)
-                                    présent
-                                @else
-                                    non présent
-                                @endif
-                            @endif
                         </span>
                 </div>
                 <div class="row">
