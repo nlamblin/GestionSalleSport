@@ -8,7 +8,6 @@
 
     <!-- Project One -->
     @foreach($listeSeances as $seance)
-        {{ $seance }}
         <div class="row">
             <div class="col-md-7">
                 <a href="#">
@@ -26,13 +25,13 @@
                         <span>
                         	Coach
                                 @if($seance->avec_coach == true)
-                                	@if($seance->type_seance == "collective ")
+                                	@if($seance->type_seance == "collective")
                                 		collectif : présent
                                 	@else
                                 		personnel : disponible
                                 	@endif
                                 @else
-                                    @if($seance->type_seance == "collective ")
+                                    @if($seance->type_seance == "collective")
                                 		collectif : non présent
                                 	@else
                                 		personnel : non disponible
