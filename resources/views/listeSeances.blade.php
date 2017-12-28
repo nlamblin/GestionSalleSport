@@ -24,11 +24,19 @@
                 </div>
                 <div class = "row">
                         <span>
-                        	Coach : 
+                        	Coach 
                                 @if($seance->avec_coach == true)
-                                    disponible
+                                	@if(($seance->type_seance) === "collective")
+                                		collectif : présent
+                                	@else
+                                		personnel : disponible
+                                	@endif
                                 @else
-                                    indisponible
+                                    @if(($seance->type_seance) === "collective")
+                                		collectif : non présent
+                                	@else
+                                		personnel : non disponible
+                                	@endif
                                 @endif
                         </span>
                 </div>
