@@ -41,13 +41,13 @@ $(document).ready(function () {
 
     // appel ajax pour annuler la reservation
     $('.bouton-annuler-reservation').on('click', function() {
-        id_seance = $(this).data('seance');
+        id_reservation = $(this).data('reservation');
 
         $.ajax({
             method  : 'POST',
             url     : 'annulerReservation',
             data    : {
-                id_seance : $(this).data('seance')
+                id_reservation : $(this).data('reservation')
             },
             xhrFields: { withCredentials: true },
             crossDomain : true
@@ -126,7 +126,7 @@ $(document).on('shown.bs.modal', '#reservationModal', function (e) {
             method  : 'POST',
             url     : 'ajax/effectuerReservation',
             data    : {
-                'idSeance'          : $(e.relatedTarget).data('seance'),
+                'idSeance'          : $(e.relatedTarget).data('reservation'),
                 'personnesAAjouter' : getIdPersonnesAAjouter(personnesAAjouter),
                 'idCoach'           : idCoach
             },
