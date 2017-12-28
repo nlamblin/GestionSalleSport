@@ -114,8 +114,6 @@
 
                         <div class="col-md-6">
                             <select id="select-coach" class="form-control" name="select-coach">
-                                <option value="default">Selectionner un coach</option>
-
                                 @foreach($coachs as $coach)
                                     <option value="{{ $coach->id_utilisateur }}">{{ $coach->prenom_utilisateur }} {{$coach->nom_utilisateur }}</option>
                                 @endforeach

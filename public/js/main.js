@@ -118,7 +118,7 @@ $(document).on('shown.bs.modal', '#reservationModal', function (e) {
 
         var idCoach = null;
 
-        if($('#choix-coach').is(':checked') && $('#select-coach').val() !== "default") {
+        if($('#choix-coach').is(':checked')) {
             idCoach = $('#select-coach').val();
         }
 
