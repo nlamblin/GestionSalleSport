@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Seance;
 use Illuminate\Http\Request;
 
 class ReservationController extends Controller
