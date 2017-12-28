@@ -19,15 +19,16 @@ class MesSeancesController extends Controller
      * @return array
      */
     public function seancesPassees(Request $request) {
-        $seancesPassees = [];
+       
         $idUtilisateur = Auth::user()->id_utilisateur;
 
-        $idsSeancesArchivage = ReservationInterneArchivage::select('id_seance_archivage')->where('id_utilisateur', $idUtilisateur)->get();
-
-        foreach ($idsSeancesArchivage as $idSeanceArchivage) {
-            $seanceArchivage= SeanceArchivage::find($idSeanceArchivage);
-            array_push($seancesPassees, $seanceArchivage);
-        }
+        /** On récupère toutes les reservations à venir de cet utilisateur **/      
+        $seancesPassees = ReservationInterneArchivage::where('id_utilisateur','=',$idUtilisateur)
+        ->join('seance_archivage','reservation_interne_archivage.id_seance_archivage','=','seance_archivage.id_seance')
+        ->join('activite','seance_archivage.id_activite','=','activite.id_activite')
+        ->orderBy('seance_archivage.date_seance', 'DESC')
+        ->select()
+        ->get();
 
         return view('seancesPassees', [
             'seancesPassees' => $seancesPassees
@@ -41,15 +42,17 @@ class MesSeancesController extends Controller
      * @return array
      */
     public function seancesVenir(Request $request) {
-        $seancesVenir = [];
-        $idUtilisateur = Auth::user()->id_utilisation;
 
-        $idsSeances = ReservationInterne::select('id_seance')->where('id_utilisateur', $idUtilisateur)->get();
+        $idUtilisateur = Auth::user()->id_utilisateur;
 
-        foreach ($idsSeances as $idSeance) {
-            $seance = Seance::find($idSeance);
-            array_push($seancesVenir, $seance);
-        }
+        /** On récupère toutes les reservations à venir de cet utilisateur **/      
+        $seancesVenir = ReservationInterne::where('etat_reservation', '=', 'reservee')
+        ->where('id_utilisateur','=',$idUtilisateur)
+        ->join('seance','reservation_interne.id_seance','=','seance.id_seance')
+        ->join('activite','seance.id_activite','=','activite.id_activite')
+        ->orderBy('seance.date_seance', 'ASC')
+        ->select()
+        ->get();
 
         return view ('seancesVenir', [
             'seancesVenir' => $seancesVenir
