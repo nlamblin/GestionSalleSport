@@ -42,20 +42,29 @@ class User extends Authenticatable
      * @return mixed
      */
     public function estValide() {
-        $validite = User::select('carte.active', 'abonnement.date_fin_abo', 'utilisateur.actif')
-            ->join('carte', 'utilisateur.id_utilisateur', '=', 'carte.id_utilisateur')
+
+        $validiteAbo = User::select('abonnement.date_fin_abo')
             ->join('abonnement', 'utilisateur.id_utilisateur', '=', 'abonnement.id_utilisateur')
             ->where('utilisateur.id_utilisateur', '=', $this->id_utilisateur)
-            ->get()[0];
+            ->where('abonnement.date_fin_abo', '>', date('Y-m-d', time()))
+            ->get();
 
-        if($validite->active && $validite->date_fin_abo > date('Y-m-d', time()) && $validite->actif) {
-            $res = true;
+        if(sizeof($validiteAbo) > 0) {
+            return true;
         }
         else {
-            $res = false;
+            $validiteCarte = User::select('carte.active')
+                ->join('carte', 'utilisateur.id_utilisateur', '=', 'carte.id_utilisateur')
+                ->where('utilisateur.id_utilisateur', '=', $this->id_utilisateur)
+                ->where('carte.active', '=', true)
+                ->get();
+
+            if(sizeof($validiteCarte) > 0) {
+                return true;
+            }
         }
 
-        return $res;
+        return false;
     }
 
     /**
@@ -66,35 +75,6 @@ class User extends Authenticatable
      */
     public static function getUser($idUtilisateur) {
         return User::find($idUtilisateur);
-    }
-
-    /**
-     * Compte le nombre de coach
-     *
-     * @return le nombre de coach
-     */
-    public static function getNbCoach() {
-        return User::where('id_statut', 2)
-            ->where('actif', true)
-            ->count();
-    }
-
-    /**
-     * Donne tous les utilisateurs valides (carte active ou abonnement valide)
-     *
-     * @return liste d'utilisateur valides
-     */
-    public static function getUtilisateursValides() {
-        /*
-         * CETTE REQUETE NE FONCTIONNE PAS (normalement) !!!
-         */
-        return User::select('email', 'id_utilisateur', 'nom', 'prenom')
-            ->join('connexion', 'utilisateur.id_utilisateur', '=', 'connexion.id_utilisateur')
-            ->join('carte', 'utilisateur.id_utilisateur', '=', 'carte.id_utilisateur')
-            ->join('abonnement', 'utilisateur.id_utilisateur', '=', 'abonnement.id_utilisateur')
-            ->where('carte.active', true)
-            ->where('abonnement.date_fin_abo', '>', date('Y-m-d', time()))
-            ->get();
     }
 
 }

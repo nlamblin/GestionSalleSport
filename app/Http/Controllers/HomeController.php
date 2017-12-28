@@ -29,7 +29,9 @@ class HomeController extends Controller
     {
         $nbSeancesArchivees = SeanceArchivage::count();
         $nbReservationsArchivees = ReservationExterneArchivage::count() + ReservationInterneArchivage::count();
-        $nbCoach = User::getNbCoach();
+        $nbCoach = User::where('id_statut', 2)
+            ->where('actif', '=', true)
+            ->count();
 
         return view('home', [
             'nbSeancesArchivees'      => $nbSeancesArchivees,

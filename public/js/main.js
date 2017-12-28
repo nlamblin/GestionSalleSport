@@ -118,8 +118,8 @@ $(document).on('shown.bs.modal', '#reservationModal', function (e) {
 
         var idCoach = null;
 
-        if($('#choix-coach').is(':checked') && $('#choix-coach').val() !== "default") {
-            idCoach = $('#choix-coach').val();
+        if($('#choix-coach').is(':checked') && $('#select-coach').val() !== "default") {
+            idCoach = $('#select-coach').val();
         }
 
         $.ajax({
