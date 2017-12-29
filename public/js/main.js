@@ -101,6 +101,7 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
                     prenomUtilisateur + ' ' + nomUtilisateur + ' &lt' + emailUtilisateur + '&gt ' +
                     '</li>');
             }
+            console.log(personnesAAjouter);
         }
 
         // quand on supprime une personne
