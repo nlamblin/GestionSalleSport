@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+// use App\Models\ReservationInterne;
+use App\Models\ReservationInterne;
 use App\Models\Seance;
 use Illuminate\Http\Request;
 
@@ -60,6 +62,7 @@ class ReservationController extends Controller
      * Méthode qui annule la reservation d'une séance
      *
      * @param Request $request
+     * @return string le message
      */
     public function annulerReservation(Request $request) {
 
@@ -67,7 +70,6 @@ class ReservationController extends Controller
          dd($reservationInterne);
 
          return ('Annulation prise en compte');
-
     }
 
 }

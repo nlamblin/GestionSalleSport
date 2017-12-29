@@ -10,7 +10,7 @@
         	<!--Pour chaque séance à venir -->
         	@foreach($reservationVenir as $reservation)
 	            <div class="col-md-4 img-portfolio">
-	                <a href="portfolio-item.html">
+	                <a href="#">
 	                    <img class="img-responsive img-hover" src="http://placehold.it/700x400" alt="">
 	                </a>
 	                <h3>
@@ -23,8 +23,7 @@
 	                	Date : {{ date('d/m/Y', strtotime($reservation->date_seance)) }} - Heure : {{ date('H:i', strtotime($reservation->heure_seance)) }}
 	                </p>
 	                <div class="row">
-		                <button data-reservation="{{ $reservation->id_reservation}}" class="btn btn-primary bouton-annuler-reservation" > Annuler réservation
-	                    </button>
+						<button type='button' data-reservation="{{ $reservation->id_reservation}}" class="btn btn-primary bouton-annuler-reservation"> Annuler réservation</button>
 	                </div>
 	            </div>
 

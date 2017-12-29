@@ -41,8 +41,6 @@ $(document).ready(function () {
 
     // appel ajax pour annuler la reservation
     $('.bouton-annuler-reservation').on('click', function() {
-        id_reservation = $(this).data('reservation');
-
         $.ajax({
             method  : 'POST',
             url     : 'annulerReservation',
