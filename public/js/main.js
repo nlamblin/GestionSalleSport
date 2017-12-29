@@ -26,7 +26,7 @@ $(document).ready(function () {
         if($(this).val() !== 'default') {
             $.ajax({
                 method : 'GET',
-                url : 'ajax/listeSeances',
+                url : 'listeSeances',
                 data : {
                     id_activite : $(this).val()
                 },
@@ -57,24 +57,34 @@ $(document).ready(function () {
 
 });
 
+
+
 //**********************************************************************
 //*********************** MODAL POUR LA RESERVATION ********************
 //**********************************************************************
 
 // fonction appelée à l'ouverture du modal pour la réservation
-$(document).on('shown.bs.modal', '#reservationModal', function (e) {
+$(document).on('show.bs.modal', '#reservationModal', function (e) {
 
-    var personnesAAjouter = [];
+    let typeSeance = $(e.relatedTarget).data('typeseance');
+    let avecCoach = $(e.relatedTarget).data('aveccoach');
+
+    if(typeSeance === 'collective') {
+        $('.div-choix-coach').hide();
+        $('.div-select-coach').hide();
+    }
+
+    let personnesAAjouter = [];
 
     $('.bouton-ajout-personne').on('click', function () {
 
-        var idUtilisateur = $('#ajout-personne').val();
+        let idUtilisateur = $('#ajout-personne').val();
 
         if(idUtilisateur !== 'default') {
             // Si la personne n'a pas déjà été ajoutée
             if (personnesAAjouter[idUtilisateur] === undefined) {
 
-                var optionSelected = $('#ajout-personne option:selected')[0]
+                let optionSelected = $('#ajout-personne option:selected')[0]
                     , nomUtilisateur = $(optionSelected).data('name')
                     , prenomUtilisateur = $(optionSelected).data('prenom')
                     , emailUtilisateur = $(optionSelected).data('email');
@@ -105,28 +115,30 @@ $(document).on('shown.bs.modal', '#reservationModal', function (e) {
     // affichage / ou non du choix du coach
     $('#choix-coach').change(function () {
         if ($(this).is(":checked")) {
-            $('.div-choix-coach').show('500');
+            $('.div-select-coach').show('500');
         }
         else {
-            $('.div-choix-coach').hide('500');
+            $('.div-select-coach').hide('500');
         }
     });
 
     // ajax pour effectuer la réservation
     $('#reservation-seance').on('click', function() {
 
-        var idCoach = null;
+        let idCoach = null;
 
-        if($('#choix-coach').is(':checked')) {
+        if ($('#choix-coach').is(':checked')) {
             idCoach = $('#select-coach').val();
         }
 
+        let idsPersonnes = idPersonnesAAjouter(personnesAAjouter);
+
         $.ajax({
-            method  : 'POST',
-            url     : 'ajax/effectuerReservation',
+            method  : 'PUT',
+            url     : 'effectuerReservation',
             data    : {
-                'idSeance'          : $(e.relatedTarget).data('reservation'),
-                'personnesAAjouter' : getIdPersonnesAAjouter(personnesAAjouter),
+                'idSeance'          : $(e.relatedTarget).data('seance'),
+                'personnesAAjouter' : idsPersonnes,
                 'idCoach'           : idCoach
             },
             xhrFields: { withCredentials: true },
@@ -134,10 +146,11 @@ $(document).on('shown.bs.modal', '#reservationModal', function (e) {
         }).done(function (data) {
             // fermeture du modal
             $('.reservationModal').modal('hide');
-            // rechargement de la page
-            window.location.reload();
             // affichage du message concernant la reservation
-            alert(data);
+            // alert(data);
+            console.log(data);
+            // rechargement de la page
+            // window.location.reload();
         });
     });
 
@@ -160,12 +173,14 @@ $(document).on('hidden.bs.modal', '#reservationModal', function(e) {
 //**********************************************************************
 
 // Récupère seulement les id des personnes à ajouter
-function getIdPersonnesAAjouter(personnesAAjouter) {
-    var idPersonnesAAjouter = [];
-    
-    $.each(personnesAAjouter, function (key, value) {
-       idPersonnesAAjouter.push(key);
+let idPersonnesAAjouter = function (personnesAAjouter) {
+    let idPersonnesAAjouter = [];
+
+    $(personnesAAjouter).each(function(i, item) {
+        if(item !== undefined) {
+            idPersonnesAAjouter.push(i);
+        }
     });
 
     return idPersonnesAAjouter;
-}
+};

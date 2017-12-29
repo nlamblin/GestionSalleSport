@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\ReservationInterne;
 use App\Models\Seance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -26,28 +27,28 @@ class ReservationController extends Controller
         if($seance->places_restantes >= sizeof($request->personnesAAjouter) + 1) {
 
             // on reserve pour la personne connectée
-            /*ReservationInterne::create([
-                'etat_res'       => 'reservee',
-                'id_utilisateur' => Auth::user()->id_utilisateur,
-                'id_seance'      => $seance->id_seance
+            ReservationInterne::create([
+                'etat_reservation'  => 'reservee',
+                'id_utilisateur'    => Auth::user()->id_utilisateur,
+                'id_seance'         => $seance->id_seance
             ]);
 
-            // on reserve pour toutes les personnes ajoutées
-            foreach ($request->personnesAAjouter as $idPersonneAAjouter) {
-                ReservationInterne::create([
-                    'etat_res'       => 'reservee',
-                    'id_utilisateur' => $idPersonneAAjouter,
-                    'id_seance'      => $seance->id_seance
-                ]);
+            if(sizeof($request->personneAAjouter) > 0) {
+                // on reserve pour toutes les personnes ajoutées
+                foreach ($request->personnesAAjouter as $idPersonneAAjouter) {
+                    ReservationInterne::create([
+                        'etat_reservation' => 'reservee',
+                        'id_utilisateur' => $idPersonneAAjouter,
+                        'id_seance' => $seance->id_seance
+                    ]);
+                }
             }
 
-            /*
             // on assigne le coach à la séance
             if ($request->idCoach !== null) {
                 Seance::where('id_seance', $seance->id_seance)
-                    ->update('id_coach', $request->idCoach);
+                    ->update(['id_coach' => $request->idCoach]);
             }
-            */
 
             $message = "Votre réservation a bien été prise en compte.";
         }

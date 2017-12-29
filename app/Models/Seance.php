@@ -9,4 +9,11 @@ class Seance extends Model
     protected $table = 'seance';
 
     protected $primaryKey = 'id_seance';
+
+    protected $fillable = [
+        'id_coach'
+    ];
+
+
+    public $timestamps = false;
 }
