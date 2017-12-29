@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 // use App\Models\ReservationInterne;
 use App\Models\ReservationInterne;
 use App\Models\Seance;
+use App\Models\User;
+use App\Models\Abonnement;
+use App\Models\Carte;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -67,10 +70,85 @@ class ReservationController extends Controller
      */
     public function annulerReservation(Request $request) {
 
-         $reservationInterne = ReservationInterne::find($request->id_reservation);
+        $message = '';
+        $reservationInterne = ReservationInterne::find($request->id_reservation);
+
+        $id = $reservationInterne->id_utilisateur;
+
+
+        #Pour annuler la reservation courante
+        /*
          ReservationInterne::where('id_reservation', $reservationInterne->id_reservation)
                 ->update(['etat_reservation' => 'annulee']);
-         return ($reservationInterne->id_reservation);
+        */ 
+
+        /*On récupère les abos valides de cette personne*/
+        $aboValideUser = User::select()
+            ->join('abonnement', 'utilisateur.id_utilisateur', '=', 'abonnement.id_utilisateur')
+            ->where([
+                ['abonnement.date_fin_abo', '>', date('Y-m-d', time())],
+                ['utilisateur.id_utilisateur','=',$id],
+                ])
+            ->distinct()
+            ->get();
+
+        $nbAboValide = sizeof($aboValideUser);
+        #S'il a au moins un abo valide
+        
+        if ($nbAboValide > 0) {
+                $message = 'Votre annulation a bien était prise en compte. Aucun remboursement puisque vous utilisez un abonnement';
+            }
+        else {
+            #S'il n'a pas d'abonnement valide
+            $carteValideUser = User::select()
+                ->join('carte', 'utilisateur.id_utilisateur', '=', 'carte.id_utilisateur')
+                ->where([
+                    ['carte.active', '=', true],
+                    ['utilisateur.id_utilisateur','=',$id],
+                    ])
+                ->distinct()
+                ->first();  
+
+            $nbCarteValide = sizeof($carteValideUser);
+            if ($nbCarteValide > 0) {
+
+                //On récupère l'id de la carte qui est valide
+                $carte = $carteValideUser->id_carte;
+                //Les séances restantes sur la carte
+                $places = $carteValideUser->seance_dispo;
+
+                Carte::where('id_carte', $carte)
+                    ->update(['seance_dispo' => $places + 1]);
+                
+                $message = 'Votre annulation a bien était prise en compte. 
+                Vous avez été remboursé sur votre carte';
+
+            }   
+            else {
+                #Pas de carte valide, on récupère une de ses cartes invalides
+                $carteInvalideUser = User::select()
+                ->join('carte', 'utilisateur.id_utilisateur', '=', 'carte.id_utilisateur')
+                ->where([
+                    ['carte.active', '=', false],
+                    ['utilisateur.id_utilisateur','=',$id],
+                    ])
+                ->distinct()
+                ->first();   
+
+                //On récupère l'id de la première carte invalide
+                $carte = $carteInvalideUser->id_carte;
+                
+                Carte::where('id_carte', $carte)
+                    ->update(['seance_dispo' => 1]);
+
+                $message = 'Votre annulation a bien était prise en compte. 
+                Nous avons réactivé une ancienne de vos cartes pour vous rembourser';
+            }
+
+        } 
+        
+
+     return($message);
     }
 
 }
