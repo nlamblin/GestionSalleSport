@@ -49,7 +49,7 @@
                     <span> Places restantes : {{ $seance->places_restantes }}</span>
                 </div>
                 <div class="row">
-                    <button data-seance="{{ $seance->id_seance }}" class="btn btn-primary bouton-reservation" data-toggle="modal" data-target="#reservationModal"
+                    <button data-seance="{{ $seance->id_seance }}" data-typeSeance="{{ $seance->type_seance }}" data-avecCoach="{{ $seance->avecCoach }}" class="btn btn-primary bouton-reservation" data-toggle="modal" data-target="#reservationModal"
                             @if($utilisateurValide == false)
                             disabled
                             @endif>Réserver
@@ -101,7 +101,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group  div-choix-coach">
                         <label for="choix-coach" class="col-md-4 control-label"> Souhaitez-vous un coach lors de la séance ?</label>
 
                         <div class="col-md-6">
@@ -109,7 +109,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group div-choix-coach">
+                    <div class="form-group div-select-coach">
                         <label for="select-coach" class="col-md-4 control-label"> Veuillez choisir votre coach</label>
 
                         <div class="col-md-6">

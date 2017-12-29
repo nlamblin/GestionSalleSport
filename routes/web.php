@@ -20,11 +20,11 @@ Route::get('logout', 'Auth\LoginController@logout');
 
 Route::get('seances','SeancesController@index');
 
-Route::get('ajax/listeSeances','SeancesController@seancesParActivites');
+Route::get('listeSeances','SeancesController@seancesParActivites');
 
 Route::get('formulaireActivite','ActiviteController@index');
 
-Route::post('ajax/effectuerReservation', 'SeancesController@effectuerReservation');
+Route::put('effectuerReservation', 'ReservationController@effectuerReservation');
 
 Route::get('seancesPassees', 'MesSeancesController@seancesPassees');
 
