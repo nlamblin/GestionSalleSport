@@ -147,10 +147,9 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
             // fermeture du modal
             $('.reservationModal').modal('hide');
             // affichage du message concernant la reservation
-            // alert(data);
-            console.log(data);
+            alert(data);
             // rechargement de la page
-            // window.location.reload();
+            window.location.reload();
         });
     });
 
