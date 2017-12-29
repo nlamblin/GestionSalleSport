@@ -66,10 +66,10 @@ class ReservationController extends Controller
      */
     public function annulerReservation(Request $request) {
 
-         $reservationInterne = ReservationInterne::find($request->id_reservation);
-         dd($reservationInterne);
-
-         return ('Annulation prise en compte');
+         $idreservationInterne = ReservationInterne::find($request->id_reservation);
+         ReservationInterne::where('id_reservation', $idreservationInterne)
+                ->update(['etat_reservation' => 'annulee']);
+         return ($idreservationInterne);
     }
 
 }
