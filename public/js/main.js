@@ -67,11 +67,26 @@ $(document).ready(function () {
 $(document).on('show.bs.modal', '#reservationModal', function (e) {
 
     let typeSeance = $(e.relatedTarget).data('typeseance');
-    let avecCoach = $(e.relatedTarget).data('aveccoach');
 
     if(typeSeance === 'collective') {
         $('.div-choix-coach').hide();
         $('.div-select-coach').hide();
+    }
+    else if(typeSeance === 'individuelle') {
+        $.ajax({
+            method : 'GET',
+            url : 'coachsDisponibles',
+            data : {
+                'idSeance' : $(e.relatedTarget).data('seance')
+            },
+            xhrFields: { withCredentials: true },
+            crossDomain : true
+        }).done(function(data) {
+            $.each(data, function (i, item) {
+                let option = new Option(item.prenom_utilisateur + ' ' + item.nom_utilisateur, item.id_utilisateur);
+                $('#select-coach').append(option);
+            });
+        });
     }
 
     let personnesAAjouter = [];

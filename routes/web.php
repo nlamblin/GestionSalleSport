@@ -34,6 +34,8 @@ Route::get('compte', 'Compte@index');
 
 Route::post('annulerReservation', 'ReservationController@annulerReservation');
 
+Route::get('coachsDisponibles', 'SeancesController@getCoachsDisponibles');
+
 Route::get('administration', 'AdministrationController@index');
 
 Route::post('creerActivite', 'AdministrationController@creerActivite')->name('creerActivite');
