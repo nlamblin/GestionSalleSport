@@ -30,7 +30,7 @@ $(document).ready(function () {
 
     //Permet de verifier la date du formulaire de création de séance
     // ( "#date_seance" ).datepicker({ minDate: 'today'});
-    
+
     // appel ajax pour récupérer les seances disponibles en fonction des activités
     $('#select_activite').change(function() {
         // on supprime les seances deja affichées
@@ -67,6 +67,26 @@ $(document).ready(function () {
             alert(data);
             window.location.reload();
         })
+    });
+
+    // appel ajax pour choisir abonnement ou carte
+    $('#achat-abonnement').on('click', function() {
+        let val = $('#choix-type-abo').val();
+
+        if(val !== 'default') {
+            $.ajax({
+                method : 'PUT',
+                url    : 'prendreCarteAbonnement',
+                data   : {
+                   typeAbo : val
+                },
+                xhrFields: { withCredentials: true },
+                crossDomain : true
+            })
+            .done(function(data) {
+
+            });
+        }
     });
 
 });
