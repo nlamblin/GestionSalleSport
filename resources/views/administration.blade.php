@@ -16,48 +16,119 @@
                             </h4>
                         </div>
                         <div id="collapseOne" class="panel-collapse collapse">
-                            <div class="panel-heading">Création d'une nouvelle activité</div>
-                                <div class="panel-body">
-                                    <form id="form-activite" class="form-horizontal" method="POST" 
-                                    action="{{action('AdministrationController@creerActivite')}}">
-                                        {{ csrf_field() }}
+                            <form class="form-horizontal" method="POST" action="{{ route('creerActivite') }}">
+                                {{ csrf_field()}}
+                                <div class="form-group">
+                                    <label for="nom_activite" class="col-md-4 control-label">Nom de la nouvelle activite</label>
 
-                                        <div class="form-group{{ $errors->has('nom-activite') ? ' has-error' : '' }}">
-                                            <label for="nom-activte" class="col-md-4 control-label">Saissisez le nom de l'activité : </label>
-
-                                            <div class="col-md-6">
-                                                <input id="nom-activite" type="text" class="form-control" name="nom-activite" value="{{ old('nom-activite') }}" required autofocus>
-
-                                                @if ($errors->has('nom-activite'))
-                                                    <span class="help-block">
-                                                        <strong>{{ $errors->first('nom-activite') }}</strong>
-                                                    </span>
-                                                @endif
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="col-md-6 col-md-offset-4">
-                                                <button type="submit" class="btn btn-primary" form="form-activite">
-                                                    Enregistrer l'activité
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                    <div class="col-md-6">
+                                        <input id="nom_activite" class="form-control" name="nom_activite" required autofocus>
+                                    </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-6 col-md-offset-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            Enregistrer l'activité
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Création d'une séance</a>
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Création d'une nouvelle séance</a>
                             </h4>
                         </div>
                         <div id="collapseTwo" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                            </div>
+                            <form class="form-horizontal" method="POST" action="{{ route('creerSeance') }}">
+                                {{ csrf_field()}}
+                                <div class="form-group">
+                                    <label for="choix_activite" class="col-md-4 control-label">Activité</label>
+                                    
+                                    <div class="col-md-6">
+                                        <ul class="input">
+                                            <select id="activite_seance" class="form-control" name="activite_seance">
+                                                <option value="default">Selectionner l'activité</option>
+                                                @foreach($listeActivites as $activite)
+                                                    <option value="{{ $activite->id_activite }}">
+                                                        {{ $activite->nom_activite }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="type_seance" class="col-md-4 control-label">Type</label>
+                                    
+                                    <div class="col-md-6">
+                                        <ul class="input">
+                                            <select id="type_seance" class="form-control" name="type_seance">
+                                                <option value="collective">Collective</option>
+                                                <option value="individuelle">Individuelle</option>
+                                            </select>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="niveau_seance" class="col-md-4 control-label">Niveau</label>
+                                    
+                                    <div class="col-md-6">
+                                        <ul class="input">
+                                            <select id="niveau_seance" class="form-control" name="niveau_seance">
+                                                <option value="debutant">Debutant</option>
+                                                <option value="intermediaire">Intermediaire</option>
+                                                <option value="expert">Expert</option>
+                                            </select>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="date_seance" class="col-md-4 control-label">Date : </label>
+                                    <div class="col-md-6">
+                                        <input type="date" max="2021-12-31" min="time()" class="form-control" name="date_seance" required >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="heure_seance" class="col-md-4 control-label">Heure : </label>
+                                    <div class="col-md-6">
+                                        <input type="time" step='60' class="form-control" name="heure_seance" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="coach_seance" class="col-md-4 control-label">Coach disponible </label>
+
+                                    <div class="col-md-6">
+                                        <input id="coach_seance" type="checkbox" class="form-control" name="coach_seance" checked>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="places_seance" class="col-md-4 control-label">Nombre de places</label>
+
+                                    <div class="col-md-6">
+                                       <input type="number" min='1' class="form-control" name="places_seance">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-6 col-md-offset-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            Enregistrer la séance
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </form>
                         </div>
                     </div>
                 </div>

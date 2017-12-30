@@ -20,4 +20,6 @@ class Activite extends Model
     protected $table = 'activite';
 
     protected $primaryKey = 'id_activite';
+
+    public $timestamps = false;
 }

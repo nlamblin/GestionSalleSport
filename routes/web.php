@@ -36,4 +36,8 @@ Route::post('annulerReservation', 'ReservationController@annulerReservation');
 
 Route::get('administration', 'AdministrationController@index');
 
+Route::post('creerActivite', 'AdministrationController@creerActivite')->name('creerActivite');
+
+Route::post('creerSeance', 'AdministrationController@creerSeance')->name('creerSeance');
+
 Auth::routes();
