@@ -8,6 +8,7 @@ use App\Models\Seance;
 use App\Models\Activite;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class SeancesController extends Controller
 {
@@ -33,12 +34,15 @@ class SeancesController extends Controller
                                 ->where('id_activite', $request->id_activite)
                                 ->get();
 
-        $userValide = User::getUser(Auth::user()->id_utilisateur)->estValide();
+        $userId = Auth::user()->id_utilisateur;
+
+        $userValide = User::getUser($userId)->estValide();
 
         $utilisateursAboValides = User::select('email', 'utilisateur.id_utilisateur', 'nom_utilisateur', 'prenom_utilisateur')
             ->join('connexion', 'utilisateur.id_utilisateur', '=', 'connexion.id_utilisateur')
             ->join('abonnement', 'utilisateur.id_utilisateur', '=', 'abonnement.id_utilisateur')
             ->where('abonnement.date_fin_abo', '>', date('Y-m-d', time()))
+            ->where('utilisateur.id_utilisateur', '!=', $userId)
             ->distinct()
             ->get();
 
@@ -46,6 +50,7 @@ class SeancesController extends Controller
             ->join('connexion', 'utilisateur.id_utilisateur', '=', 'connexion.id_utilisateur')
             ->join('carte', 'utilisateur.id_utilisateur', '=', 'carte.id_utilisateur')
             ->where('carte.active', '=', true)
+            ->where('utilisateur.id_utilisateur', '!=', $userId)
             ->distinct()
             ->get();
 
@@ -65,6 +70,40 @@ class SeancesController extends Controller
             'utilisateursValides'   => $utilisateursValides,
             'coachs'                => $coachs
         ]);
+    }
+
+    /**
+     * Méthode qui donne l'ensemble des coachs disponibles pour une seance donnée
+     * appelle la fonction qui retourne si un coachs est disponible ou non
+     *
+     * @param Request $request
+     * @return array des coachs disponibles
+     */
+    public function getCoachsDisponibles(Request $request) {
+        $coachsDisponibles = [];
+
+        $seance = Seance::select('id_seance', 'date_seance', 'heure_seance')
+            ->where('id_seance', '=', $request->idSeance)
+            ->first();
+
+        $coachs = User::select('nom_utilisateur', 'prenom_utilisateur', 'id_utilisateur')
+            ->where('id_statut', 2)
+            ->where('actif', true)
+            ->get();
+
+        foreach ($coachs as $coach) {
+            $idCoach = $coach->id_utilisateur;
+            $heureSeance = $seance->heure_seance;
+            $dateSeance = $seance->date_seance;
+
+            $coachDispo = DB::select('SELECT coach_dispo_seance(?, ?, ?)', [$idCoach, $dateSeance, $heureSeance]);
+
+            if($coachDispo) {
+                array_push($coachsDisponibles, $coach);
+            }
+        }
+
+        return $coachsDisponibles;
     }
 
 }
