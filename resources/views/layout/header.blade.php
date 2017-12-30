@@ -23,6 +23,9 @@
                         </li>
                     @else
                         <li>
+                            <a href="{{ url('/administration') }}"><span class="glyphicon glyphicon-shopping-cart"></span> Administration</a>
+                        </li>
+                        <li>
                             <a href="{{ url('/seances') }}"><span class="glyphicon glyphicon-shopping-cart"></span> Réserver une séance</a>
                         </li>
                         <li class="dropdown">

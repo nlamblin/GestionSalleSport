@@ -36,4 +36,6 @@ Route::post('annulerReservation', 'ReservationController@annulerReservation');
 
 Route::get('coachsDisponibles', 'SeancesController@getCoachsDisponibles');
 
+Route::get('administration', 'AdministrationController@index');
+
 Auth::routes();
