@@ -92,7 +92,7 @@
                                 <div class="form-group">
                                     <label for="date_seance" class="col-md-4 control-label">Date : </label>
                                     <div class="col-md-6">
-                                        <input type="date" max="2021-12-31" min="time()" class="form-control" name="date_seance" required >
+                                        <input id='date_seance' type="date" max="2021-12-31" min="time()" class="form-control" name="date_seance" required >
                                     </div>
                                 </div>
                                 <div class="form-group">

@@ -28,6 +28,10 @@ $(document).ready(function () {
         }
     });
 
+    //Permet de verifier la date du formulaire de création de séance
+
+    $( "#date_seance" ).datepicker({ minDate: 'today'});
+
     // appel ajax pour récupérer les seances disponibles en fonction des activités
     $('#select_activite').change(function() {
         // on supprime les seances deja affichées
@@ -192,7 +196,6 @@ $(document).on('hidden.bs.modal', '#reservationModal', function(e) {
 });
 
 
-
 //**********************************************************************
 //*********************** FONCTIONS ************************************
 //**********************************************************************
@@ -209,3 +212,4 @@ let idPersonnesAAjouter = function (personnesAAjouter) {
 
     return idPersonnesAAjouter;
 };
+
