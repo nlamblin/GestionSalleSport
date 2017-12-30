@@ -111,10 +111,12 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="places_seance" class="col-md-4 control-label">Nombre de places</label>
+                                    <div id="divPlacesSeances">
+                                        <label for="places_seance" class="col-md-4 control-label">Nombre de places</label>
 
-                                    <div class="col-md-6">
-                                       <input type="number" min='1' class="form-control" name="places_seance" value='1'required>
+                                        <div class="col-md-6">
+                                           <input type="number" min='1' class="form-control" name="places_seance" value='1'required>
+                                        </div>
                                     </div>
                                 </div>
 

@@ -17,6 +17,17 @@ $(document).ready(function () {
         }
     });
 
+     // affichage ou non du nombre de places de la séances en fonction du type de la seance
+    $('#type_seance').change(function()  {
+        var type = document.getElementsByTagName("type_seance")[0];
+        if(type=='collective'){
+            $('#divPlacesSeances').show('500');
+        }
+        else{
+            $('#divPlacesSeances').hide('500');
+        }
+    });
+
     // appel ajax pour récupérer les seances disponibles en fonction des activités
     $('#select_activite').change(function() {
         // on supprime les seances deja affichées
