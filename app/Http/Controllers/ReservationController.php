@@ -54,6 +54,29 @@ class ReservationController extends Controller
                     ->update(['id_coach' => $request->idCoach]);
             }
 
+            $user = User::getUser(Auth::user()->id_utilisateur);
+
+            // si il n'est pas valide c'est paiement à l'unité donc on lui créé une carte avec 1 seance dispo
+            if(!$user->estValide()) {
+                Carte::create([
+                    'seance_dispo'   => 1,
+                    'active'         => true,
+                    'id_utilisateur' => $user->id_utilisateur
+                ]);
+            }
+
+            // on récupère si l'abonné a une carte
+            $carteActive = Carte::where([
+                ['id_utilisateur', '=', $user->id_utilisateur],
+                ['active', '=', true]
+            ])->first();
+
+            // si il a une carte on lui retire une séance
+            if (sizeof($carteActive) > 0) {
+                Carte::where('id_carte', '=', $carteActive->id_carte)
+                    ->update(['seance_dispo' => $carteActive->seance_dispo - 1]);
+            }
+
             $message = "Votre réservation a bien été prise en compte.";
         }
         else {

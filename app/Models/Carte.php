@@ -11,7 +11,7 @@ class Carte extends Model
     protected $primaryKey = 'id_carte';
 
     protected $fillable = [
-        'id_carte', 'seances_dispo', 'active', 'id_utilisateur'
+        'id_carte', 'seance_dispo', 'active', 'id_utilisateur'
     ];
 
     public $timestamps = false;

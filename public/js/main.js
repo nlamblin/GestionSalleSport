@@ -19,8 +19,8 @@ $(document).ready(function () {
 
      // affichage ou non du nombre de places de la séances en fonction du type de la seance
     $('#type_seance').change(function()  {
-        var type = document.getElementsByTagName("type_seance")[0];
-        if(type=='collective'){
+        let type = document.getElementsByTagName("type_seance")[0];
+        if(type ==='collective'){
             $('#divPlacesSeances').show('500');
         }
         else{
@@ -29,8 +29,7 @@ $(document).ready(function () {
     });
 
     //Permet de verifier la date du formulaire de création de séance
-
-    $( "#date_seance" ).datepicker({ minDate: 'today'});
+    // ( "#date_seance" ).datepicker({ minDate: 'today'});
 
     // appel ajax pour récupérer les seances disponibles en fonction des activités
     $('#select_activite').change(function() {
@@ -194,6 +193,7 @@ $(document).on('hidden.bs.modal', '#reservationModal', function(e) {
     // on supprime la liste des personnes à ajouter
     $('.listePersonneAAjouter').children().remove();
 });
+
 
 
 //**********************************************************************

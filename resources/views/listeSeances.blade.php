@@ -1,11 +1,5 @@
 <div class="listeSeances">
 
-    @if($utilisateurValide == false)
-        <div class="alert alert-danger">
-            Votre abonnement ou votre carte n'est pas valide, vous ne pourrez pas effectuer de réservation.
-        </div>
-    @endif
-
     <!-- Project One -->
     @foreach($listeSeances as $seance)
         <div class="row">
@@ -49,12 +43,8 @@
                     <span> Places restantes : {{ $seance->places_restantes }}</span>
                 </div>
                 <div class="row">
-                    <button data-seance="{{ $seance->id_seance }}" data-typeSeance="{{ $seance->type_seance }}" data-avecCoach="{{ $seance->avecCoach }}" class="btn btn-primary bouton-reservation" data-toggle="modal" data-target="#reservationModal"
-                            @if($utilisateurValide == false)
-                            disabled
-                            @endif>Réserver
+                    <button data-seance="{{ $seance->id_seance }}" data-typeSeance="{{ $seance->type_seance }}" data-avecCoach="{{ $seance->avecCoach }}" class="btn btn-primary bouton-reservation" data-toggle="modal" data-target="#reservationModal">Réserver
                     </button>
-
                 </div>
             </div>
         </div>
@@ -75,6 +65,13 @@
             </div>
 
             <div class="modal-body">
+                @if($utilisateurValide == false)
+                    <div class="alert alert-danger">
+                        Votre abonnement ou votre carte n'est pas valide, vous devrez payer cette séance à l'unité.
+                        <a href="{{ url('/compte') }}" class="button">Prendre un abonnement</a>
+                    </div>
+                @endif
+
                 <form class="form-horizontal reservationForm">
 
                     <div class="form-group">
@@ -123,7 +120,13 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary" id="reservation-seance">Réserver</button>
+                <button type="button" class="btn btn-primary" id="reservation-seance">
+                    @if($utilisateurValide)
+                        Réserver
+                    @else
+                        Payer à l'unité
+                    @endif
+                </button>
             </div>
         </div>
     </div>
