@@ -84,7 +84,8 @@ $(document).ready(function () {
                 crossDomain : true
             })
             .done(function(data) {
-
+                alert(data);
+                window.location.reload();
             });
         }
     });
