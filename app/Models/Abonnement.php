@@ -13,4 +13,6 @@ class Abonnement extends Model
      protected $fillable = [
         'id_abonnement', 'type_abo', 'date_fin_abo', 'id_utilisateur'
     ];
+
+    public $timestamps = false;
 }

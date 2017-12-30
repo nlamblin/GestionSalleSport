@@ -30,7 +30,7 @@ Route::get('seancesPassees', 'MesSeancesController@seancesPassees');
 
 Route::get('seancesVenir', 'MesSeancesController@seancesVenir');
 
-Route::get('compte', 'Compte@index');
+Route::get('compte', 'CompteController@index');
 
 Route::post('annulerReservation', 'ReservationController@annulerReservation');
 
@@ -41,5 +41,7 @@ Route::get('administration', 'AdministrationController@index');
 Route::post('creerActivite', 'AdministrationController@creerActivite')->name('creerActivite');
 
 Route::post('creerSeance', 'AdministrationController@creerSeance')->name('creerSeance');
+
+Route::put('prendreCarteAbonnement', 'CompteController@prendreCarteAbonnement');
 
 Auth::routes();
