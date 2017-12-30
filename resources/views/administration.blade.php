@@ -52,7 +52,6 @@
                                     <div class="col-md-6">
                                         <ul class="input">
                                             <select id="activite_seance" class="form-control" name="activite_seance">
-                                                <option value="default">Selectionner l'activité</option>
                                                 @foreach($listeActivites as $activite)
                                                     <option value="{{ $activite->id_activite }}">
                                                         {{ $activite->nom_activite }}
@@ -115,7 +114,7 @@
                                     <label for="places_seance" class="col-md-4 control-label">Nombre de places</label>
 
                                     <div class="col-md-6">
-                                       <input type="number" min='1' class="form-control" name="places_seance">
+                                       <input type="number" min='1' class="form-control" name="places_seance" value='1'required>
                                     </div>
                                 </div>
 

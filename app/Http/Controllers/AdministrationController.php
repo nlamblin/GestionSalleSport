@@ -51,12 +51,7 @@ places_seance
 		$niveauseance = $data['niveau_seance'];
 		$date = $data['date_seance'];
 		$heure=$data['heure_seance'];
-		if ($data['coach_seance'] == 'on'){
-			$coach = True;
-		}
-		else {
-			$coach = False;
-		}
+		$coach = isset($data['coach_seance']);
 		if ( $typeseance = 'individuelle'){
 			$places = '1';
 		}
