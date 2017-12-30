@@ -37,14 +37,6 @@ class AdministrationController extends Controller
 	public function creerSeance(Request $request){
   		$data = $request->all();
 
-/*activite_seance
-type_seance
-niveau_seance
-date_seance
-heure_seance
-coach_seance
-places_seance
-*/	
 		/*Récupération des données*/
 		$idactivite = $data['activite_seance'];
 		$typeseance = $data['type_seance'];
