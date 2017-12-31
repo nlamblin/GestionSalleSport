@@ -6,19 +6,30 @@ use App\Models\User;
 use App\Models\Activite;
 use App\Models\Seance;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 
 class AdministrationController extends Controller
 {
-    public function index() {
-    	//On va transmettre toutes les activités existantes pour la création des séances
-    	$listeActivites = Activite::get();
 
+    public function showCreationActivite() {
+        return view('admin/creationActivite');
+    }
 
-        return view('administration', [
+    public function showCreationSeance() {
+        //On va transmettre toutes les activités existantes pour la création des séances
+        $listeActivites = Activite::get();
+
+        return view('admin/creationSeance', [
             'listeActivites'    => $listeActivites
         ]);
+    }
+
+    public function showAjoutEmploye() {
+        return view('admin/ajoutEmploye');
+    }
+
+    public function showAjoutCoach() {
+        return view('admin/ajoutCoach');
     }
 
     public function creerActivite(Request $request){
@@ -29,7 +40,7 @@ class AdministrationController extends Controller
                 'nom_activite'  => $nom
             ]);
 
-    	return redirect('administration');
+        return redirect()->back()->with('message', "L'activité a bien été créée.");
 
     }
 
@@ -63,8 +74,46 @@ class AdministrationController extends Controller
 					'capacite_seance' => $places
 	            ]);
 
-    	return redirect('administration');
+        return redirect()->back()->with('message', "La séance a bien été créée.");
+    }
 
+
+    public function ajouterEmploye(Request $request) {
+
+        $this->validate($request,[
+            'email' => 'required|email|exists:connexion'
+        ] , [
+            'email.required' => 'Ce champ est requis',
+            'email.email'    => 'Ce champ doit être un email',
+            'email.exists'   => 'Cet email est inconnu'
+        ]);
+
+        $user = User::getUserByEmail($request->email);
+
+        User::where('id_utilisateur', '=', $user->id_utilisateur)
+            ->update(['id_statut' => 1]);
+
+        return redirect()->back()->with('message', "L'employé a bien été ajouté.");
+    }
+
+
+
+    public function ajouterCoach(Request $request) {
+
+        $this->validate($request,[
+            'email' => 'required|email|exists:connexion'
+        ] , [
+            'email.required' => 'Ce champ est requis',
+            'email.email'    => 'Ce champ doit être un email',
+            'email.exists'   => 'Cet email est inconnu'
+        ]);
+
+        $user = User::getUserByEmail($request->email);
+
+        User::where('id_utilisateur', '=', $user->id_utilisateur)
+            ->update(['id_statut' => 2]);
+
+        return redirect()->back()->with('message', 'Le coach a bien été ajouté.');
     }
 
 }

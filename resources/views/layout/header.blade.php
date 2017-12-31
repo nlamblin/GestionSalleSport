@@ -22,9 +22,19 @@
                             <a href="{{ url('/register') }}"><span class="glyphicon glyphicon-user"></span> S'inscrire</a>
                         </li>
                     @else
-                        <li>
-                            <a href="{{ url('/administration') }}"><span class="glyphicon glyphicon-shopping-cart"></span> Administration</a>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" id="dropdownAdministration" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="glyphicon glyphicon-list"></span> Administration
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownAdministration">
+                                <li><a href="{{ url('admin/showCreationActivite') }}">Créer une activité</a></li>
+                                <li><a href="{{ url('admin/showCreationSeance') }}">Créer une séance</a></li>
+                                <li><a href="{{ url('admin/showAjoutEmploye') }}">Ajouter un employé</a></li>
+                                <li><a href="{{ url('admin/showAjoutCoach') }}">Ajouter un coach</a></li>
+                            </ul>
                         </li>
+
                         <li>
                             <a href="{{ url('/seances') }}"><span class="glyphicon glyphicon-shopping-cart"></span> Réserver une séance</a>
                         </li>

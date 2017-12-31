@@ -77,4 +77,16 @@ class User extends Authenticatable
         return User::find($idUtilisateur);
     }
 
+    /**
+     * Retourne l'utilisateur en fonction de son email
+     *
+     * @param $email
+     * @return mixed
+     */
+    public static function getUserByEmail($email) {
+        return Connexion::join('utilisateur', 'utilisateur.id_utilisateur', '=', 'connexion.id_utilisateur')
+                ->where('email', '=', $email)
+                ->first();
+    }
+
 }
