@@ -225,6 +225,18 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
         });
     });
 
+    // bouton pour afficher les recommandations
+    $('#button-recommandations').on('click', function () {
+        $.ajax({
+            method: 'GET',
+            url : 'recommandationsSeances',
+            data : {
+               'idSeance' : $(e.relatedTarget).data('seance')
+            },
+            xhrFields: { withCredentials: true },
+            crossDomain : true
+        });
+    });
 });
 
 // fonction appelée à la fermeture du modal pour la réservation
