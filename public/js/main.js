@@ -111,9 +111,19 @@ $(document).ready(function () {
 // fonction appelée à l'ouverture du modal pour la réservation
 $(document).on('show.bs.modal', '#reservationModal', function (e) {
 
-    let typeSeance = $(e.relatedTarget).data('typeseance');
+    $('#button-recommandations').hide();
+
+    let typeSeance = $(e.relatedTarget).data('typeseance')
+        , placesRestantes = $(e.relatedTarget).data('placesrestantes');
+
+
+    if(placesRestantes === 0) {
+        $('#reservation-seance').attr('disabled', true);
+        $('#button-recommandations').show();
+    }
 
     if(typeSeance === 'collective') {
+        $('#reservation-seance').attr('disabled', false);
         $('.div-choix-coach').hide();
         $('.div-select-coach').hide();
     }

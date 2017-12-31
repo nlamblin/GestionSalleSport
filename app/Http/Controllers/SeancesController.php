@@ -30,8 +30,7 @@ class SeancesController extends Controller
      */
     public function seancesParActivites(Request $request) {
 
-        $listeSeances = Seance::where('places_restantes', '>' ,0)
-                                ->where('id_activite', $request->id_activite)
+        $listeSeances = Seance::where('id_activite', $request->id_activite)
                                 ->get();
 
         $userId = Auth::user()->id_utilisateur;

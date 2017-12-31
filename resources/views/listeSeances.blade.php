@@ -43,7 +43,7 @@
                     <span> Places restantes : {{ $seance->places_restantes }}</span>
                 </div>
                 <div class="row">
-                    <button data-seance="{{ $seance->id_seance }}" data-typeSeance="{{ $seance->type_seance }}" data-avecCoach="{{ $seance->avecCoach }}" class="btn btn-primary bouton-reservation" data-toggle="modal" data-target="#reservationModal">Réserver
+                    <button data-placesRestantes="{{ $seance->places_restantes }}" data-seance="{{ $seance->id_seance }}" data-typeSeance="{{ $seance->type_seance }}" data-avecCoach="{{ $seance->avecCoach }}" class="btn btn-primary bouton-reservation" data-toggle="modal" data-target="#reservationModal">Réserver
                     </button>
                 </div>
             </div>
@@ -127,6 +127,8 @@
                         Payer à l'unité
                     @endif
                 </button>
+
+                <button type="button" class="btn btn-primary" id="button-recommandations" title="Les recommandations sont des séances suseptibles de vous intéresser.">Recommandations</button>
             </div>
         </div>
     </div>
