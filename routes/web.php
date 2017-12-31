@@ -51,4 +51,6 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::put('prendreCarteAbonnement', 'CompteController@prendreCarteAbonnement');
 
+Route::get('recommandations','SeancesController@showRecommandations');
+
 Auth::routes();

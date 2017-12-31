@@ -61,8 +61,6 @@ class AdministrationController extends Controller
 		else{
 			$places = $data['places_seance'];
 		}
-
-
 		Seance::create([
 	                'id_activite' => $idactivite,
 					'type_seance' => $typeseance ,

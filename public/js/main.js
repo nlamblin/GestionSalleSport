@@ -19,7 +19,9 @@ $(document).ready(function () {
 
      // affichage ou non du nombre de places de la séances en fonction du type de la seance
     $('#type_seance').change(function()  {
-        let type = document.getElementsByTagName("type_seance")[0];
+        var type = $('#type_seance').val();
+        console.log(type);
+
         if(type ==='collective'){
             $('#divPlacesSeances').show('500');
         }
