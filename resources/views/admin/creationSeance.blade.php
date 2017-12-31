@@ -62,14 +62,16 @@
 
                     <div class="form-group">
                         <label for="date_seance" class="col-md-4 control-label">Date : </label>
+
                         <div class="col-md-6">
-                            <input id='date_seance' type="date" max="2021-12-31" min="time()" class="form-control" name="date_seance" required >
+                            <input id='date_seance' type="date" class="form-control" name="date_seance" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="heure_seance" class="col-md-4 control-label">Heure : </label>
+
                         <div class="col-md-6">
-                            <input type="time" step='60' class="form-control" name="heure_seance" required>
+                            <input id="heure_seance" type='time' class="form-control" name="heure_seance" required>
                         </div>
                     </div>
 
@@ -86,7 +88,7 @@
                             <label for="places_seance" class="col-md-4 control-label">Nombre de places</label>
 
                             <div class="col-md-6">
-                                <input type="number" min='1' class="form-control" name="places_seance" value='1'required>
+                                <input id="places_seance" type="number" min='1' class="form-control" name="places_seance" value='1' required>
                             </div>
                         </div>
                     </div>
