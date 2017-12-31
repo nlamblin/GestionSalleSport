@@ -36,11 +36,18 @@ Route::post('annulerReservation', 'ReservationController@annulerReservation');
 
 Route::get('coachsDisponibles', 'SeancesController@getCoachsDisponibles');
 
-Route::get('administration', 'AdministrationController@index');
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('showCreationActivite', 'AdministrationController@showCreationActivite');
+    Route::get('showCreationSeance', 'AdministrationController@showCreationSeance');
+    Route::get('showAjoutEmploye', 'AdministrationController@showAjoutEmploye');
+    Route::get('showAjoutCoach', 'AdministrationController@showAjoutCoach');
 
-Route::post('creerActivite', 'AdministrationController@creerActivite')->name('creerActivite');
+    Route::post('creerActivite', 'AdministrationController@creerActivite')->name('admin/creerActivite');
+    Route::post('creerSeance', 'AdministrationController@creerSeance')->name('admin/creerSeance');
+    Route::post('ajouterEmploye', 'AdministrationController@ajouterEmploye')->name('admin/ajouterEmploye');
+    Route::post('ajouterCoach', 'AdministrationController@ajouterCoach')->name('admin/ajouterCoach');
 
-Route::post('creerSeance', 'AdministrationController@creerSeance')->name('creerSeance');
+});
 
 Route::put('prendreCarteAbonnement', 'CompteController@prendreCarteAbonnement');
 
