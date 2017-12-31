@@ -128,7 +128,7 @@
                     @endif
                 </button>
 
-                <button type="button" class="btn btn-primary" id="button-recommandations" title="Les recommandations sont des séances suseptibles de vous intéresser.">Recommandations</button>
+                <a id="button-recommandations" href="{{ url('/recommandationsSeances') }}" title="Les recommandations sont des séances suseptibles de vous intéresser.">Voir les recommandations</a>
             </div>
         </div>
     </div>
