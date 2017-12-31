@@ -38,6 +38,7 @@
                         <li>
                             <a href="{{ url('/seances') }}"><span class="glyphicon glyphicon-shopping-cart"></span> Réserver une séance</a>
                         </li>
+
                         <li class="dropdown">
                             <a class="dropdown-toggle" id="dropdownMesSeances" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 <span class="glyphicon glyphicon-list"></span> Mes séances

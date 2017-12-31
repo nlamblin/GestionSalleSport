@@ -22,6 +22,7 @@ class SeancesController extends Controller
         ]);
     }
 
+
     /**
      * Méthode qui affiche les seances disponibles en fonction d'une activité
      *
@@ -106,4 +107,56 @@ class SeancesController extends Controller
         return $coachsDisponibles;
     }
 
+    public function showRecommandations(Request $request)
+    {
+        //On récupère l'id de la séance que l'utilisateur à choisit
+        $id = $request->idSeance;
+
+        // On récupère les infos de la séance courante
+        $seanceCourante = Seance::join('activite','seance.id_activite','=','activite.id_activite')
+        ->where('id_seance','=',$id)
+        ->select()
+        ->get();
+
+        $activite = $seanceCourante->id_activite;
+        $type = $seanceCourante->type_seance;
+        $niveau = $seanceCourante->niveau_seance;
+        $date = $seanceCourante->date_seance;
+        $heure = $seanceCourante->heure_seance;
+
+        //On recherche les autres séances sur cette activite le même jour
+        $recommandationsMemeActiviteMemeDate = Seance::join('activite','seance.id_activite','=','activite.id_activite')
+        ->where('id_activite''=',$activite)
+        ->where('date_seance','=',$date)
+        ->where('places_restantes','>',0)
+        ->select()
+        ->get();
+
+        //On recherche les autres séances sur cette activite a la même heure
+        $recommandationsMemeActiviteMemeHeure = Seance::join('activite','seance.id_activite','=','activite.id_activite')
+        ->where('id_activite''=',$activite)
+        ->where('heure_seance','=',$heure)
+        ->where('places_restantes','>',0)
+        ->select()
+        ->get();
+
+        //On recherche toutes les séances à la meme heure/date
+        $recommandationAutresActiviteMemeDateHeure = Seance::join('activite','seance.id_activite','=','activite.id_activite')
+        ->where('date_seance','=',$date)
+        ->where('heure_seance','=',$heure)
+        ->where('places_restantes','>',0)
+        ->select()
+        ->get();
+
+        
+
+        return view('listeRecommandations', [
+            'recommandationAutresActiviteMemeDateHeure'    
+                    => $recommandationAutresActiviteMemeDateHeure,
+            'recommandationsMemeActiviteMemeHeure'    
+                    => $recommandationsMemeActiviteMemeHeure,
+            'recommandationsMemeActiviteMemeDate'    
+                    => $recommandationsMemeActiviteMemeDate
+        ]);
+    }
 }
