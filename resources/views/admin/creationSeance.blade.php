@@ -64,14 +64,14 @@
                         <label for="date_seance" class="col-md-4 control-label">Date : </label>
 
                         <div class="col-md-6">
-                            <input id='date_seance' type="date" class="form-control" name="date_seance" required>
+                            <input id='date_seance' class="form-control" name="date_seance" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="heure_seance" class="col-md-4 control-label">Heure : </label>
 
                         <div class="col-md-6">
-                            <input id="heure_seance" type='time' class="form-control" name="heure_seance" required>
+                            <input id="heure_seance" class="form-control" name="heure_seance" required>
                         </div>
                     </div>
 
