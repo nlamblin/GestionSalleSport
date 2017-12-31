@@ -10,10 +10,13 @@
     <title>CSI</title>
 
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/datetimepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <link rel="stylesheet" href="@yield('css')">
 
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/moment.js') }}"></script>
+    <script src="{{ asset('js/datetimepicker.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
     <script src="@yield('js')"></script>
 </head>

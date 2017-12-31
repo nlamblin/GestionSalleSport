@@ -29,7 +29,17 @@ $(document).ready(function () {
     });
 
     //Permet de verifier la date du formulaire de création de séance
-    // ( "#date_seance" ).datepicker({ minDate: 'today'});
+    $("#date_seance").datetimepicker({
+        format: "DD/MM/YYYY",
+        minDate : moment().add('d', 1).toDate(),
+        maxDate : moment().add('Y', 1).toDate()
+    });
+
+    // Permet de n'utiliser que les heures entières
+    $('#heure_seance').datetimepicker({
+        format: 'HH:00',
+        enabledHours: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    });
 
     // appel ajax pour récupérer les seances disponibles en fonction des activités
     $('#select_activite').change(function() {
