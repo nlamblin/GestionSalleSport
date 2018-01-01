@@ -33,8 +33,8 @@ $(document).ready(function () {
     //Permet de verifier la date du formulaire de création de séance
     $("#date_seance").datetimepicker({
         format: "DD/MM/YYYY",
-        minDate : moment().add('d', 1).toDate(),
-        maxDate : moment().add('Y', 1).toDate()
+        minDate : moment().add(1, 'd').toDate(),
+        maxDate : moment().add(1, 'Y').toDate()
     });
 
     // Permet de n'utiliser que les heures entières
@@ -113,15 +113,16 @@ $(document).ready(function () {
 // fonction appelée à l'ouverture du modal pour la réservation
 $(document).on('show.bs.modal', '#reservationModal', function (e) {
 
-    $('#button-recommandations').hide();
+    $('#lien-recommandations').hide();
 
     let typeSeance = $(e.relatedTarget).data('typeseance')
-        , placesRestantes = $(e.relatedTarget).data('placesrestantes');
-
+        , placesRestantes = $(e.relatedTarget).data('placesrestantes')
+        , idSeance = $(e.relatedTarget).data('seance');
 
     if(placesRestantes === 0) {
+        $('#lien-recommandations').show();
+        $('#lien-recommandations').attr("href", $(e.relatedTarget).data('hrefrecommandations'));
         $('#reservation-seance').attr('disabled', true);
-        $('#button-recommandations').show();
     }
 
     if(typeSeance === 'collective') {
@@ -134,7 +135,7 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
             method : 'GET',
             url : 'coachsDisponibles',
             data : {
-                'idSeance' : $(e.relatedTarget).data('seance')
+                'idSeance' : idSeance
             },
             xhrFields: { withCredentials: true },
             crossDomain : true
@@ -209,7 +210,7 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
             method  : 'PUT',
             url     : 'effectuerReservation',
             data    : {
-                'idSeance'          : $(e.relatedTarget).data('seance'),
+                'idSeance'          : idSeance,
                 'personnesAAjouter' : idsPersonnes,
                 'idCoach'           : idCoach
             },
@@ -231,7 +232,7 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
             method: 'GET',
             url : 'recommandationsSeances',
             data : {
-               'idSeance' : $(e.relatedTarget).data('seance')
+               'idSeance' : idSeance
             },
             xhrFields: { withCredentials: true },
             crossDomain : true

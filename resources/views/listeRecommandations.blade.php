@@ -1,7 +1,5 @@
 @extends('layout.layout')
 
-@section('css', asset('css/home.css'))
-
 @section('content')
     <div class="container">
         <h1 class="page-header">
@@ -9,7 +7,7 @@
         </h1>
 
 
-        <h2> Recommandations des séances sur la même activité pour le même jour </h2>
+        <h4> Recommandations des séances sur la même activité pour le même jour </h4>
 		<div class="recommandationsMemeActiviteMemeDate">
 			<!--Pour chaque séance à venir -->
 			@foreach($recommandationsMemeActiviteMemeDate as $recommandation)
@@ -32,7 +30,7 @@
 		    @endforeach
 		</div>
 
-		<h2> Recommandations des séances sur la même activité à la même heure </h2>
+		<h4> Recommandations des séances sur la même activité à la même heure </h4>
 		<div class="recommandationsMemeActiviteMemeHeure">
 			<!--Pour chaque séance à venir -->
 			@foreach($recommandationsMemeActiviteMemeHeure as $recommandation)
@@ -55,7 +53,7 @@
 		    @endforeach
 		</div>
 
-		<h2> Recommandations des séances sur d'autres activités, même date même heure </h2>
+		<h4> Recommandations des séances sur d'autres activités, même date même heure </h4>
 		<div class="recommandationAutresActiviteMemeDateHeure">
 			<!--Pour chaque séance à venir -->
 			@foreach($recommandationAutresActiviteMemeDateHeure as $recommandation)

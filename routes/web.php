@@ -11,7 +11,6 @@
 |
 */
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index');
@@ -51,6 +50,8 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::put('prendreCarteAbonnement', 'CompteController@prendreCarteAbonnement');
 
-Route::get('recommandationsSeances','SeancesController@showRecommandations');
+Route::get('showRecommandations','SeancesController@showRecommandations');
 
-Auth::routes();
+// Route::get('recommandationsSeances','SeancesController@getRecommandations');
+
+Route::get('recommandationsSeances/{idSeance}','SeancesController@getRecommandations');

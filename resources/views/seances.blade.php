@@ -1,7 +1,5 @@
 @extends('layout.layout')
 
-@section('css', asset('css/home.css'))
-
 @section('content')
     <div class="container">
         <h1 class="page-header">
