@@ -19,8 +19,7 @@ $(document).ready(function () {
 
      // affichage ou non du nombre de places de la séances en fonction du type de la seance
     $('#type_seance').change(function()  {
-        var type = $('#type_seance').val();
-        console.log(type);
+        let type = $('#type_seance').val();
 
         if(type ==='collective'){
             $('#divPlacesSeances').show('500');
@@ -174,7 +173,6 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
                     prenomUtilisateur + ' ' + nomUtilisateur + ' &lt' + emailUtilisateur + '&gt ' +
                     '</li>');
             }
-            console.log(personnesAAjouter);
         }
 
         // quand on supprime une personne
