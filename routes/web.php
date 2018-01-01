@@ -11,6 +11,7 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index');
@@ -53,3 +54,5 @@ Route::put('prendreCarteAbonnement', 'CompteController@prendreCarteAbonnement');
 Route::get('showRecommandations','SeancesController@showRecommandations');
 
 Route::get('recommandationsSeances/{idSeance}','SeancesController@getRecommandations');
+
+Auth::routes();
