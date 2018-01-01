@@ -23,13 +23,13 @@ Route::get('listeSeances','SeancesController@seancesParActivites');
 
 Route::get('formulaireActivite','ActiviteController@index');
 
-Route::put('effectuerReservation', 'ReservationController@effectuerReservation');
-
 Route::get('seancesPassees', 'MesSeancesController@seancesPassees');
 
 Route::get('seancesVenir', 'MesSeancesController@seancesVenir');
 
 Route::get('compte', 'CompteController@index');
+
+Route::put('effectuerReservation', 'ReservationController@effectuerReservation');
 
 Route::post('annulerReservation', 'ReservationController@annulerReservation');
 
@@ -51,7 +51,5 @@ Route::group(['prefix' => 'admin'], function () {
 Route::put('prendreCarteAbonnement', 'CompteController@prendreCarteAbonnement');
 
 Route::get('showRecommandations','SeancesController@showRecommandations');
-
-// Route::get('recommandationsSeances','SeancesController@getRecommandations');
 
 Route::get('recommandationsSeances/{idSeance}','SeancesController@getRecommandations');

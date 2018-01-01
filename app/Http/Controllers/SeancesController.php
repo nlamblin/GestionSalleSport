@@ -23,22 +23,13 @@ class SeancesController extends Controller
         ]);
     }
 
-
     /**
-     * Méthode qui affiche les seances disponibles en fonction d'une activité
+     * Méthode qui recupère l'ensemble des utilisateurs valides
      *
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param $userId
+     * @return Collection|static
      */
-    public function seancesParActivites(Request $request) {
-
-        $listeSeances = Seance::where('id_activite', $request->id_activite)
-                                ->get();
-
-        $userId = Auth::user()->id_utilisateur;
-
-        $userValide = User::getUser($userId)->estValide();
-
+    public function getUtilisateursValides($userId) {
         $utilisateursAboValides = User::select('email', 'utilisateur.id_utilisateur', 'nom_utilisateur', 'prenom_utilisateur')
             ->join('connexion', 'utilisateur.id_utilisateur', '=', 'connexion.id_utilisateur')
             ->join('abonnement', 'utilisateur.id_utilisateur', '=', 'abonnement.id_utilisateur')
@@ -60,17 +51,7 @@ class SeancesController extends Controller
         $utilisateursValides = $utilisateursValides->merge($utilisateursAboValides);
         $utilisateursValides = $utilisateursValides->merge($utilisateursCartesValides);
 
-        $coachs = User::select('nom_utilisateur', 'prenom_utilisateur', 'id_utilisateur')
-            ->where('id_statut', 2)
-            ->where('actif', true)
-            ->get();
-
-        return view('listeSeances', [
-            'listeSeances'          => $listeSeances,
-            'utilisateurValide'     => $userValide,
-            'utilisateursValides'   => $utilisateursValides,
-            'coachs'                => $coachs
-        ]);
+        return $utilisateursValides;
     }
 
     /**
@@ -107,6 +88,28 @@ class SeancesController extends Controller
         return $coachsDisponibles;
     }
 
+
+    /**
+     * Méthode qui affiche les seances disponibles en fonction d'une activité
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function seancesParActivites(Request $request) {
+
+        $listeSeances = Seance::where('id_activite', $request->id_activite)
+                                ->get();
+
+        $userId = Auth::user()->id_utilisateur;
+        $userValide = User::getUser($userId)->estValide();
+
+        return view('listeSeances', [
+            'listeSeances'          => $listeSeances,
+            'utilisateurValide'     => $userValide,
+            'utilisateursValides'   => $this->getUtilisateursValides($userId)
+        ]);
+    }
+
     /**
      * Méthode qui récupère toutes les recommandations pour un utilisateur
      *
@@ -115,6 +118,10 @@ class SeancesController extends Controller
      */
     public function getRecommandations(Request $request)
     {
+        $userId = Auth::user()->id_utilisateur;
+
+        $userValide = User::getUser($userId)->estValide();
+
         // On récupère l'id de la séance que l'utilisateur à choisit
         $id = $request->idSeance;
 
@@ -155,9 +162,12 @@ class SeancesController extends Controller
             ->get();
 
         return view('listeRecommandations', [
-            'recommandationAutresActiviteMemeDateHeure' => $recommandationsAutresActiviteMemeDateHeure,
+            'recommandationsAutresActivitesMemeDateHeure' => $recommandationsAutresActiviteMemeDateHeure,
             'recommandationsMemeActiviteMemeHeure'      => $recommandationsMemeActiviteMemeHeure,
-            'recommandationsMemeActiviteMemeDate'       => $recommandationsMemeActiviteMemeDate
+            'recommandationsMemeActiviteMemeDate'       => $recommandationsMemeActiviteMemeDate,
+            'utilisateursValides'                       => $this->getUtilisateursValides($userId),
+            'utilisateurValide'                         => $userValide
         ]);
     }
+
 }
