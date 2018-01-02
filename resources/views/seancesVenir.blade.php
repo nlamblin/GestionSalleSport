@@ -19,6 +19,12 @@
 	                <h4> 
 	                	Séance : {{ $reservation->type_seance }}
 	                </h4>
+	                <h5>
+	                	Niveau : {{ $reservation->niveau_seance}}
+	                </h5>
+	                <h6>
+	                	Capacite : {{ $reservation->capacite_seance}}
+	                </h6>
 	                <p>
 	                	Date : {{ date('d/m/Y', strtotime($reservation->date_seance)) }} - Heure : {{ date('H:i', strtotime($reservation->heure_seance)) }}
 	                </p>

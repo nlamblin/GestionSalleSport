@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Seance;
 use App\Models\Activite;
+use App\Models\ReservationInterne;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -97,11 +98,24 @@ class SeancesController extends Controller
      */
     public function seancesParActivites(Request $request) {
 
-        $listeSeances = Seance::where('id_activite', $request->id_activite)
+        $TEMPlisteSeances = Seance::where('id_activite', $request->id_activite)
                                 ->get();
 
         $userId = Auth::user()->id_utilisateur;
         $userValide = User::getUser($userId)->estValide();
+
+        //On cherche les reservation de l'utilisateur
+        $seanceUser = ReservationInterne::join('seance','reservation_interne.id_seance','=','seance.id_seance')
+            ->where('reservation_interne.id_utilisateur','=',$userId)
+            ->select("seance.id_seance","seance.type_seance" ,"seance.capacite_seance" ,"seance.places_restantes" ,"seance.niveau_seance" ,"seance.avec_coach","seance.date_seance" ,"seance.heure_seance" ,"seance.id_activite","seance.id_coach")
+            ->get();
+
+        $listeSeances = array();
+        foreach($TEMPlisteSeances as $value) {
+            if(!$seanceUser->contains('id_seance', $value->id_seance)) {
+                array_push($listeSeances, $value);
+            }
+        }
 
         return view('listeSeances', [
             'listeSeances'          => $listeSeances,
@@ -109,6 +123,9 @@ class SeancesController extends Controller
             'utilisateursValides'   => $this->getUtilisateursValides($userId)
         ]);
     }
+
+
+
 
     /**
      * Méthode qui récupère toutes les recommandations pour un utilisateur
@@ -130,23 +147,24 @@ class SeancesController extends Controller
             ->where('id_seance','=',$id)
             ->select()
             ->first();
-
+        
         $activite   = $seanceCourante->id_activite;
-        $type       = $seanceCourante->type_seance;
-        $niveau     = $seanceCourante->niveau_seance;
         $date       = $seanceCourante->date_seance;
         $heure      = $seanceCourante->heure_seance;
 
+
         //On recherche les autres séances sur cette activite le même jour
-        $recommandationsMemeActiviteMemeDate = Seance::join('activite','seance.id_activite','=','activite.id_activite')
+
+        $TEMPrecommandationsMemeActiviteMemeDate = Seance::join('activite','seance.id_activite','=','activite.id_activite')
             ->where('seance.id_activite', '=',$activite)
             ->where('date_seance','=',$date)
             ->where('places_restantes','>',0)
             ->select()
             ->get();
 
+
         //On recherche les autres séances sur cette activite a la même heure
-        $recommandationsMemeActiviteMemeHeure = Seance::join('activite','seance.id_activite','=','activite.id_activite')
+        $TEMPrecommandationsMemeActiviteMemeHeure = Seance::join('activite','seance.id_activite','=','activite.id_activite')
             ->where('seance.id_activite', '=',$activite)
             ->where('heure_seance','=',$heure)
             ->where('places_restantes','>',0)
@@ -154,12 +172,44 @@ class SeancesController extends Controller
             ->get();
 
         //On recherche toutes les séances à la meme heure/date
-        $recommandationsAutresActiviteMemeDateHeure = Seance::join('activite','seance.id_activite','=','activite.id_activite')
+        $TEMPrecommandationsAutresActiviteMemeDateHeure = Seance::join('activite','seance.id_activite','=','activite.id_activite')
             ->where('date_seance','=',$date)
             ->where('heure_seance','=',$heure)
             ->where('places_restantes','>',0)
             ->select()
             ->get();
+
+        
+        $seanceUser = ReservationInterne::join('seance','reservation_interne.id_seance','=','seance.id_seance')
+        ->join('activite','seance.id_activite','=','activite.id_activite')
+        ->where('reservation_interne.id_utilisateur','=',$userId)
+        ->select("seance.id_seance","seance.type_seance" ,"seance.capacite_seance" ,"seance.places_restantes" ,"seance.niveau_seance" ,"seance.avec_coach","seance.date_seance" ,"seance.heure_seance" ,"seance.id_activite","seance.id_coach","activite.nom_activite" )
+        ->get();
+
+
+
+        //Pour ne garder que ceux où il n'est pas inscrit
+        $recommandationsMemeActiviteMemeHeure = array();
+        foreach($TEMPrecommandationsMemeActiviteMemeHeure as $value) {
+            if(!$seanceUser->contains('id_seance', $value->id_seance)) {
+                array_push($recommandationsMemeActiviteMemeHeure, $value);
+            }
+        }
+
+        $recommandationsMemeActiviteMemeDate = array();
+        foreach($TEMPrecommandationsMemeActiviteMemeDate as $value) {
+            if(!$seanceUser->contains('id_seance', $value->id_seance)) {
+                array_push($recommandationsMemeActiviteMemeDate, $value);
+            }
+        }
+
+        $recommandationsAutresActiviteMemeDateHeure = array();
+        foreach($TEMPrecommandationsAutresActiviteMemeDateHeure as $value) {
+           if(!$seanceUser->contains('id_seance', $value->id_seance)) {
+                array_push($recommandationsAutresActiviteMemeDateHeure, $value);
+            }
+        }
+   
 
         return view('listeRecommandations', [
             'recommandationsAutresActivitesMemeDateHeure' => $recommandationsAutresActiviteMemeDateHeure,
