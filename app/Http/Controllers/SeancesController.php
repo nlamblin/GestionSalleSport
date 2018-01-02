@@ -24,13 +24,10 @@ class SeancesController extends Controller
         ]);
     }
 
-    /**
-     * Méthode qui recupère l'ensemble des utilisateurs valides
-     *
-     * @param $userId
-     * @return Collection|static
-     */
+    
+    
     public function getUtilisateursValides($userId) {
+        
         $utilisateursAboValides = User::select('email', 'utilisateur.id_utilisateur', 'nom_utilisateur', 'prenom_utilisateur')
             ->join('connexion', 'utilisateur.id_utilisateur', '=', 'connexion.id_utilisateur')
             ->join('abonnement', 'utilisateur.id_utilisateur', '=', 'abonnement.id_utilisateur')

@@ -41,13 +41,18 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('showCreationSeance', 'AdministrationController@showCreationSeance');
     Route::get('showAjoutEmploye', 'AdministrationController@showAjoutEmploye');
     Route::get('showAjoutCoach', 'AdministrationController@showAjoutCoach');
-
+ 
     Route::post('creerActivite', 'AdministrationController@creerActivite')->name('admin/creerActivite');
     Route::post('creerSeance', 'AdministrationController@creerSeance')->name('admin/creerSeance');
     Route::post('ajouterEmploye', 'AdministrationController@ajouterEmploye')->name('admin/ajouterEmploye');
     Route::post('ajouterCoach', 'AdministrationController@ajouterCoach')->name('admin/ajouterCoach');
 
 });
+
+Route::get('showReservationClient', 'AdministrationController@showReservationClient');
+Route::get('showAnnulationClient', 'AdministrationController@showAnnulationClient');
+
+Route::get('listeSeancesReservationClient','AdministrationController@affichageSeances');
 
 Route::put('prendreCarteAbonnement', 'CompteController@prendreCarteAbonnement');
 
