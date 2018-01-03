@@ -72,6 +72,7 @@ $(document).ready(function () {
             data    : {
                 id_reservation : $(this).data('reservation')
             },
+
             xhrFields: { withCredentials: true },
             crossDomain : true
         }).done(function(data) {
