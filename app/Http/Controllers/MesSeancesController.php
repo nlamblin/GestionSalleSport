@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ReservationInterne;
 use App\Models\ReservationInterneArchivage;
 use App\Models\Seance;
+use App\Models\User;
 use App\Models\SeanceArchivage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,17 +46,40 @@ class MesSeancesController extends Controller
 
         $idUtilisateur = Auth::user()->id_utilisateur;
 
-        /** On récupère toutes les reservations à venir de cet utilisateur **/      
-        $reservationVenir = ReservationInterne::where('etat_reservation', '=', 'reservee')
+        $utilisateur = User::select()
         ->where('id_utilisateur','=',$idUtilisateur)
-        ->join('seance','reservation_interne.id_seance','=','seance.id_seance')
-        ->join('activite','seance.id_activite','=','activite.id_activite')
-        ->orderBy('seance.date_seance', 'ASC')
-        ->select()
-        ->get();
+        ->join('statut','utilisateur.id_statut','=','statut.id_statut')
+        ->first();
+        
+        //On initialise toutes les listes 
+        $seanceVenirCoach = [];
+        $reservationVenirClient = [];
+
+        if($utilisateur->nom_statut == 'ROLE_COACH'){
+            // Si la personne connectée est un coach
+            //On récupère toutes les séances à venir auxquelles le coach est affilié.
+            $seanceVenirCoach = Seance::select()
+            ->join('activite','seance.id_activite','=','activite.id_activite')
+            ->where('id_coach','=',$utilisateur->id_utilisateur)
+            ->get();
+        }
+        else if ($utilisateur->nom_statut == 'ROLE_CLIENT'){
+            //Si la personne connectée est un client
+            //on récupère toutes les reservations à venir de ce client    
+            $reservationVenirClient = ReservationInterne::where('etat_reservation', '=', 'reservee')
+            ->where('id_utilisateur','=',$idUtilisateur)
+            ->join('seance','reservation_interne.id_seance','=','seance.id_seance')
+            ->join('activite','seance.id_activite','=','activite.id_activite')
+            ->orderBy('seance.date_seance', 'ASC')
+            ->select()
+            ->get();
+
+        }
 
         return view ('seancesVenir', [
-            'reservationVenir' => $reservationVenir
+            'reservationVenirClient' => $reservationVenirClient,
+            'seanceVenirCoach'       => $seanceVenirCoach,
+            'utilisateur'            => $utilisateur
         ]);
     }
 }

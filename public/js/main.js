@@ -245,6 +245,8 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
             window.location.reload();
         });
     });
+
+    
 });
 
 // fonction appelée à la fermeture du modal pour la réservation
