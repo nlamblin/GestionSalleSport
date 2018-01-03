@@ -21,10 +21,10 @@ class AdminMiddleware
     {
         $user = User::getUser(Auth::user()->id_utilisateur);
 
-        if(!$user->estAdmin()) {
-            throw new AuthorizationException();
+        if($user->estAdmin()) {
+            return $next($request);
         }
 
-        return $next($request);
+        throw new AuthorizationException();
     }
 }

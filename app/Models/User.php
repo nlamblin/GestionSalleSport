@@ -67,7 +67,7 @@ class User extends Authenticatable
     }
 
     /**
-     *
+     * Permet de savoir si l'utilisateur courant est un admin
      */
     public function estAdmin() {
 
@@ -79,7 +79,7 @@ class User extends Authenticatable
     }
 
     /**
-     *
+     * Permet de savoir si l'utilisateur courant est un employe
      */
     public function estEmploye() {
         $idStatutEmployee = Statut::select('id_statut')
@@ -90,7 +90,7 @@ class User extends Authenticatable
     }
 
     /**
-     *
+     * Permet de savoir si l'utilisateur courant est un coach
      */
     public function estCoach() {
         $idStatutCoach = Statut::select('id_statut')
@@ -101,7 +101,7 @@ class User extends Authenticatable
     }
 
     /**
-     *
+     * Permet de savoir si l'utilisateur courant est un client
      */
     public function estClient() {
         $idStatutClient = Statut::select('id_statut')

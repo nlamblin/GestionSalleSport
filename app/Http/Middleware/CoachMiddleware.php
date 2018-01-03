@@ -21,10 +21,10 @@ class CoachMiddleware
     {
         $user = User::getUser(Auth::user()->id_utilisateur);
 
-        if(!$user->estCoach()) {
-            throw new AuthorizationException();
+        if($user->estCoach()) {
+            return $next($request);
         }
 
-        return $next($request);
+        throw new AuthorizationException();
     }
 }

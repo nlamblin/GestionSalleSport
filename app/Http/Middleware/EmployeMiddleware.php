@@ -21,10 +21,10 @@ class EmployeMiddleware
     {
         $user = User::getUser(Auth::user()->id_utilisateur);
 
-        if(!$user->estEmploye()) {
-            throw new AuthorizationException();
+        if($user->estEmploye() || $user->estAdmin()) {
+            return $next($request);
         }
 
-        return $next($request);
+        throw new AuthorizationException();
     }
 }

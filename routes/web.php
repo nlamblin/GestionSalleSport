@@ -25,7 +25,9 @@ Route::group(['middleware' => 'auth'], function() {
 
 // ROUTE POUR LES ADMINS ET EMPLOYES
 Route::group(['prefix' => 'admin'], function() {
-    Route::group(['middleware' => ['admin', 'employe']], function() {
+
+    // ROUTES POUR LES ADMINS ET EMPLOYES
+    Route::group(['middleware' => 'employe'], function() {
         Route::get('showCreationSeance', 'AdministrationController@showCreationSeance');
         Route::get('showAjoutCoach', 'AdministrationController@showAjoutCoach');
         Route::get('showReservationClient', 'AdministrationController@showReservationClient');
@@ -46,7 +48,7 @@ Route::group(['prefix' => 'admin'], function() {
     });
 });
 
-// ROUTES POUR LES CLIENT
+// ROUTES POUR LES CLIENTS
 Route::group(['middleware' => 'client'], function() {
     Route::get('seancesPassees', 'MesSeancesController@seancesPassees');
     Route::get('seancesVenir', 'MesSeancesController@seancesVenir');
@@ -63,12 +65,12 @@ Route::group(['middleware' => 'coach'], function () {
 });
 
 // ROUTE POUR LES CLIENTS / ADMINS / EMPLOYES
-Route::group(['middleware' => ['client', 'admin', 'employe']], function () {
+//Route::group(['middleware' => ['client', 'admin', 'employe']], function () {
     Route::get('coachsDisponibles', 'SeancesController@getCoachsDisponibles');
 
     Route::post('annulerReservation', 'ReservationController@annulerReservation');
 
     Route::put('effectuerReservation', 'ReservationController@effectuerReservation');
-});
+//});
 
 Auth::routes();

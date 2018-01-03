@@ -21,10 +21,10 @@ class ClientMiddleware
     {
         $user = User::getUser(Auth::user()->id_utilisateur);
 
-        if(!$user->estClient()) {
-            throw new AuthorizationException();
+        if($user->estClient()) {
+            return $next($request);
         }
 
-        return $next($request);
+        throw new AuthorizationException();
     }
 }
