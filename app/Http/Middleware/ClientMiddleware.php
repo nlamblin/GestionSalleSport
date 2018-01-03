@@ -21,7 +21,7 @@ class ClientMiddleware
     {
         $user = User::getUser(Auth::user()->id_utilisateur);
 
-        if($user->estClient()) {
+        if($user->estClient() || $user->estEmploye() || $user->estAdmin()) {
             return $next($request);
         }
 

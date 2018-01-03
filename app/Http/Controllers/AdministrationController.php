@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carte;
+use App\Models\ReservationInterne;
 use App\Models\User;
 use App\Models\Activite;
 use App\Models\Seance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class AdministrationController extends Controller
@@ -80,14 +84,42 @@ class AdministrationController extends Controller
 		$typeseance = $data['type_seance'];
 		$niveauseance = $data['niveau_seance'];
 		$date = $data['date_seance'];
-		$heure=$data['heure_seance'];
+		$heure = $data['heure_seance'];
 		$coach = isset($data['coach_seance']);
-		if ( $typeseance = 'individuelle'){
-			$places = '1';
+
+		if ($typeseance == 'individuelle') {
+			$places = 1;
 		}
-		else{
+		else {
 			$places = $data['places_seance'];
 		}
+
+		// On récupère les coachs et on essaie d'en trouver un libre
+		$idCoach = null;
+		if(!is_null($coach)) {
+            $coachs = User::select('nom_utilisateur', 'prenom_utilisateur', 'id_utilisateur')
+                ->where('id_statut', 2)
+                ->where('actif', true)
+                ->get();
+
+            $trouve = false;
+            $i = 0;
+            while(!$trouve && $i < sizeof($coachs)) {
+                $coachDispo = DB::select('SELECT coach_dispo_seance(?, ?, ?)', [$coachs[$i]->id_utilisateur, $date, $heure]);
+
+                if($coachDispo) {
+                    $idCoach = $coachs[$i]->id_utilisateur;
+                    $trouve = true;
+                }
+
+                $i++;
+            }
+        }
+
+        if(is_null($idCoach)) {
+		    return redirect()->back()->with('messageDanger', "La séance n'a pas pu être créer car aucun coach n'est disponibles");
+        }
+
 		Seance::create([
 	                'id_activite' => $idactivite,
 					'type_seance' => $typeseance ,
@@ -96,7 +128,8 @@ class AdministrationController extends Controller
 					'heure_seance' => $heure,
 					'avec_coach' => $coach,
 					'places_restantes' => $places,
-					'capacite_seance' => $places
+					'capacite_seance' => $places,
+                    'id_coach' => $idCoach
 	            ]);
 
         return redirect()->back()->with('message', "La séance a bien été créée.");

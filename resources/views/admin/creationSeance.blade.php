@@ -15,6 +15,12 @@
                     </div>
                 @endif
 
+                @if(session()->has('messageDanger'))
+                    <div class="alert alert-danger">
+                        {{ session()->get('messageDanger') }}
+                    </div>
+                @endif
+
                 <form class="form-horizontal" method="POST" action="{{ route('admin/creerSeance') }}">
                     {{ csrf_field()}}
                     <div class="form-group">
