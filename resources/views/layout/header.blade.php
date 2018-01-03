@@ -35,6 +35,17 @@
                             </ul>
                         </li>
 
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" id="dropdownGestionReservationClient" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="glyphicon glyphicon-list"></span> Gestion réservations clients
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownGestionReservationClient">
+                                <li><a href="{{ url('showReservationClient') }}">Réserver pour un client</a></li>
+                                <li><a href="{{ url('showAnnulationClient') }}">Annuler pour un client</a></li>         
+                            </ul>
+                        </li>
+
                         <li>
                             <a href="{{ url('/seances') }}"><span class="glyphicon glyphicon-shopping-cart"></span> Réserver une séance</a>
                         </li>

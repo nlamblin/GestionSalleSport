@@ -64,6 +64,28 @@ $(document).ready(function () {
         }
     });
 
+     // appel ajax pour récupérer les seances disponibles en fonction des activités pour les reservations clients
+    $('#select_activite_reservation_client').change(function() {
+        // on supprime les seances deja affichées
+        $('.listeSeancesReservationClient').remove();
+
+        // si ce n'est pas l'option par defaut
+        if($(this).val() !== 'default') {
+            $.ajax({
+                method : 'GET',
+                url : 'listeSeancesReservationClient',
+                data : {
+                    id_activite : $(this).val()
+                },
+                xhrFields: { withCredentials: true },
+                crossDomain : true
+            }).done(function (data) {
+                // on affiche les nouvelles seances
+                $('.select_activite_reservation_client').after(data);
+            });
+        }
+    });
+
     // appel ajax pour annuler la reservation
     $('.bouton-annuler-reservation').on('click', function() {
         $.ajax({
@@ -224,6 +246,8 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
             window.location.reload();
         });
     });
+
+    
 });
 
 // fonction appelée à la fermeture du modal pour la réservation
