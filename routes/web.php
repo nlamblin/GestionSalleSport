@@ -16,48 +16,59 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index');
 
-Route::get('logout', 'Auth\LoginController@logout');
+// ROUTES POUR TOUT UTILISATEURS CONNECTES
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('compte', 'CompteController@index');
+    Route::get('logout', 'Auth\LoginController@logout');
+});
 
-Route::get('seances','SeancesController@index');
 
-Route::get('listeSeances','SeancesController@seancesParActivites');
+// ROUTE POUR LES ADMINS ET EMPLOYES
+Route::group(['prefix' => 'admin'], function() {
+    Route::group(['middleware' => ['admin', 'employe']], function() {
+        Route::get('showCreationSeance', 'AdministrationController@showCreationSeance');
+        Route::get('showAjoutCoach', 'AdministrationController@showAjoutCoach');
+        Route::get('showReservationClient', 'AdministrationController@showReservationClient');
+        Route::get('showAnnulationClient', 'AdministrationController@showAnnulationClient');
+        Route::get('listeSeancesReservationClient','AdministrationController@affichageSeances');
 
-Route::get('formulaireActivite','ActiviteController@index');
+        Route::post('creerSeance', 'AdministrationController@creerSeance')->name('admin/creerSeance');
+        Route::post('ajouterCoach', 'AdministrationController@ajouterCoach')->name('admin/ajouterCoach');
+    });
 
-Route::get('seancesPassees', 'MesSeancesController@seancesPassees');
+    // ROUTE POUR LES ADMINS EXCLUSIVEMENT
+    Route::group(['middleware' => 'admin'], function() {
+        Route::get('showCreationActivite', 'AdministrationController@showCreationActivite');
+        Route::get('showAjoutEmploye', 'AdministrationController@showAjoutEmploye');
 
-Route::get('seancesVenir', 'MesSeancesController@seancesVenir');
+        Route::post('creerActivite', 'AdministrationController@creerActivite')->name('admin/creerActivite');
+        Route::post('ajouterEmploye', 'AdministrationController@ajouterEmploye')->name('admin/ajouterEmploye');
+    });
+});
 
-Route::get('compte', 'CompteController@index');
+// ROUTES POUR LES CLIENT
+Route::group(['middleware' => 'client'], function() {
+    Route::get('seancesPassees', 'MesSeancesController@seancesPassees');
+    Route::get('seancesVenir', 'MesSeancesController@seancesVenir');
+    Route::get('recommandationsSeances/{idSeance}','SeancesController@getRecommandations');
+    Route::get('seances','SeancesController@index');
+    Route::get('listeSeances','SeancesController@seancesParActivites');
 
-Route::put('effectuerReservation', 'ReservationController@effectuerReservation');
+    Route::put('prendreCarteAbonnement', 'CompteController@prendreCarteAbonnement');
+});
 
-Route::post('annulerReservation', 'ReservationController@annulerReservation');
-
-Route::get('coachsDisponibles', 'SeancesController@getCoachsDisponibles');
-
-Route::group(['prefix' => 'admin'], function () {
-    Route::get('showCreationActivite', 'AdministrationController@showCreationActivite');
-    Route::get('showCreationSeance', 'AdministrationController@showCreationSeance');
-    Route::get('showAjoutEmploye', 'AdministrationController@showAjoutEmploye');
-    Route::get('showAjoutCoach', 'AdministrationController@showAjoutCoach');
- 
-    Route::post('creerActivite', 'AdministrationController@creerActivite')->name('admin/creerActivite');
-    Route::post('creerSeance', 'AdministrationController@creerSeance')->name('admin/creerSeance');
-    Route::post('ajouterEmploye', 'AdministrationController@ajouterEmploye')->name('admin/ajouterEmploye');
-    Route::post('ajouterCoach', 'AdministrationController@ajouterCoach')->name('admin/ajouterCoach');
+// ROUTE POUR LES COACHS
+Route::group(['middleware' => 'coach'], function () {
 
 });
 
-Route::get('showReservationClient', 'AdministrationController@showReservationClient');
-Route::get('showAnnulationClient', 'AdministrationController@showAnnulationClient');
+// ROUTE POUR LES CLIENTS / ADMINS / EMPLOYES
+Route::group(['middleware' => ['client', 'admin', 'employe']], function () {
+    Route::get('coachsDisponibles', 'SeancesController@getCoachsDisponibles');
 
-Route::get('listeSeancesReservationClient','AdministrationController@affichageSeances');
+    Route::post('annulerReservation', 'ReservationController@annulerReservation');
 
-Route::put('prendreCarteAbonnement', 'CompteController@prendreCarteAbonnement');
-
-Route::get('showRecommandations','SeancesController@showRecommandations');
-
-Route::get('recommandationsSeances/{idSeance}','SeancesController@getRecommandations');
+    Route::put('effectuerReservation', 'ReservationController@effectuerReservation');
+});
 
 Auth::routes();

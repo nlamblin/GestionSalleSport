@@ -35,8 +35,6 @@
                 <button type="button" class="btn btn-primary" id="reservation-seance">
                    Réserver
                 </button>
-
-                
             </div>
         </div>
     </div>

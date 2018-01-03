@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -65,6 +64,51 @@ class User extends Authenticatable
         }
 
         return false;
+    }
+
+    /**
+     *
+     */
+    public function estAdmin() {
+
+        $idStatutAdmin = Statut::select('id_statut')
+            ->where('nom_statut', '=', 'ROLE_ADMIN')
+            ->first();
+
+        return ($idStatutAdmin->id_statut == $this->id_statut) ? true : false;
+    }
+
+    /**
+     *
+     */
+    public function estEmploye() {
+        $idStatutEmployee = Statut::select('id_statut')
+            ->where('nom_statut', '=', 'ROLE_EMPLOYEE')
+            ->first();
+
+        return ($idStatutEmployee->id_statut == $this->id_statut) ? true : false;
+    }
+
+    /**
+     *
+     */
+    public function estCoach() {
+        $idStatutCoach = Statut::select('id_statut')
+            ->where('nom_statut', '=', 'ROLE_COACH')
+            ->first();
+
+        return ($idStatutCoach->id_statut == $this->id_statut) ? true : false;
+    }
+
+    /**
+     *
+     */
+    public function estClient() {
+        $idStatutClient = Statut::select('id_statut')
+            ->where('nom_statut', '=', 'ROLE_CLIENT')
+            ->first();
+
+        return ($idStatutClient->id_statut == $this->id_statut) ? true : false;
     }
 
     /**

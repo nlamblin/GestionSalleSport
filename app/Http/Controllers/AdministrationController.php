@@ -35,14 +35,15 @@ class AdministrationController extends Controller
 
     public function showReservationClient(){
         $listeActivites = Activite::get();
+
         return view('admin/reservationClient', [
             'utilisateurValide' => $this->getUtilisateursValides(),
             'listeActivites'     => $listeActivites
-                ]);
+        ]);
     }
 
     public function showAnnulationClient(){
-            return view('admin/annulationClient');
+        return view('admin/annulationClient');
     }
 
 
@@ -54,7 +55,7 @@ class AdministrationController extends Controller
         //d($listeSeances);
         
         return view('listeSeanceReservationClient', [
-            'listeSeanceReservationClient'          => $listeSeances,
+            'listeSeanceReservationClient' => $listeSeances,
         ]);
     }
 
@@ -63,8 +64,8 @@ class AdministrationController extends Controller
     	$nom = $data['nom_activite'];
 
     	Activite::create([
-                'nom_activite'  => $nom
-            ]);
+            'nom_activite' => $nom
+        ]);
 
         return redirect()->back()->with('message', "L'activité a bien été créée.");
 
