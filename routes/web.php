@@ -22,10 +22,28 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('logout', 'Auth\LoginController@logout');
 });
 
+// ROUTES POUR LES CLIENTS
+Route::group(['prefix' => 'client', 'middleware' => 'client'], function() {
+    Route::get('seancesPassees', 'MesSeancesController@seancesPassees');
+    Route::get('seancesVenir', 'MesSeancesController@seancesVenir');
+    Route::get('recommandationsSeances/{idSeance}','SeancesController@getRecommandations');
+    Route::get('seances','SeancesController@index');
+    Route::get('listeSeances','SeancesController@seancesParActivites');
+    Route::get('coachsDisponibles', 'SeancesController@getCoachsDisponibles');
+
+    Route::post('annulerReservation', 'ReservationController@annulerReservation');
+
+    Route::put('prendreCarteAbonnement', 'CompteController@prendreCarteAbonnement');
+    Route::put('effectuerReservation', 'ReservationController@effectuerReservation');
+});
+
+// ROUTE POUR LES COACHS
+Route::group(['prefix' => 'coach', 'middleware' => 'coach'], function () {
+    Route::get('seancesVenir', 'MesSeancesController@seancesVenir');
+});
 
 // ROUTE POUR LES ADMINS ET EMPLOYES
 Route::group(['prefix' => 'admin'], function() {
-
     // ROUTES POUR LES ADMINS ET EMPLOYES
     Route::group(['middleware' => 'employe'], function() {
         Route::get('showCreationSeance', 'AdministrationController@showCreationSeance');
@@ -48,26 +66,6 @@ Route::group(['prefix' => 'admin'], function() {
         Route::post('ajouterEmploye', 'AdministrationController@ajouterEmploye')->name('admin/ajouterEmploye');
         Route::post('archiverSeance', 'AdministrationController@archiverSeance')->name('admin/archiverSeance');
     });
-});
-
-// ROUTES POUR LES CLIENTS
-Route::group(['middleware' => 'client'], function() {
-    Route::get('seancesPassees', 'MesSeancesController@seancesPassees');
-    Route::get('seancesVenir', 'MesSeancesController@seancesVenir');
-    Route::get('recommandationsSeances/{idSeance}','SeancesController@getRecommandations');
-    Route::get('seances','SeancesController@index');
-    Route::get('listeSeances','SeancesController@seancesParActivites');
-    Route::get('coachsDisponibles', 'SeancesController@getCoachsDisponibles');
-
-    Route::post('annulerReservation', 'ReservationController@annulerReservation');
-
-    Route::put('prendreCarteAbonnement', 'CompteController@prendreCarteAbonnement');
-    Route::put('effectuerReservation', 'ReservationController@effectuerReservation');
-});
-
-// ROUTE POUR LES COACHS
-Route::group(['middleware' => 'coach'], function () {
-    Route::get('seancesVenir', 'MesSeancesController@seancesVenir');
 });
 
 Auth::routes();

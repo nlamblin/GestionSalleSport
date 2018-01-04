@@ -19,7 +19,7 @@
 	                <h4> 
 	                	Séance : {{ $reservation->type_seance }}
 	                </h4>
-	              <p>
+	              	<p>
 	                	Date : {{ date('d/m/Y', strtotime($reservation->date_seance)) }} - Heure : {{ date('H:i', strtotime($reservation->heure_seance)) }}
 	                </p>
 	               

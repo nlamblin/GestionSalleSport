@@ -60,15 +60,15 @@
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownGestionReservationClient">
-                                    <li><a href="{{ url('showReservationClient') }}">Réserver pour un client</a></li>
-                                    <li><a href="{{ url('showAnnulationClient') }}">Annuler pour un client</a></li>
+                                    <li><a href="{{ url('admin/showReservationClient') }}">Réserver pour un client</a></li>
+                                    <li><a href="{{ url('admin/showAnnulationClient') }}">Annuler pour un client</a></li>
                                 </ul>
                             </li>
                         @endif
 
                         @if($userModel::getUser($user->id_utilisateur)->estClient())
                             <li>
-                                <a href="{{ url('/seances') }}"><span class="glyphicon glyphicon-shopping-cart"></span> Réserver une séance</a>
+                                <a href="{{ url('client/seances') }}"><span class="glyphicon glyphicon-shopping-cart"></span> Réserver une séance</a>
                             </li>
 
                             <li class="dropdown">
@@ -77,14 +77,14 @@
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMesSeances">
-                                    <li><a href="{{ url('/seancesVenir') }}">Mes séances à venir</a></li>
-                                    <li><a href="{{ url('/seancesPassees') }}">Mes séances passées</a></li>
+                                    <li><a href="{{ url('client/seancesVenir') }}">Mes séances à venir</a></li>
+                                    <li><a href="{{ url('client/seancesPassees') }}">Mes séances passées</a></li>
                                 </ul>
                             </li>
                         @endif
                         @if($userModel::getUser($user->id_utilisateur)->estCoach()) 
                             <li>
-                                <a href=href="{{ url('/seancesVenir') }}"><span class="glyphicon glyphicon-list"></span> Mes séances à venir</a>
+                                <a href=href="{{ url('coach/seancesVenir') }}"><span class="glyphicon glyphicon-list"></span> Mes séances à venir</a>
                             </li>
                         @endif
 
