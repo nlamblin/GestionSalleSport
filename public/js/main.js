@@ -147,6 +147,9 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
         $('#lien-recommandations').attr("href", $(e.relatedTarget).data('hrefrecommandations'));
         $('#reservation-seance').attr('disabled', true);
     }
+    else {
+        $('.message-recommandations').hide();
+    }
 
     if(typeSeance === 'collective') {
         $('#reservation-seance').attr('disabled', false);

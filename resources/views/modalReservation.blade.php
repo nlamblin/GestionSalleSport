@@ -14,6 +14,10 @@
                     </div>
                 @endif
 
+                <div class="alert alert-warning message-recommandations">
+                    Cette séance n'a pas plus de places disponibles. C'est pourquoi nous vous proposons des recommandations.
+                </div>
+
                 <form class="form-horizontal reservationForm">
 
                     <div class="form-group div-ajout-personne">
