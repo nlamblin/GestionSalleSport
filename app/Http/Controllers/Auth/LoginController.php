@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Connexion;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +39,20 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * Méthode appelée lors de l'authentification
+     *
+     * @param Request $request
+     * @param Connexion $user
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function authenticated(Request $request, Connexion $user){
+        User::where('id_utilisateur', '=', $user->id_utilisateur)
+            ->update(['date_derniere_activite' => date('Y-m-d', time())]);
+
+        return redirect()->intended($this->redirectPath());
     }
 
     /**

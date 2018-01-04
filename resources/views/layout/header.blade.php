@@ -84,7 +84,7 @@
                         @endif
                         @if($userModel::getUser($userAuth->id_utilisateur)->estCoach())
                             <li>
-                                <a href=href="{{ url('coach/seancesVenir') }}"><span class="glyphicon glyphicon-list"></span> Mes séances à venir</a>
+                                <a href="{{ url('coach/seancesVenir') }}"><span class="glyphicon glyphicon-list"></span> Mes séances à venir</a>
                             </li>
                         @endif
 

@@ -151,13 +151,15 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
         $('.reservationForm :input').attr('disabled', true);
     }
     else {
+        $('#reservation-seance').attr('disabled', false);
+        $('.reservationForm :input').attr('disabled', false);
         $('.message-recommandations').hide();
     }
 
     if(typeSeance === 'collective') {
-        $('#reservation-seance').attr('disabled', false);
         $('.div-choix-coach').hide();
         $('.div-select-coach').hide();
+        $('.div-ajout-personne').show();
     }
     else if(typeSeance === 'individuelle') {
         $('.div-ajout-personne').hide();
