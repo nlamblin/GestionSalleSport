@@ -192,7 +192,7 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
         });
     });
 
-    reservationSeance(idSeance, personnesAAjouter, idSeance);
+    reservationSeance(idSeance, personnesAAjouter, idSeance,null);
 
     choixCoach();
 
@@ -217,11 +217,14 @@ $(document).on('show.bs.modal', '#gestionReservationClientModal', function (e) {
         , idSeance = $(e.relatedTarget).data('seance')
         , avecCoach = $(e.relatedTarget).data('aveccoach');
 
+    let idClient =$('#select_client').val();
+       
+
     choixCoach();
 
     typeSeanceEtCoach(typeSeance, avecCoach, idSeance);
 
-    reservationSeance(idSeance, null);
+    reservationSeance(idSeance, null, idClient);
 });
 
 // fonction appelée à la fermeture du modal pour la réservation d'une seance par un employé
@@ -289,7 +292,7 @@ function typeSeanceEtCoach(typeSeance, avecCoach, idSeance) {
 }
 
 // fonction qui enregistre une seance
-function reservationSeance(idSeance, personnesAAjouter) {
+function reservationSeance(idSeance, personnesAAjouter,idUtilisateur) {
     $('#reservation-seance').on('click', function() {
 
         let idCoach = null,
@@ -307,7 +310,8 @@ function reservationSeance(idSeance, personnesAAjouter) {
             data    : {
                 'idSeance'          : idSeance,
                 'personnesAAjouter' : idsPersonnes,
-                'idCoach'           : idCoach
+                'idCoach'           : idCoach,
+                'idUtilisateur'     : idUtilisateur
             },
             xhrFields: { withCredentials: true },
             crossDomain : true

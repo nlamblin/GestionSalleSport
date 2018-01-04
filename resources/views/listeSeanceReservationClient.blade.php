@@ -44,7 +44,13 @@
                     <span> Places restantes : {{ $seance->places_restantes }}</span>
                 </div>
                 <div class="row">
-                    <button data-hrefRecommandations="{{ url('recommandationsSeances/' . $seance->id_seance) }}" data-placesRestantes="{{ $seance->places_restantes }}" data-seance="{{ $seance->id_seance }}" data-typeSeance="{{ $seance->type_seance }}" data-avecCoach="{{ $seance->avecCoach }}" class="btn btn-primary bouton-reservation" data-toggle="modal" data-target="#gestionReservationClientModal">Réserver
+                    <button 
+                    data-hrefRecommandations="{{ url('recommandationsSeances/' . $seance->id_seance) }}" 
+                    data-placesRestantes="{{ $seance->places_restantes }}" 
+                    data-seance="{{ $seance->id_seance }}" 
+                    data-typeSeance="{{ $seance->type_seance }}" 
+                    data-avecCoach="{{ $seance->avecCoach }}" 
+                    class="btn btn-primary bouton-reservation" data-toggle="modal" data-target="#gestionReservationClientModal">Réserver
                     </button>
                 </div>
             </div>

@@ -23,6 +23,15 @@ class ReservationController extends Controller
      */
     public function effectuerReservation(Request $request) {
 
+        if($request->idUtilisateur == null){
+            #Si c'est un client qui fait sa propre reservation 
+            $idutilisateur = Auth::user()->id_utilisateur;
+        }
+        else{
+            $idutilisateur = $request->idUtilisateur;
+        }
+
+        #Dans le cas d'un client, on fait la reservation en son nom
         $message = null;
         // récupération de la séance
         $seance = Seance::find($request->idSeance);
@@ -33,7 +42,7 @@ class ReservationController extends Controller
             // on reserve pour la personne connectée
             ReservationInterne::create([
                 'etat_reservation'  => 'reservee',
-                'id_utilisateur'    => Auth::user()->id_utilisateur,
+                'id_utilisateur'    => $idutilisateur,
                 'id_seance'         => $seance->id_seance
             ]);
 
@@ -54,7 +63,10 @@ class ReservationController extends Controller
                     ->update(['id_coach' => $request->idCoach]);
             }
 
-            $user = User::getUser(Auth::user()->id_utilisateur);
+            //On récupère l'utilisateur pour qui la reservation est faite
+            $user = User::select()
+            ->where('id_utilisateur','=',$idutilisateur)
+            ->first();
 
             // si il n'est pas valide c'est paiement à l'unité donc on lui créé une carte avec 1 seance dispo
             if(!$user->estValide()) {
@@ -82,7 +94,7 @@ class ReservationController extends Controller
         else {
             $message = "Votre réservation n'a pas été prise en compte. La séance n'a plus assez de place libre.";
         }
-
+    
         return $message;
     }
 
