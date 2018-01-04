@@ -139,7 +139,8 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
 
     let typeSeance = $(e.relatedTarget).data('typeseance')
         , placesRestantes = $(e.relatedTarget).data('placesrestantes')
-        , idSeance = $(e.relatedTarget).data('seance');
+        , idSeance = $(e.relatedTarget).data('seance')
+        , avecCoach = $(e.relatedTarget).data('aveccoach');
 
     if(placesRestantes === 0) {
         $('#lien-recommandations').show();
@@ -153,20 +154,29 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
         $('.div-select-coach').hide();
     }
     else if(typeSeance === 'individuelle') {
-        $.ajax({
-            method : 'GET',
-            url : 'coachsDisponibles',
-            data : {
-                'idSeance' : idSeance
-            },
-            xhrFields: { withCredentials: true },
-            crossDomain : true
-        }).done(function(data) {
-            $.each(data, function (i, item) {
-                let option = new Option(item.prenom_utilisateur + ' ' + item.nom_utilisateur, item.id_utilisateur);
-                $('#select-coach').append(option);
+        $('.div-ajout-personne').hide();
+
+        if(!avecCoach) {
+            $('.div-choix-coach').hide();
+            $('.div-select-coach').hide();
+            $('#choix-coach').attr('checked', false)
+        }
+        else {
+            $.ajax({
+                method: 'GET',
+                url: 'coachsDisponibles',
+                data: {
+                    'idSeance': idSeance
+                },
+                xhrFields: {withCredentials: true},
+                crossDomain: true
+            }).done(function (data) {
+                $.each(data, function (i, item) {
+                    let option = new Option(item.prenom_utilisateur + ' ' + item.nom_utilisateur, item.id_utilisateur);
+                    $('#select-coach').append(option);
+                });
             });
-        });
+        }
     }
 
     let personnesAAjouter = [];

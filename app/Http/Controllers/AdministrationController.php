@@ -7,6 +7,7 @@ use App\Models\ReservationInterne;
 use App\Models\User;
 use App\Models\Activite;
 use App\Models\Seance;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -72,7 +73,6 @@ class AdministrationController extends Controller
         ]);
 
         return redirect()->back()->with('message', "L'activité a bien été créée.");
-
     }
 
 
@@ -96,7 +96,7 @@ class AdministrationController extends Controller
 
 		// On récupère les coachs et on essaie d'en trouver un libre
 		$idCoach = null;
-		if(!is_null($coach)) {
+		if(!is_null($coach) && $typeseance == 'collective') {
             $coachs = User::select('nom_utilisateur', 'prenom_utilisateur', 'id_utilisateur')
                 ->where('id_statut', 2)
                 ->where('actif', true)
@@ -267,5 +267,36 @@ class AdministrationController extends Controller
         }
 
         return $message;
+    }
+
+    /**
+     * Affiche la page d'archivage
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showArchivage(Request $request)
+    {
+        return view('admin/archivage');
+    }
+
+    /**
+     * Appelle la fonction d'archivage et retourne un message
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function archiverSeance(Request $request) {
+
+        try {
+            $archivage = DB::select('SELECT archivageSeance()');
+        }
+        catch (Exception $e) {
+            // on stock l'erreur dans les logs storage/logs/laravel.log
+            logger()->error($e->getMessage());
+            return redirect()->back()->with('messageDanger', "Un problème a été rencontré lors de l'archivage des séances.");
+        }
+
+        return redirect()->back()->with('message', "L'archivage des séances a bien été effectué !");
     }
 }

@@ -108,7 +108,7 @@ class SeancesController extends Controller
             ->select("seance.id_seance","seance.type_seance" ,"seance.capacite_seance" ,"seance.places_restantes" ,"seance.niveau_seance" ,"seance.avec_coach","seance.date_seance" ,"seance.heure_seance" ,"seance.id_activite","seance.id_coach")
             ->get();
 
-        $listeSeances = array();
+        $listeSeances = [];
         foreach($TEMPlisteSeances as $value) {
             if(!$seanceUser->contains('id_seance', $value->id_seance)) {
                 array_push($listeSeances, $value);

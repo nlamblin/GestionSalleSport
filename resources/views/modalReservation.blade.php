@@ -16,7 +16,7 @@
 
                 <form class="form-horizontal reservationForm">
 
-                    <div class="form-group">
+                    <div class="form-group div-ajout-personne">
                         <label for="ajout-personne" class="col-md-4 control-label">Ajouter des personnes</label>
 
                         <div class="col-md-6">
