@@ -146,6 +146,11 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
         $('#lien-recommandations').show();
         $('#lien-recommandations').attr("href", $(e.relatedTarget).data('hrefrecommandations'));
         $('#reservation-seance').attr('disabled', true);
+
+        // on désactive tous les champs
+        $('#ajout-personne').attr('disabled', true);
+        $('#choix-coach').attr('disabled', true);
+        $('#select-coach').attr('disabled', true);
     }
     else {
         $('.message-recommandations').hide();
