@@ -139,7 +139,8 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
 
     let typeSeance = $(e.relatedTarget).data('typeseance')
         , placesRestantes = $(e.relatedTarget).data('placesrestantes')
-        , idSeance = $(e.relatedTarget).data('seance');
+        , idSeance = $(e.relatedTarget).data('seance')
+        , avecCoach = $(e.relatedTarget).data('aveccoach');
 
     if(placesRestantes === 0) {
         $('#lien-recommandations').show();
@@ -153,6 +154,15 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
         $('.div-select-coach').hide();
     }
     else if(typeSeance === 'individuelle') {
+        $('.div-ajout-personne').hide();
+
+        console.log(avecCoach);
+
+        if(!avecCoach) {
+            $('.div-choix-coach').hide();
+            $('.div-select-coach').hide();
+        }
+
         $.ajax({
             method : 'GET',
             url : 'coachsDisponibles',

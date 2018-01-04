@@ -96,7 +96,7 @@ class AdministrationController extends Controller
 
 		// On récupère les coachs et on essaie d'en trouver un libre
 		$idCoach = null;
-		if(!is_null($coach)) {
+		if(!is_null($coach) && $typeseance == 'collective') {
             $coachs = User::select('nom_utilisateur', 'prenom_utilisateur', 'id_utilisateur')
                 ->where('id_statut', 2)
                 ->where('actif', true)
