@@ -148,9 +148,7 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
         $('#reservation-seance').attr('disabled', true);
 
         // on désactive tous les champs
-        $('#ajout-personne').attr('disabled', true);
-        $('#choix-coach').attr('disabled', true);
-        $('#select-coach').attr('disabled', true);
+        $('.reservationForm :input').attr('disabled', true);
     }
     else {
         $('.message-recommandations').hide();
