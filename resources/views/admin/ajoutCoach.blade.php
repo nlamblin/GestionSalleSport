@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h1 class="page-header">
-            Création d'une activité
+            Ajout d'une personne en tant que coach
         </h1>
 
         <div class="row">
