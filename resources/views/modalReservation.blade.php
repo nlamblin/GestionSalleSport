@@ -62,7 +62,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary" id="reservation-seance">
+                <button type="button" class="btn btn-primary" id="reservation-seance" data-url="{{ url('effectuerReservation') }}">
                     @if($utilisateurValide)
                         Réserver
                     @else

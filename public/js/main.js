@@ -229,7 +229,7 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
 
         $.ajax({
             method  : 'PUT',
-            url     : 'effectuerReservation',
+            url     : $(this).data('url'),
             data    : {
                 'idSeance'          : idSeance,
                 'personnesAAjouter' : idsPersonnes,
