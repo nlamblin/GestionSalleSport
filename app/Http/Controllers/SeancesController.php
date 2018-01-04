@@ -146,12 +146,12 @@ class SeancesController extends Controller
             ->select()
             ->first();
         
+    
         $activite   = $seanceCourante->id_activite;
         $date       = $seanceCourante->date_seance;
         $heure      = $seanceCourante->heure_seance;
 
-
-        //On recherche les autres séances sur cette activite le même jour
+               //On recherche les autres séances sur cette activite le même jour
 
         $TEMPrecommandationsMemeActiviteMemeDate = Seance::join('activite','seance.id_activite','=','activite.id_activite')
             ->where('seance.id_activite', '=',$activite)
@@ -160,8 +160,7 @@ class SeancesController extends Controller
             ->select()
             ->get();
 
-
-        //On recherche les autres séances sur cette activite a la même heure
+               //On recherche les autres séances sur cette activite a la même heure
         $TEMPrecommandationsMemeActiviteMemeHeure = Seance::join('activite','seance.id_activite','=','activite.id_activite')
             ->where('seance.id_activite', '=',$activite)
             ->where('heure_seance','=',$heure)
@@ -173,17 +172,18 @@ class SeancesController extends Controller
         $TEMPrecommandationsAutresActiviteMemeDateHeure = Seance::join('activite','seance.id_activite','=','activite.id_activite')
             ->where('date_seance','=',$date)
             ->where('heure_seance','=',$heure)
+            ->where('seance.id_activite', '!=',$activite)
             ->where('places_restantes','>',0)
             ->select()
             ->get();
 
-        
+               
         $seanceUser = ReservationInterne::join('seance','reservation_interne.id_seance','=','seance.id_seance')
         ->join('activite','seance.id_activite','=','activite.id_activite')
         ->where('reservation_interne.id_utilisateur','=',$userId)
+        ->where('reservation_interne.etat_reservation','=','reservee')
         ->select("seance.id_seance","seance.type_seance" ,"seance.capacite_seance" ,"seance.places_restantes" ,"seance.niveau_seance" ,"seance.avec_coach","seance.date_seance" ,"seance.heure_seance" ,"seance.id_activite","seance.id_coach","activite.nom_activite" )
         ->get();
-
 
 
         //Pour ne garder que ceux où il n'est pas inscrit
