@@ -48,6 +48,7 @@ Route::group(['prefix' => 'coach', 'middleware' => 'coach'], function () {
 Route::group(['prefix' => 'admin'], function() {
     // ROUTES POUR LES ADMINS ET EMPLOYES
     Route::group(['middleware' => 'employe'], function() {
+        Route::get('listeSeances','SeancesController@seancesParActivites');
         Route::get('showCreationSeance', 'AdministrationController@showCreationSeance');
         Route::get('showAjoutCoach', 'AdministrationController@showAjoutCoach');
         Route::get('showReservationClient', 'AdministrationController@showReservationClient');
@@ -56,6 +57,8 @@ Route::group(['prefix' => 'admin'], function() {
 
         Route::post('creerSeance', 'AdministrationController@creerSeance')->name('admin/creerSeance');
         Route::post('ajouterCoach', 'AdministrationController@ajouterCoach')->name('admin/ajouterCoach');
+
+        Route::put('effectuerReservation', 'ReservationController@effectuerReservation');
     });
 
     // ROUTE POUR LES ADMINS EXCLUSIVEMENT

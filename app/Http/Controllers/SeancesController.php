@@ -71,10 +71,11 @@ class SeancesController extends Controller
             ->where('actif', true)
             ->get();
 
+        $heureSeance = $seance->heure_seance;
+        $dateSeance = $seance->date_seance;
+
         foreach ($coachs as $coach) {
             $idCoach = $coach->id_utilisateur;
-            $heureSeance = $seance->heure_seance;
-            $dateSeance = $seance->date_seance;
 
             $coachDispo = DB::select('SELECT coach_dispo_seance(?, ?, ?)', [$idCoach, $dateSeance, $heureSeance]);
 

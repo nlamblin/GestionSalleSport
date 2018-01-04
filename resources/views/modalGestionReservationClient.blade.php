@@ -1,4 +1,4 @@
-<div class="modal fade" id="reservationModal" role="dialog">
+<div class="modal fade" id="gestionReservationClientModal" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -32,7 +32,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary" id="reservation-seance">
+                <button type="button" class="btn btn-primary" id="reservation-seance" data-url="{{ url('admin/effectuerReservation') }}">
                    Réserver
                 </button>
             </div>

@@ -140,7 +140,8 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
     let typeSeance = $(e.relatedTarget).data('typeseance')
         , placesRestantes = $(e.relatedTarget).data('placesrestantes')
         , idSeance = $(e.relatedTarget).data('seance')
-        , avecCoach = $(e.relatedTarget).data('aveccoach');
+        , avecCoach = $(e.relatedTarget).data('aveccoach')
+        , personnesAAjouter = [];
 
     if(placesRestantes === 0) {
         $('#lien-recommandations').show();
@@ -155,39 +156,6 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
         $('.reservationForm :input').attr('disabled', false);
         $('.message-recommandations').hide();
     }
-
-    if(typeSeance === 'collective') {
-        $('.div-choix-coach').hide();
-        $('.div-select-coach').hide();
-        $('.div-ajout-personne').show();
-    }
-    else if(typeSeance === 'individuelle') {
-        $('.div-ajout-personne').hide();
-
-        if(!avecCoach) {
-            $('.div-choix-coach').hide();
-            $('.div-select-coach').hide();
-            $('#choix-coach').attr('checked', false)
-        }
-        else {
-            $.ajax({
-                method: 'GET',
-                url: 'coachsDisponibles',
-                data: {
-                    'idSeance': idSeance
-                },
-                xhrFields: {withCredentials: true},
-                crossDomain: true
-            }).done(function (data) {
-                $.each(data, function (i, item) {
-                    let option = new Option(item.prenom_utilisateur + ' ' + item.nom_utilisateur, item.id_utilisateur);
-                    $('#select-coach').append(option);
-                });
-            });
-        }
-    }
-
-    let personnesAAjouter = [];
 
     $('.bouton-ajout-personne').on('click', function () {
 
@@ -224,48 +192,11 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
         });
     });
 
-    // affichage / ou non du choix du coach
-    $('#choix-coach').change(function () {
-        if ($(this).is(":checked")) {
-            $('.div-select-coach').show('500');
-        }
-        else {
-            $('.div-select-coach').hide('500');
-        }
-    });
+    reservationSeance(idSeance, personnesAAjouter, idSeance);
 
-    // ajax pour effectuer la réservation
-    $('#reservation-seance').on('click', function() {
+    choixCoach();
 
-        let idCoach = null;
-
-        if ($('#choix-coach').is(':checked')) {
-            idCoach = $('#select-coach').val();
-        }
-
-        let idsPersonnes = idPersonnesAAjouter(personnesAAjouter);
-
-        $.ajax({
-            method  : 'PUT',
-            url     : $(this).data('url'),
-            data    : {
-                'idSeance'          : idSeance,
-                'personnesAAjouter' : idsPersonnes,
-                'idCoach'           : idCoach
-            },
-            xhrFields: { withCredentials: true },
-            crossDomain : true
-        }).done(function (data) {
-            // fermeture du modal
-            $('.reservationModal').modal('hide');
-            // affichage du message concernant la reservation
-            alert(data);
-            // rechargement de la page
-            window.location.reload();
-        });
-    });
-
-    
+    typeSeanceEtCoach(typeSeance, avecCoach, idSeance);
 });
 
 // fonction appelée à la fermeture du modal pour la réservation
@@ -277,6 +208,32 @@ $(document).on('hidden.bs.modal', '#reservationModal', function(e) {
     // on supprime la liste des personnes à ajouter
     $('.listePersonneAAjouter').children().remove();
 });
+
+
+
+// fonction appelée à l'ouverture du modal pour la réservation par un employé
+$(document).on('show.bs.modal', '#gestionReservationClientModal', function (e) {
+    let typeSeance = $(e.relatedTarget).data('typeseance')
+        , idSeance = $(e.relatedTarget).data('seance')
+        , avecCoach = $(e.relatedTarget).data('aveccoach');
+
+    choixCoach();
+
+    typeSeanceEtCoach(typeSeance, avecCoach, idSeance);
+
+    reservationSeance(idSeance, null);
+});
+
+// fonction appelée à la fermeture du modal pour la réservation d'une seance par un employé
+$(document).on('hidden.bs.modal', '#gestionReservationClientModal', function(e) {
+    // on reset le formulaire
+    $('.reservationForm').trigger('reset');
+    // on affiche le choix d'un coach (partie intégrante du reset)
+    $('.div-choix-coach').show();
+});
+
+
+
 
 
 
@@ -296,4 +253,85 @@ let idPersonnesAAjouter = function (personnesAAjouter) {
 
     return idPersonnesAAjouter;
 };
+
+// affiche ou non le choix d'un coach et recupere les coachs disponibles
+function typeSeanceEtCoach(typeSeance, avecCoach, idSeance) {
+    if(typeSeance === 'collective') {
+        $('.div-choix-coach').hide();
+        $('.div-select-coach').hide();
+        $('.div-ajout-personne').show();
+    }
+    else if(typeSeance === 'individuelle') {
+        $('.div-ajout-personne').hide();
+
+        if(!avecCoach) {
+            $('.div-choix-coach').hide();
+            $('.div-select-coach').hide();
+            $('#choix-coach').attr('checked', false)
+        }
+        else {
+            $.ajax({
+                method: 'GET',
+                url: 'coachsDisponibles',
+                data: {
+                    'idSeance': idSeance
+                },
+                xhrFields: {withCredentials: true},
+                crossDomain: true
+            }).done(function (data) {
+                $.each(data, function (i, item) {
+                    let option = new Option(item.prenom_utilisateur + ' ' + item.nom_utilisateur, item.id_utilisateur);
+                    $('#select-coach').append(option);
+                });
+            });
+        }
+    }
+}
+
+// fonction qui enregistre une seance
+function reservationSeance(idSeance, personnesAAjouter) {
+    $('#reservation-seance').on('click', function() {
+
+        let idCoach = null,
+            idsPersonnes = null;
+
+        if(personnesAAjouter !== null) {
+            idsPersonnes = idPersonnesAAjouter(personnesAAjouter);
+        }
+
+        if ($('#choix-coach').is(':checked')) idCoach = $('#select-coach').val();
+
+        $.ajax({
+            method  : 'PUT',
+            url     : $(this).data('url'),
+            data    : {
+                'idSeance'          : idSeance,
+                'personnesAAjouter' : idsPersonnes,
+                'idCoach'           : idCoach
+            },
+            xhrFields: { withCredentials: true },
+            crossDomain : true
+        }).done(function (data) {
+            // fermeture du modal
+            $('#reservationModal').modal('hide');
+            // affichage du message concernant la reservation
+            alert(data);
+            // rechargement de la page
+            window.location.reload();
+        });
+    });
+}
+
+// affichage / ou non du choix du coach
+function choixCoach() {
+    $('#choix-coach').change(function () {
+        if ($(this).is(":checked")) {
+            $('.div-select-coach').show('500');
+        }
+        else {
+            $('.div-select-coach').hide('500');
+        }
+    });
+}
+
 
