@@ -1,6 +1,6 @@
 @php
     $userModel = \App\Models\User::class;
-    $user = \Illuminate\Support\Facades\Auth::user();
+    $userAuth = \Illuminate\Support\Facades\Auth::user();
 @endphp
 
 <header>
@@ -28,26 +28,26 @@
                         </li>
                     @endguest
                     @auth
-                        @if($userModel::getUser($user->id_utilisateur)->estEmploye() || $userModel::getUser($user->id_utilisateur)->estAdmin())
+                        @if($userModel::getUser($userAuth->id_utilisateur)->estEmploye() || $userModel::getUser($userAuth->id_utilisateur)->estAdmin())
                             <li class="dropdown">
                                 <a class="dropdown-toggle" id="dropdownAdministration" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <span class="glyphicon glyphicon-list"></span> Administration
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownAdministration">
-                                    @if($userModel::getUser($user->id_utilisateur)->estAdmin())
+                                    @if($userModel::getUser($userAuth->id_utilisateur)->estAdmin())
                                         <li><a href="{{ url('admin/showCreationActivite') }}">Créer une activité</a></li>
                                     @endif
 
                                     <li><a href="{{ url('admin/showCreationSeance') }}">Créer une séance</a></li>
 
-                                    @if($userModel::getUser($user->id_utilisateur)->estAdmin())
+                                    @if($userModel::getUser($userAuth->id_utilisateur)->estAdmin())
                                         <li><a href="{{ url('admin/showAjoutEmploye') }}">Ajouter un employé</a></li>
                                     @endif
 
                                     <li><a href="{{ url('admin/showAjoutCoach') }}">Ajouter un coach</a></li>
 
-                                    @if($userModel::getUser($user->id_utilisateur)->estAdmin())
+                                    @if($userModel::getUser($userAuth->id_utilisateur)->estAdmin())
                                         <li><a href="{{ url('admin/archivage') }}">Archivage</a></li>
                                     @endif
                                 </ul>
@@ -66,7 +66,7 @@
                             </li>
                         @endif
 
-                        @if($userModel::getUser($user->id_utilisateur)->estClient())
+                        @if($userModel::getUser($userAuth->id_utilisateur)->estClient())
                             <li>
                                 <a href="{{ url('client/seances') }}"><span class="glyphicon glyphicon-shopping-cart"></span> Réserver une séance</a>
                             </li>
@@ -82,7 +82,7 @@
                                 </ul>
                             </li>
                         @endif
-                        @if($userModel::getUser($user->id_utilisateur)->estCoach()) 
+                        @if($userModel::getUser($userAuth->id_utilisateur)->estCoach())
                             <li>
                                 <a href=href="{{ url('coach/seancesVenir') }}"><span class="glyphicon glyphicon-list"></span> Mes séances à venir</a>
                             </li>

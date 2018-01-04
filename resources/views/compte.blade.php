@@ -1,6 +1,6 @@
 @php
     $userModel = \App\Models\User::class;
-    $user = \Illuminate\Support\Facades\Auth::user();
+    $userAuth = \Illuminate\Support\Facades\Auth::user();
 @endphp
 
 @extends('layout.layout')
@@ -10,6 +10,12 @@
         <h1 class="page-header">
             Mon compte
         </h1>
+
+        @if(session()->has('message'))
+            <div class="alert alert-success">
+                {{ session()->get('message') }}
+            </div>
+        @endif
 
         <div class="row">
             <div class="col-lg-12">
@@ -22,12 +28,103 @@
                         </div>
                         <div id="collapseInformations" class="panel-collapse collapse">
                             <div class="panel-body">
-                                Cette fonctionnalité n'est pas encore disponible.
+                                <form class="form-horizontal" method="POST" action="{{ route('miseAJourCompte') }}">
+                                    {{ csrf_field() }}
+
+                                    <div class="form-group">
+                                        <label for="first-name" class="col-md-4 control-label">Prénom</label>
+
+                                        <div class="col-md-6">
+                                            <input id="first-name" type="text" class="form-control" name="first-name" value="{{ $user->prenom_utilisateur }}" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="last-name" class="col-md-4 control-label">Nom</label>
+
+                                        <div class="col-md-6">
+                                            <input id="last-name" type="text" class="form-control" name="last-name" value="{{ $user->nom_utilisateur }}" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="birth-date" class="col-md-4 control-label">Date de naissance</label>
+
+                                        <div class="col-md-6">
+                                            <input id="birth-date" type="date" class="form-control" name="birth-date" value="{{ $user->date_naiss_utilisateur }}" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="email" class="col-md-4 control-label">E-mail</label>
+
+                                        <div class="col-md-6">
+                                            <input id="email" type="email" class="form-control" name="email" value="{{ $email }}" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                                        <label for="password" class="col-md-4 control-label">Mot de passe</label>
+
+                                        <div class="col-md-6">
+                                            <input id="password" type="password" class="form-control" name="password" value="********" disabled>
+
+                                            @if ($errors->has('password'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('password') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+
+                                        <div class="col-md-6">
+                                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" value="********" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="demande_relance" class="col-md-4 control-label">Demande de relance </label>
+
+                                        <div class="col-md-6">
+                                            <input id="demande_relance" type="checkbox" class="form-control" name="demande_relance"
+                                                   @if($user->demande_relance)
+                                                        checked
+                                                   @endif
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div id="divDelai">
+                                            <label for="select_delai" class="col-md-4 control-label">Delai de relance (jours)</label>
+
+                                            <div class="col-md-6">
+                                                <select id="select_delai" class="form-control" name="select_delai">
+                                                    @for ($i = 1; $i <= 7; $i++)
+                                                        <option value="{{ $i }}"
+                                                        @if($i == $user->delai_relance) selected @endif>{{ $i }}</option>
+                                                    @endfor
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-md-offset-4">
+                                            <button type="submit" class="btn btn-primary">
+                                                Mettre à jour
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
 
-                    @if($userModel::getUser($user->id_utilisateur)->estClient())
+                    @if($userModel::getUser($userAuth->id_utilisateur)->estClient())
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">

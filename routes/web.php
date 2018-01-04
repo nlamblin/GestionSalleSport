@@ -20,6 +20,8 @@ Route::get('/', 'HomeController@index');
 Route::group(['middleware' => 'auth'], function() {
     Route::get('compte', 'CompteController@index');
     Route::get('logout', 'Auth\LoginController@logout');
+
+    Route::post('miseAJourCompte', 'CompteController@mettreAJour')->name('miseAJourCompte');
 });
 
 // ROUTES POUR LES CLIENTS

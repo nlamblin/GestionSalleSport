@@ -81,4 +81,34 @@ class CompteController extends Controller
         return 'Votre abonnement a bien été pris en compte.';
     }
 
+    public function mettreAJour(Request $request) {
+        $user = User::getUser(Auth::user()->id_utilisateur);
+
+        /*$this->validate($request,[
+            'password'              => 'string|min:6|confirmed'
+        ] , [
+            'password.min'          => 'Le mot de passe doit contenir au minimum 6 caractères',
+            'password.confirmed'    => 'Les mots de passes sont différents',
+        ]);*/
+
+        $demandeRelance = $request->demande_relance;
+        $delaiRelance = $request->select_delai;
+
+        if($demandeRelance == 'on') {
+            $demandeRelance = true;
+        }
+        else {
+            $demandeRelance = false;
+            $delaiRelance = null;
+        }
+
+        User::where('id_utilisateur', '=', $user->id_utilisateur)
+            ->update([
+                'demande_relance'   => $demandeRelance,
+                'delai_relance'     => $delaiRelance
+            ]);
+
+        return redirect()->back()->with('message', 'Votre profil a bien été mis à jour.');
+    }
+
 }
