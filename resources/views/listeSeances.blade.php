@@ -43,7 +43,7 @@
                     <span> Places restantes : {{ $seance->places_restantes }}</span>
                 </div>
                 <div class="row">
-                    <button data-hrefRecommandations="{{ url('recommandationsSeances/' . $seance->id_seance) }}"
+                    <button data-hrefRecommandations="{{ url('client/recommandationsSeances/' . $seance->id_seance) }}"
                             data-placesRestantes="{{ $seance->places_restantes }}"
                             data-seance="{{ $seance->id_seance }}"
                             data-typeSeance="{{ $seance->type_seance }}"

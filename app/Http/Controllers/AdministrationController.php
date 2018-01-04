@@ -289,7 +289,25 @@ class AdministrationController extends Controller
     public function archiverSeance(Request $request) {
 
         try {
-            $archivage = DB::select('SELECT archivageSeance()');
+            DB::select('SELECT changementetatreservationinterne()');
+        }
+        catch (Exception $e) {
+            // on stock l'erreur dans les logs storage/logs/laravel.log
+            logger()->error($e->getMessage());
+            return redirect()->back()->with('messageDanger', "Un problème a été rencontré lors du changement d'état des réservations des clients internes.");
+        }
+
+        try {
+            DB::select('SELECT changementetatreservationexterne()');
+        }
+        catch (Exception $e) {
+            // on stock l'erreur dans les logs storage/logs/laravel.log
+            logger()->error($e->getMessage());
+            return redirect()->back()->with('messageDanger', "Un problème a été rencontré lors du changement d'état des réservations des clients extérieurs.");
+        }
+
+        try {
+            DB::select('SELECT archivageSeance()');
         }
         catch (Exception $e) {
             // on stock l'erreur dans les logs storage/logs/laravel.log
