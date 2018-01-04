@@ -156,27 +156,27 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
     else if(typeSeance === 'individuelle') {
         $('.div-ajout-personne').hide();
 
-        console.log(avecCoach);
-
         if(!avecCoach) {
             $('.div-choix-coach').hide();
             $('.div-select-coach').hide();
+            $('#choix-coach').attr('checked', false)
         }
-
-        $.ajax({
-            method : 'GET',
-            url : 'coachsDisponibles',
-            data : {
-                'idSeance' : idSeance
-            },
-            xhrFields: { withCredentials: true },
-            crossDomain : true
-        }).done(function(data) {
-            $.each(data, function (i, item) {
-                let option = new Option(item.prenom_utilisateur + ' ' + item.nom_utilisateur, item.id_utilisateur);
-                $('#select-coach').append(option);
+        else {
+            $.ajax({
+                method: 'GET',
+                url: 'coachsDisponibles',
+                data: {
+                    'idSeance': idSeance
+                },
+                xhrFields: {withCredentials: true},
+                crossDomain: true
+            }).done(function (data) {
+                $.each(data, function (i, item) {
+                    let option = new Option(item.prenom_utilisateur + ' ' + item.nom_utilisateur, item.id_utilisateur);
+                    $('#select-coach').append(option);
+                });
             });
-        });
+        }
     }
 
     let personnesAAjouter = [];
