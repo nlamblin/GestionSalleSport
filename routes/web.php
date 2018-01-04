@@ -42,9 +42,11 @@ Route::group(['prefix' => 'admin'], function() {
     Route::group(['middleware' => 'admin'], function() {
         Route::get('showCreationActivite', 'AdministrationController@showCreationActivite');
         Route::get('showAjoutEmploye', 'AdministrationController@showAjoutEmploye');
+        Route::get('archivage', 'AdministrationController@showArchivage');
 
         Route::post('creerActivite', 'AdministrationController@creerActivite')->name('admin/creerActivite');
         Route::post('ajouterEmploye', 'AdministrationController@ajouterEmploye')->name('admin/ajouterEmploye');
+        Route::post('archiverSeance', 'AdministrationController@archiverSeance')->name('admin/archiverSeance');
     });
 });
 

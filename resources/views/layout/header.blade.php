@@ -46,6 +46,10 @@
                                     @endif
 
                                     <li><a href="{{ url('admin/showAjoutCoach') }}">Ajouter un coach</a></li>
+
+                                    @if($userModel::getUser($user->id_utilisateur)->estAdmin())
+                                        <li><a href="{{ url('admin/archivage') }}">Archivage</a></li>
+                                    @endif
                                 </ul>
                             </li>
 

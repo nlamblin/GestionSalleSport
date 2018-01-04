@@ -7,6 +7,7 @@ use App\Models\ReservationInterne;
 use App\Models\User;
 use App\Models\Activite;
 use App\Models\Seance;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -72,7 +73,6 @@ class AdministrationController extends Controller
         ]);
 
         return redirect()->back()->with('message', "L'activité a bien été créée.");
-
     }
 
 
@@ -267,5 +267,34 @@ class AdministrationController extends Controller
         }
 
         return $message;
+    }
+
+    /**
+     * Affiche la page d'archivage
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showArchivage(Request $request)
+    {
+        return view('admin/archivage');
+    }
+
+    /**
+     * Appelle la fonction d'archivage et retourne un message
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function archiverSeance(Request $request) {
+
+        try {
+            $archivage = DB::select('SELECT archivage()');
+        }
+        catch (Exception $e) {
+            return redirect()->back()->with('messageDanger', "Un problème a été rencontré lors de l'archivage");
+        }
+
+        return redirect()->back()->with('message', "L'archivage a bien été effectué");
     }
 }
