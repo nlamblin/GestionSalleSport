@@ -289,12 +289,14 @@ class AdministrationController extends Controller
     public function archiverSeance(Request $request) {
 
         try {
-            $archivage = DB::select('SELECT archivage()');
+            $archivage = DB::select('SELECT archivageSeance()');
         }
         catch (Exception $e) {
-            return redirect()->back()->with('messageDanger', "Un problème a été rencontré lors de l'archivage");
+            // on stock l'erreur dans les logs storage/logs/laravel.log
+            logger()->error($e->getMessage());
+            return redirect()->back()->with('messageDanger', "Un problème a été rencontré lors de l'archivage des séances.");
         }
 
-        return redirect()->back()->with('message', "L'archivage a bien été effectué");
+        return redirect()->back()->with('message', "L'archivage des séances a bien été effectué !");
     }
 }

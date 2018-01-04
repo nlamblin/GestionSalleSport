@@ -25,7 +25,7 @@
 
                 <form method="POST" action="{{ route('admin/archiverSeance') }}">
                     {{ csrf_field()}}
-                    
+
                     <button type="submit" class="btn btn-primary">
                         Lancer l'archivage des séances
                     </button>
