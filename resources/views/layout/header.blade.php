@@ -82,6 +82,11 @@
                                 </ul>
                             </li>
                         @endif
+                        @if($userModel::getUser($user->id_utilisateur)->estCoach()) 
+                            <li>
+                                <a href=href="{{ url('/seancesVenir') }}"><span class="glyphicon glyphicon-list"></span> Mes séances à venir</a>
+                            </li>
+                        @endif
 
                         <li class="dropdown">
                             <a class="dropdown-toggle" id="dropdownMonCompte" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

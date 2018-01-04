@@ -67,7 +67,7 @@ Route::group(['middleware' => 'client'], function() {
 
 // ROUTE POUR LES COACHS
 Route::group(['middleware' => 'coach'], function () {
-
+    Route::get('seancesVenir', 'MesSeancesController@seancesVenir');
 });
 
 Auth::routes();
