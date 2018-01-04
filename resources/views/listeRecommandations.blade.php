@@ -9,7 +9,7 @@
 		@if(count($recommandationsAutresActivitesMemeDateHeure) > 0 || count($recommandationsMemeActiviteMemeHeure) > 0 || count($recommandationsMemeActiviteMemeDate) > 0)
 
 			<div class="alert alert-info">
-				Les réservations sont basées sur les même activtés, dates et horaires.
+				Selon les recommandations, les séances proposées sont basées sur l'activité de la seance choisie, ainsi que sa date et son heure.
 			</div>
 
 			@if(count($recommandationsMemeActiviteMemeDate) > 0)
@@ -40,8 +40,16 @@
 				</div>
 
 				<hr>
-
+			@else
+				<div class="row">
+					<h4> Recommandations des séances sur la même activité pour le même jour </h4>
+					<div class="alert alert-warning">
+						Aucune recommandation trouvée selon ces critères
+					</div>
+				</div>
+				<hr>
 			@endif
+
 
 			@if(count($recommandationsMemeActiviteMemeHeure) > 0)
 
@@ -72,6 +80,14 @@
 
 			<hr>
 
+			@else
+				<div class="row">
+					<h4> Recommandations des séances sur la même activité à la même heure </h4>
+					<div class="alert alert-warning">
+						Aucune recommandation trouvée selon ces critères
+					</div>
+				</div>
+				<hr>
 			@endif
 
 			@if(count($recommandationsAutresActivitesMemeDateHeure) > 0)
@@ -101,10 +117,18 @@
 					</div>
 				</div>
 
+			@else
+				<div class="row">
+					<h4> Recommandations des séances sur d'autres activités, même date même heure </h4>
+					<div class="alert alert-warning">
+						Aucune recommandation trouvée selon ces critères
+					</div>
+				</div>
+				<hr>
 			@endif
 		@else
 			<div class="alert alert-warning">
-				Nous ne possédons pas de recommandations correspondant à votre séance selon nos critères.
+				Selon nos critères, nous ne possédons pas de recommandations correspondant à la séance séléctionnée.
 			</div>
 		@endif
 
