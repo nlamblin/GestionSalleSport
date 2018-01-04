@@ -104,6 +104,7 @@ class SeancesController extends Controller
         //On cherche les reservation de l'utilisateur
         $seanceUser = ReservationInterne::join('seance','reservation_interne.id_seance','=','seance.id_seance')
             ->where('reservation_interne.id_utilisateur','=',$userId)
+            ->where('reservation_interne.etat_reservation','=','reservee')
             ->select("seance.id_seance","seance.type_seance" ,"seance.capacite_seance" ,"seance.places_restantes" ,"seance.niveau_seance" ,"seance.avec_coach","seance.date_seance" ,"seance.heure_seance" ,"seance.id_activite","seance.id_coach")
             ->get();
 
