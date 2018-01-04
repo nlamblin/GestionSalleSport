@@ -115,8 +115,8 @@ class AdministrationController extends Controller
                 $i++;
             }
         }
-
-        if(is_null($idCoach)) {
+        //Si la seance est individuelle pas besoin de coach donc idcoach est null
+        if(is_null($idCoach) && $typeseance == 'collective') {
 		    return redirect()->back()->with('messageDanger', "La séance n'a pas pu être créer car aucun coach n'est disponibles");
         }
 
