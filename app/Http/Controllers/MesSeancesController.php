@@ -82,4 +82,27 @@ class MesSeancesController extends Controller
             'utilisateur'            => $utilisateur
         ]);
     }
+
+    /**
+     * Récupère les séances auxquelles est inscrit l'utilisateur connecté
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function seancesVenirClient(Request $request) {
+        //On récupère l'id du client choisis
+        $idClient = $request->id_client;
+        //On récupère les reservations en interne de ce client
+        $reservationVenirClient = ReservationInterne::where('etat_reservation', '=', 'reservee')
+        ->where('id_utilisateur','=',$idClient)
+        ->join('seance','reservation_interne.id_seance','=','seance.id_seance')
+        ->join('activite','seance.id_activite','=','activite.id_activite')
+        ->orderBy('seance.date_seance', 'ASC')
+        ->select()
+        ->get();
+
+        return view ('seancesVenirClient', [
+            'reservationVenirClient' => $reservationVenirClient
+        ]);
+    }
 }

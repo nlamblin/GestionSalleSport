@@ -64,6 +64,28 @@ $(document).ready(function () {
         }
     });
 
+    // appel ajax pour récupérer les reservation d'un client
+    $('#select_client').change(function() {
+        // on supprime les seances avec les reservations à venir
+        $('.listeSeancesVenirClient').remove();
+
+        // si ce n'est pas l'option par defaut
+        if($(this).val() !== 'default') {
+            $.ajax({
+                method : 'GET',
+                url : 'seanceVenirClient',
+                data : {
+                    id_client : $(this).val()
+                },
+                xhrFields: { withCredentials: true },
+                crossDomain : true
+            }).done(function (data) {
+                // on affiche les nouvelles seances
+                $('.rowSelectClient').after(data);
+            });
+        }
+    });
+
      // appel ajax pour récupérer les seances disponibles en fonction des activités pour les reservations clients
     $('#select_activite_reservation_client').change(function() {
         // on supprime les seances deja affichées
@@ -88,6 +110,7 @@ $(document).ready(function () {
 
     // appel ajax pour annuler la reservation
     $('.bouton-annuler-reservation').on('click', function() {
+        console.log('ANnuler');
         $.ajax({
             method  : 'POST',
             url     : 'annulerReservation',

@@ -126,6 +126,7 @@ class SeancesController extends Controller
 
 
 
+
     /**
      * Méthode qui récupère toutes les recommandations pour un utilisateur
      *

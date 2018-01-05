@@ -48,7 +48,10 @@ class AdministrationController extends Controller
     }
 
     public function showAnnulationClient(){
-        return view('admin/annulationClient');
+
+        return view('admin/annulationClient', [
+            'utilisateurValide' => $this->getUtilisateursValides()
+        ]);
     }
 
 
