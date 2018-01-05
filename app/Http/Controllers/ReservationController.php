@@ -36,6 +36,22 @@ class ReservationController extends Controller
         // récupération de la séance
         $seance = Seance::find($request->idSeance);
 
+        //Dans le cas où c'est une reservation par un employé, on va verifier que le client choisit ne possède pas deja de reservation sur la seance choisie.
+        if($request->idUtilisateur != null){
+            $reservation = ReservationInterne::select()
+            ->where('id_utilisateur','=',$idutilisateur)
+            ->where('id_seance','=',$seance->id_seance)
+            ->where('etat_reservation','=','reservee')
+            ->get();
+
+            if(sizeof($reservation)>0){
+                //S'il on a trouvé une reservation, c'est que le client est deja inscrit
+                $message = "Réservation impossible : Le client est deja inscrit à cette séance. Veuillez choisir une autre séance. ";
+                return $message;
+            }
+        }
+    
+
         // on fait +1 pour ne pas oublier la personne qui fait la reservation (qui n'est pas compté comme une personne ajoutée)
         if($seance->places_restantes >= sizeof($request->personnesAAjouter) + 1) {
 

@@ -103,13 +103,30 @@ $(document).ready(function () {
                 crossDomain : true
             }).done(function (data) {
                 // on affiche les nouvelles seances
-                $('.select_activite_reservation_client').after(data);
+                $('.row_select_activite_reservation_client').after(data);
             });
         }
     });
 
     // appel ajax pour annuler la reservation
     $('.bouton-annuler-reservation').on('click', function() {
+        $.ajax({
+            method  : 'POST',
+            url     : 'annulerReservation',
+            data    : {
+                id_reservation : $(this).data('reservation')
+            },
+
+            xhrFields: { withCredentials: true },
+            crossDomain : true
+        }).done(function(data) {
+            alert(data);
+            window.location.reload();
+        })
+    });
+
+    // appel ajax pour annuler la reservation dans le cas d'un employe
+    $('.bouton-annuler-reservation-employe').on('click', function() {
         console.log('ANnuler');
         $.ajax({
             method  : 'POST',
@@ -240,13 +257,14 @@ $(document).on('show.bs.modal', '#gestionReservationClientModal', function (e) {
         , idSeance = $(e.relatedTarget).data('seance')
         , avecCoach = $(e.relatedTarget).data('aveccoach');
 
-    let idClient =$('#select_client').val();
+    let idClient =$('#select_client_reservation').val();
        
 
     choixCoach();
 
     typeSeanceEtCoach(typeSeance, avecCoach, idSeance);
-
+    console.log(idSeance);
+    console.log(idClient);
     reservationSeance(idSeance, null, idClient);
 });
 

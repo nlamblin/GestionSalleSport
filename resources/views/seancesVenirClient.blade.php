@@ -21,9 +21,9 @@
             <p>
             	Date : {{ date('d/m/Y', strtotime($reservation->date_seance)) }} - Heure : {{ date('H:i', strtotime($reservation->heure_seance)) }}
             </p>
-			<button type='button' id='bouton-annuler-reservation' 
+			<button type='button'
             data-reservation="{{ $reservation->id_reservation}}" 
-            class="btn btn-primary bouton-annuler-reservation"> Annuler réservation</button>
+            class="btn btn-primary bouton-annuler-reservation-employe"> Annuler réservation</button>
         </div>
 
     @endforeach
