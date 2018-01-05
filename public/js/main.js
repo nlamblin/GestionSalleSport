@@ -65,10 +65,10 @@ $(document).ready(function () {
     });
 
     // appel ajax pour récupérer les reservation d'un client
-    $('#select_client').change(function() {
+    $('#select_client_annulation').change(function() {
         // on supprime les seances avec les reservations à venir
         $('.listeSeancesVenirClient').remove();
-
+        console.log('on est dans le js');
         // si ce n'est pas l'option par defaut
         if($(this).val() !== 'default') {
             $.ajax({
@@ -81,10 +81,20 @@ $(document).ready(function () {
                 crossDomain : true
             }).done(function (data) {
                 // on affiche les nouvelles seances
-                $('.rowSelectClient').after(data);
+                $('.rowSelectClientAnnulation').after(data);
             });
         }
     });
+
+    //appel ajaac dans le cas de la reservation par un empployé
+    $('#select_client_reservation').change(function() { 
+        //Si le client change   
+        console.log('changement');
+        $('.listeSeancesReservationClient').remove();
+        document.getElementById('select_activite_reservation_client').selectedIndex=0;
+    });
+
+
 
      // appel ajax pour récupérer les seances disponibles en fonction des activités pour les reservations clients
     $('#select_activite_reservation_client').change(function() {
@@ -126,7 +136,7 @@ $(document).ready(function () {
     });
 
     // appel ajax pour annuler la reservation dans le cas d'un employe
-    $('.bouton-annuler-reservation-employe').on('click', function() {
+    $('#bouton-annuler-reservation-employe').on('click', function() {
         console.log('ANnuler');
         $.ajax({
             method  : 'POST',

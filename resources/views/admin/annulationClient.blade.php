@@ -6,14 +6,14 @@
             Annuler une reservation client
         </h1>
 
-        <div class="row rowSelectClient">
+        <div class="row rowSelectClientAnnulation">
             <!-- Menu de selection du client -->
 
-            <label for="select_client" class="col-md-4 control-label">Choisissez un client : </label>
+            <label for="select_client_annulation" class="col-md-4 control-label">Choisissez un client : </label>
             <div class="col-md-6">
-                <select id="select_client" class="form-control" name="select_clientselect_client">
+                <select id="select_client_annulation" class="form-control" name="select_client_annulation">
                     <option value="default">Selectionner un client</option>
-                    @foreach($utilisateurValide as $client)
+                    @foreach($utilisateur as $client)
                         <option value={{ $client->id_utilisateur }}>{{ $client->email }}</option>
                     @endforeach
                 </select>

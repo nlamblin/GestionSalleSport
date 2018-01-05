@@ -48,9 +48,13 @@ class AdministrationController extends Controller
     }
 
     public function showAnnulationClient(){
+        $client = User::select()
+        ->join('connexion','connexion.id_utilisateur','=','utilisateur.id_utilisateur')
+        ->where('id_statut','=','4')
+        ->get();
 
         return view('admin/annulationClient', [
-            'utilisateurValide' => $this->getUtilisateursValides()
+            'utilisateur' => $client
         ]);
     }
 

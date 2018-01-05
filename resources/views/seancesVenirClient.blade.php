@@ -23,7 +23,7 @@
             </p>
 			<button type='button'
             data-reservation="{{ $reservation->id_reservation}}" 
-            class="btn btn-primary bouton-annuler-reservation-employe"> Annuler réservation</button>
+            class="btn btn-primary bouton-annuler-reservation-employe" id='bouton-annuler-reservation-employe'> Annuler réservation</button>
         </div>
 
     @endforeach
