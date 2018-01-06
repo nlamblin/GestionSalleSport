@@ -131,6 +131,22 @@ $(document).ready(function () {
         });
     });
 
+    // appel ajax pour annuler la reservation
+    $('.bouton-annuler-reservation').on('click', function() {
+        $.ajax({
+            method  : 'POST',
+            url     : 'annulerReservation',
+            data    : {
+                id_reservation : $(this).data('reservation')
+            },
+            xhrFields: { withCredentials: true },
+            crossDomain : true
+        }).done(function(data) {
+            alert(data);
+            window.location.reload();
+        });
+    });
+
     // appel ajax pour choisir abonnement ou carte
     $('#achat-abonnement').on('click', function() {
         let val = $('#choix-type-abo').val();
@@ -362,4 +378,23 @@ function choixCoach() {
     });
 }
 
+$(document).on('click','.bouton-annuler-reservation-employe',function() {
+        console.log('coucou');
+        let reservation = $(this).data('reservation');
+        console.log(reservation);
+        
+        $.ajax({
+            method  : 'POST',
+            url     : 'annulerReservation',
+            data    : {
+                id_reservation : reservation
+            },
 
+            xhrFields: { withCredentials: true },
+            crossDomain : true
+        }).done(function(data) {
+            alert(data);
+            window.location.reload();
+        })
+        
+    });
