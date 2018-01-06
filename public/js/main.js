@@ -68,7 +68,7 @@ $(document).ready(function () {
     $('#select_client_annulation').change(function() {
         // on supprime les seances avec les reservations à venir
         $('.listeSeancesVenirClient').remove();
-        console.log('on est dans le js');
+
         // si ce n'est pas l'option par defaut
         if($(this).val() !== 'default') {
             $.ajax({

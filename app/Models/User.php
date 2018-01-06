@@ -67,6 +67,41 @@ class User extends Authenticatable
     }
 
     /**
+     * Récupère les séances à venir de l'utilisateur courant
+     *
+     * @return mixed
+     */
+    public function getSeancesAVenir() {
+
+        if($this->estClient()) {
+            $reservations = ReservationInterne::where('etat_reservation', '=', 'reservee')
+                ->where('id_utilisateur', '=', $this->id_utilisateur)
+                ->join('seance','reservation_interne.id_seance','=','seance.id_seance')
+                ->join('activite','seance.id_activite','=','activite.id_activite')
+                ->orderBy('seance.date_seance', 'ASC')
+                ->select()
+                ->get();
+        }
+        elseif($this->estCoach()) {
+            $reservations = Seance::select()
+                ->join('activite','seance.id_activite','=','activite.id_activite')
+                ->where('id_coach','=', $this->id_utilisateur)
+                ->get();
+        }
+
+        return $reservations;
+    }
+
+    public function getSeancesPassees() {
+        return ReservationInterneArchivage::where('id_utilisateur','=', $this->id_utilisateur)
+            ->join('seance_archivage','reservation_interne_archivage.id_seance_archivage','=','seance_archivage.id_seance')
+            ->join('activite','seance_archivage.id_activite','=','activite.id_activite')
+            ->orderBy('seance_archivage.date_seance', 'DESC')
+            ->select()
+            ->get();
+    }
+
+    /**
      * Permet de savoir si l'utilisateur courant est un admin
      */
     public function estAdmin() {

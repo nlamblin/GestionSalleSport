@@ -24,8 +24,12 @@ class SeancesController extends Controller
         ]);
     }
 
-    
-    
+    /**
+     * Récupère tous les utilisateurs valides dans la base hormis l'utilisateur qui fait la requete
+     *
+     * @param $userId
+     * @return Collection|static
+     */
     public function getUtilisateursValides($userId) {
         
         $utilisateursAboValides = User::select('email', 'utilisateur.id_utilisateur', 'nom_utilisateur', 'prenom_utilisateur')
@@ -99,15 +103,9 @@ class SeancesController extends Controller
         $TEMPlisteSeances = Seance::where('id_activite', $request->id_activite)
                                 ->get();
 
-        $userId = Auth::user()->id_utilisateur;
-        $userValide = User::getUser($userId)->estValide();
+        $user = User::getUser(Auth::user()->id_utilisateur);
 
-        //On cherche les reservation de l'utilisateur
-        $seanceUser = ReservationInterne::join('seance','reservation_interne.id_seance','=','seance.id_seance')
-            ->where('reservation_interne.id_utilisateur','=',$userId)
-            ->where('reservation_interne.etat_reservation','=','reservee')
-            ->select("seance.id_seance","seance.type_seance" ,"seance.capacite_seance" ,"seance.places_restantes" ,"seance.niveau_seance" ,"seance.avec_coach","seance.date_seance" ,"seance.heure_seance" ,"seance.id_activite","seance.id_coach")
-            ->get();
+        $seanceUser = $user->getSeancesAVenir();
 
         $listeSeances = [];
         foreach($TEMPlisteSeances as $value) {
@@ -118,14 +116,10 @@ class SeancesController extends Controller
 
         return view('listeSeances', [
             'listeSeances'          => $listeSeances,
-            'utilisateurValide'     => $userValide,
-            'utilisateursValides'   => $this->getUtilisateursValides($userId)
+            'utilisateurValide'     => $user->estValide(),
+            'utilisateursValides'   => $this->getUtilisateursValides($user->id_utilisateur)
         ]);
     }
-
-
-
-
 
     /**
      * Méthode qui récupère toutes les recommandations pour un utilisateur
@@ -133,28 +127,24 @@ class SeancesController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function getRecommandations(Request $request)
-    {
-        $userId = Auth::user()->id_utilisateur;
+    public function getRecommandations(Request $request) {
 
-        $userValide = User::getUser($userId)->estValide();
+        $user = User::getUser(Auth::user()->id_utilisateur);
 
         // On récupère l'id de la séance que l'utilisateur à choisit
-        $id = $request->idSeance;
+        $idSeance = $request->idSeance;
 
         // On récupère les infos de la séance courante
         $seanceCourante = Seance::join('activite','seance.id_activite','=','activite.id_activite')
-            ->where('id_seance','=',$id)
+            ->where('id_seance','=', $idSeance)
             ->select()
             ->first();
-        
-    
+
         $activite   = $seanceCourante->id_activite;
         $date       = $seanceCourante->date_seance;
         $heure      = $seanceCourante->heure_seance;
 
-               //On recherche les autres séances sur cette activite le même jour
-
+        // On recherche les autres séances sur cette activite le même jour
         $TEMPrecommandationsMemeActiviteMemeDate = Seance::join('activite','seance.id_activite','=','activite.id_activite')
             ->where('seance.id_activite', '=',$activite)
             ->where('date_seance','=',$date)
@@ -179,44 +169,37 @@ class SeancesController extends Controller
             ->select()
             ->get();
 
-               
-        $seanceUser = ReservationInterne::join('seance','reservation_interne.id_seance','=','seance.id_seance')
-        ->join('activite','seance.id_activite','=','activite.id_activite')
-        ->where('reservation_interne.id_utilisateur','=',$userId)
-        ->where('reservation_interne.etat_reservation','=','reservee')
-        ->select("seance.id_seance","seance.type_seance" ,"seance.capacite_seance" ,"seance.places_restantes" ,"seance.niveau_seance" ,"seance.avec_coach","seance.date_seance" ,"seance.heure_seance" ,"seance.id_activite","seance.id_coach","activite.nom_activite" )
-        ->get();
-
+        $seanceUser = $user->getSeancesAVenir();
 
         //Pour ne garder que ceux où il n'est pas inscrit
-        $recommandationsMemeActiviteMemeHeure = array();
+        $recommandationsMemeActiviteMemeHeure = [];
+
         foreach($TEMPrecommandationsMemeActiviteMemeHeure as $value) {
             if(!$seanceUser->contains('id_seance', $value->id_seance)) {
                 array_push($recommandationsMemeActiviteMemeHeure, $value);
             }
         }
 
-        $recommandationsMemeActiviteMemeDate = array();
+        $recommandationsMemeActiviteMemeDate = [];
         foreach($TEMPrecommandationsMemeActiviteMemeDate as $value) {
             if(!$seanceUser->contains('id_seance', $value->id_seance)) {
                 array_push($recommandationsMemeActiviteMemeDate, $value);
             }
         }
 
-        $recommandationsAutresActiviteMemeDateHeure = array();
+        $recommandationsAutresActiviteMemeDateHeure = [];
         foreach($TEMPrecommandationsAutresActiviteMemeDateHeure as $value) {
            if(!$seanceUser->contains('id_seance', $value->id_seance)) {
                 array_push($recommandationsAutresActiviteMemeDateHeure, $value);
             }
         }
    
-
         return view('listeRecommandations', [
             'recommandationsAutresActivitesMemeDateHeure' => $recommandationsAutresActiviteMemeDateHeure,
-            'recommandationsMemeActiviteMemeHeure'      => $recommandationsMemeActiviteMemeHeure,
-            'recommandationsMemeActiviteMemeDate'       => $recommandationsMemeActiviteMemeDate,
-            'utilisateursValides'                       => $this->getUtilisateursValides($userId),
-            'utilisateurValide'                         => $userValide
+            'recommandationsMemeActiviteMemeHeure'        => $recommandationsMemeActiviteMemeHeure,
+            'recommandationsMemeActiviteMemeDate'         => $recommandationsMemeActiviteMemeDate,
+            'utilisateursValides'                         => $this->getUtilisateursValides($user->id_utilisateur),
+            'utilisateurValide'                           => $user->estValide()
         ]);
     }
 

@@ -24,19 +24,20 @@ class ReservationController extends Controller
     public function effectuerReservation(Request $request) {
 
         if($request->idUtilisateur == null){
-            #Si c'est un client qui fait sa propre reservation 
+            // Si c'est un client qui fait sa propre reservation
             $idutilisateur = Auth::user()->id_utilisateur;
         }
         else{
             $idutilisateur = $request->idUtilisateur;
         }
 
-        #Dans le cas d'un client, on fait la reservation en son nom
+        // Dans le cas d'un client, on fait la reservation en son nom
         $message = null;
-        // récupération de la séance
+
+        // Récupération de la séance
         $seance = Seance::find($request->idSeance);
 
-        //Dans le cas où c'est une reservation par un employé, on va verifier que le client choisit ne possède pas deja de reservation sur la seance choisie.
+        // Dans le cas où c'est une reservation par un employé, on va verifier que le client choisit ne possède pas deja de reservation sur la seance choisie.
         if($request->idUtilisateur != null){
             $reservation = ReservationInterne::select()
             ->where('id_utilisateur','=',$idutilisateur)
@@ -44,15 +45,13 @@ class ReservationController extends Controller
             ->where('etat_reservation','=','reservee')
             ->get();
 
-            if(sizeof($reservation)>0){
-                //S'il on a trouvé une reservation, c'est que le client est deja inscrit
-                $message = "Réservation impossible : Le client est deja inscrit à cette séance. Veuillez choisir une autre séance. ";
-                return $message;
+            if(sizeof($reservation) > 0){
+                // S'il on a trouvé une reservation, c'est que le client est deja inscrit
+                return "Réservation impossible : Le client est deja inscrit à cette séance. Veuillez choisir une autre séance.";
             }
         }
-    
 
-        // on fait +1 pour ne pas oublier la personne qui fait la reservation (qui n'est pas compté comme une personne ajoutée)
+        // On fait +1 pour ne pas oublier la personne qui fait la reservation (qui n'est pas compté comme une personne ajoutée)
         if($seance->places_restantes >= sizeof($request->personnesAAjouter) + 1) {
 
             // on reserve pour la personne connectée
@@ -122,36 +121,31 @@ class ReservationController extends Controller
      */
     public function annulerReservation(Request $request) {
 
-        $message = '';
         $reservationInterne = ReservationInterne::find($request->id_reservation);
         $id = $reservationInterne->id_utilisateur;
 
-
-        //Pour annuler la reservation courante
+        // Pour annuler la reservation courante
         ReservationInterne::where('id_reservation', $reservationInterne->id_reservation)
                 ->update(['etat_reservation' => 'annulee']);
          
         
-        //On récupère la séance de la reservation
+        // On récupère la séance de la reservation
                 $seance = Seance::select()
         ->where('id_seance','=',$reservationInterne->id_seance)
         ->first();
 
         $date_seance = strtotime($seance->date_seance);
-        $heure_seance = strtotime($seance->heure_seance);
-        
-        $now = time();
-        $diff =$date_seance - $now;
 
-        $jours=floor($diff/86400);
-        $heures=floor(($diff%86400)/3600);
+        $diff = $date_seance - time();
 
-        if(!($jours>=2 & $heures>=0)){
+        $jours = floor($diff/86400);
+        $heures = floor(($diff%86400)/3600);
+
+        if(!($jours >= 2 & $heures >= 0)){
             $message = 'Votre annulation a bien été prise en compte. Aucun remboursement n\'est possible puisque que la séance a lieu dans moins de 48h';
         }
         else{
-
-            /*On récupère les abos valides de cette personne*/
+            // On récupère les abos valides de cette personne
             $aboValideUser = User::select()
                 ->join('abonnement', 'utilisateur.id_utilisateur', '=', 'abonnement.id_utilisateur')
                 ->where([
@@ -162,13 +156,13 @@ class ReservationController extends Controller
                 ->get();
 
             $nbAboValide = sizeof($aboValideUser);
-            #S'il a au moins un abo valide
+            // S'il a au moins un abo valide
             
             if ($nbAboValide > 0) {
                     $message = 'Votre annulation a bien était prise en compte. Aucun remboursement puisque vous utilisez un abonnement';
                 }
             else {
-                #S'il n'a pas d'abonnement valide
+                // S'il n'a pas d'abonnement valide
                 $carteValideUser = User::select()
                     ->join('carte', 'utilisateur.id_utilisateur', '=', 'carte.id_utilisateur')
                     ->where([
@@ -181,9 +175,9 @@ class ReservationController extends Controller
                 $nbCarteValide = sizeof($carteValideUser);
                 if ($nbCarteValide > 0) {
 
-                    //On récupère l'id de la carte qui est valide
+                    // On récupère l'id de la carte qui est valide
                     $carte = $carteValideUser->id_carte;
-                    //Les séances restantes sur la carte
+                    // Les séances restantes sur la carte
                     $places = $carteValideUser->seance_dispo;
 
                     Carte::where('id_carte', $carte)
@@ -193,7 +187,7 @@ class ReservationController extends Controller
 
                 }   
                 else {
-                    #Pas de carte valide, on récupère une de ses cartes invalides
+                    // Pas de carte valide, on récupère une de ses cartes invalides
                     $carteInvalideUser = User::select()
                     ->join('carte', 'utilisateur.id_utilisateur', '=', 'carte.id_utilisateur')
                     ->where([
@@ -203,7 +197,7 @@ class ReservationController extends Controller
                     ->distinct()
                     ->first();   
 
-                    //On récupère l'id de la première carte invalide
+                    // On récupère l'id de la première carte invalide
                     $carte = $carteInvalideUser->id_carte;
                     
                     Carte::where('id_carte', $carte)
@@ -215,7 +209,7 @@ class ReservationController extends Controller
             } 
         }
 
-     return($message);
+        return($message);
     }
 
 }

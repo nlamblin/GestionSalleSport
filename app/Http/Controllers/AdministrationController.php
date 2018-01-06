@@ -324,4 +324,22 @@ class AdministrationController extends Controller
 
         return redirect()->back()->with('message', "L'archivage des séances a bien été effectué !");
     }
+
+    /**
+     * Récupère les séances d'un client donné
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function seancesVenirClient(Request $request) {
+
+        // On récupère le client choisi
+        $user = User::getUser($request->id_client);
+
+        $reservationVenirClient = $user->getSeancesAVenir();
+
+        return view ('admin/seancesVenirClient', [
+            'reservationVenirClient' => $reservationVenirClient
+        ]);
+    }
 }

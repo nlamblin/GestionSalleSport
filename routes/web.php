@@ -54,11 +54,12 @@ Route::group(['prefix' => 'admin'], function() {
         Route::get('showReservationClient', 'AdministrationController@showReservationClient');
         Route::get('showAnnulationClient', 'AdministrationController@showAnnulationClient');
         Route::get('listeSeancesReservationClient','AdministrationController@affichageSeances');
-        Route::post('annulerReservation', 'ReservationController@annulerReservation');
-        Route::get('seanceVenirClient','MesSeancesController@seancesVenirClient');
+        Route::get('seanceVenirClient','AdministrationController@seancesVenirClient');
         
         Route::post('creerSeance', 'AdministrationController@creerSeance')->name('admin/creerSeance');
         Route::post('ajouterCoach', 'AdministrationController@ajouterCoach')->name('admin/ajouterCoach');
+        Route::post('annulerReservation', 'ReservationController@annulerReservation');
+
         Route::put('effectuerReservation', 'ReservationController@effectuerReservation');
 
     });
