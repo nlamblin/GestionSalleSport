@@ -74,4 +74,4 @@
 
 </div>
 
-@include('modalGestionReservationClient')
+@include('admin.modalGestionReservationClient')

@@ -100,7 +100,7 @@ class AdministrationController extends Controller
                     ->where('seance.places_restantes','>',0)
                     ->get();
         
-        return view('listeSeanceReservationClient', [
+        return view('admin/listeSeanceReservationClient', [
             'listeSeanceReservationClient' => $listeSeances,
         ]);
     }
