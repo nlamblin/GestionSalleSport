@@ -7,7 +7,7 @@
     <h1 class="page-header">
         {{ $utilisateur->prenom_utilisateur}}, voici vos séances à venir chez Fit'Miage
     </h1>
-    @if(count($reservationVenirClient) > 0)
+    @if(count($seancesVenir) > 0)
         <div class="row">
             <!--Pour chaque séance à venir -->
             @foreach($seancesVenir as $reservation)

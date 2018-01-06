@@ -6,7 +6,7 @@
         <h1 class="page-header">
             {{ $utilisateur->prenom_utilisateur}}, voici votre planning de coaching
         </h1>
-        @if(count($seanceVenirCoach) > 0)
+        @if(count($seancesVenir) > 0)
             <div class="row">
                 <!--Pour chaque séance à venir -->
                 @foreach($seancesVenir as $reservation)
