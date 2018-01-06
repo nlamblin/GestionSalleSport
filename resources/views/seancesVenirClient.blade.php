@@ -1,4 +1,3 @@
-
 <div class="listeSeancesVenirClient">
 	<!--Pour chaque séance à venir -->
 	@foreach($reservationVenirClient as $reservation)
@@ -22,9 +21,16 @@
             	Date : {{ date('d/m/Y', strtotime($reservation->date_seance)) }} - Heure : {{ date('H:i', strtotime($reservation->heure_seance)) }}
             </p>
 			<button type='button'
+<<<<<<< HEAD
             data-reservation="{{ $reservation->id_reservation}}" 
             value= "{{ $reservation->id_reservation}}" 
             class="btn btn-primary bouton-annuler-reservation-employe" id='bouton-annuler-reservation-employe'> Annuler réservation</button>
+=======
+                data-reservation="{{ $reservation->id_reservation}}"
+                class="btn btn-primary bouton-annuler-reservation">
+                Annuler réservation
+            </button>
+>>>>>>> 5a8bb7c217737be3711900cf5cd8175232812376
         </div>
 
     @endforeach

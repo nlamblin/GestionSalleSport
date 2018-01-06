@@ -86,17 +86,15 @@ $(document).ready(function () {
         }
     });
 
-    //appel ajaac dans le cas de la reservation par un empployé
+    //appel ajax dans le cas de la reservation par un empployé
     $('#select_client_reservation').change(function() { 
         //Si le client change   
         console.log('changement');
         $('.listeSeancesReservationClient').remove();
-        document.getElementById('select_activite_reservation_client').selectedIndex=0;
+        $('#select_activite_reservation_client').selectedIndex = 0;
     });
 
-
-
-     // appel ajax pour récupérer les seances disponibles en fonction des activités pour les reservations clients
+    // appel ajax pour récupérer les seances disponibles en fonction des activités pour les reservations clients
     $('#select_activite_reservation_client').change(function() {
         // on supprime les seances deja affichées
         $('.listeSeancesReservationClient').remove();
@@ -118,6 +116,21 @@ $(document).ready(function () {
         }
     });
 
+    $(document).on('click', '.bouton-annuler-reservation', function () {
+        $.ajax({
+            method  : 'POST',
+            url     : 'annulerReservation',
+            data    : {
+                id_reservation : $(this).data('reservation')
+            },
+            xhrFields: { withCredentials: true },
+            crossDomain : true
+        }).done(function(data) {
+            alert(data);
+            window.location.reload();
+        });
+    });
+
     // appel ajax pour annuler la reservation
     $('.bouton-annuler-reservation').on('click', function() {
         $.ajax({
@@ -126,14 +139,14 @@ $(document).ready(function () {
             data    : {
                 id_reservation : $(this).data('reservation')
             },
-
             xhrFields: { withCredentials: true },
             crossDomain : true
         }).done(function(data) {
             alert(data);
             window.location.reload();
-        })
+        });
     });
+
 
     // appel ajax pour choisir abonnement ou carte
     $('#achat-abonnement').on('click', function() {
