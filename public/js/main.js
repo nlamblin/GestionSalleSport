@@ -131,40 +131,6 @@ $(document).ready(function () {
         });
     });
 
-    // appel ajax pour annuler la reservation
-    /*$('.bouton-annuler-reservation').on('click', function() {
-        $.ajax({
-            method  : 'POST',
-            url     : 'annulerReservation',
-            data    : {
-                id_reservation : $(this).data('reservation')
-            },
-            xhrFields: { withCredentials: true },
-            crossDomain : true
-        }).done(function(data) {
-            alert(data);
-            window.location.reload();
-        });
-    });
-
-    // appel ajax pour annuler la reservation dans le cas d'un employe
-    $('#bouton-annuler-reservation-employe').on('click', function() {
-        console.log('ANnuler');
-        $.ajax({
-            method  : 'POST',
-            url     : 'annulerReservation',
-            data    : {
-                id_reservation : $(this).data('reservation')
-            },
-
-            xhrFields: { withCredentials: true },
-            crossDomain : true
-        }).done(function(data) {
-            alert(data);
-            window.location.reload();
-        })
-    });*/
-
     // appel ajax pour choisir abonnement ou carte
     $('#achat-abonnement').on('click', function() {
         let val = $('#choix-type-abo').val();
@@ -255,9 +221,7 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
     });
 
     reservationSeance(idSeance, personnesAAjouter, idSeance,null);
-
     choixCoach();
-
     typeSeanceEtCoach(typeSeance, avecCoach, idSeance);
 });
 
@@ -283,10 +247,7 @@ $(document).on('show.bs.modal', '#gestionReservationClientModal', function (e) {
        
 
     choixCoach();
-
     typeSeanceEtCoach(typeSeance, avecCoach, idSeance);
-    console.log(idSeance);
-    console.log(idClient);
     reservationSeance(idSeance, null, idClient);
 });
 

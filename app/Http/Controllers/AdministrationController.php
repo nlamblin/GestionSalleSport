@@ -17,10 +17,20 @@ use Illuminate\Support\Facades\DB;
 class AdministrationController extends Controller
 {
 
+    /**
+     * Affiche le formulaire de création d'une activité
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showCreationActivite() {
         return view('admin/creationActivite');
     }
 
+    /**
+     * Affiche le formulaire de création d'une seance
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showCreationSeance() {
         //On va transmettre toutes les activités existantes pour la création des séances
         $listeActivites = Activite::get();
@@ -30,47 +40,77 @@ class AdministrationController extends Controller
         ]);
     }
 
+    /**
+     * Affiche le formulaire d'ajout d'un employé
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showAjoutEmploye() {
         return view('admin/ajoutEmploye');
     }
 
+    /**
+     * Affiche le formulaire d'ajout d'un coach
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showAjoutCoach() {
         return view('admin/ajoutCoach');
     }
 
+    /**
+     * Affiche le formulaire de reservation pour un client
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showReservationClient(){
         $listeActivites = Activite::get();
 
         return view('admin/reservationClient', [
-            'utilisateurValide' => $this->getUtilisateursValides(),
+            'utilisateurValide'  => User::getUtilisateursValides(),
             'listeActivites'     => $listeActivites
         ]);
     }
 
+    /**
+     * Selectionne tous les utilisateurs
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showAnnulationClient(){
-        $client = User::select()
+        $clients = User::select()
         ->join('connexion','connexion.id_utilisateur','=','utilisateur.id_utilisateur')
         ->where('id_statut','=','4')
         ->get();
 
         return view('admin/annulationClient', [
-            'utilisateur' => $client
+            'utilisateur' => $clients
         ]);
     }
 
-
+    /**
+     * Affiche les seances avec encore de la place
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function affichageSeances(Request $request){
         //On récupère toutes les séances de l'activite séléctionnée
         $listeSeances = Seance::where('id_activite', $request->id_activite)
                     ->where('seance.places_restantes','>',0)
                     ->get();
-        //d($listeSeances);
         
         return view('listeSeanceReservationClient', [
             'listeSeanceReservationClient' => $listeSeances,
         ]);
     }
 
+    /**
+     * Permet de créer une activité
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function creerActivite(Request $request){
     	$data = $request->all();
     	$nom = $data['nom_activite'];
@@ -82,7 +122,12 @@ class AdministrationController extends Controller
         return redirect()->back()->with('message', "L'activité a bien été créée.");
     }
 
-
+    /**
+     * Permet de créer une seance
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
 	public function creerSeance(Request $request){
   		$data = $request->all();
 
@@ -142,7 +187,12 @@ class AdministrationController extends Controller
         return redirect()->back()->with('message', "La séance a bien été créée.");
     }
 
-
+    /**
+     * Permet d'ajouter un employe
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function ajouterEmploye(Request $request) {
 
         $this->validate($request,[
@@ -161,8 +211,12 @@ class AdministrationController extends Controller
         return redirect()->back()->with('message', "L'employé a bien été ajouté.");
     }
 
-
-
+    /**
+     * Permet d'ajouter un coach
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function ajouterCoach(Request $request) {
 
         $this->validate($request,[
@@ -209,71 +263,6 @@ class AdministrationController extends Controller
         $utilisateursValides = $utilisateursValides->merge($utilisateursCartesValides);
 
         return $utilisateursValides;
-    }
-
-     public function enregistrerReservation(Request $request) {
-
-        $message = null;
-        // récupération de la séance
-        $seance = Seance::find($request->idSeance);
-
-        // on fait +1 pour ne pas oublier la personne qui fait la reservation (qui n'est pas compté comme une personne ajoutée)
-        if($seance->places_restantes >= sizeof($request->personnesAAjouter) + 1) {
-
-            // on reserve pour la personne connectée
-            ReservationInterne::create([
-                'etat_reservation'  => 'reservee',
-                'id_utilisateur'    => Auth::user()->id_utilisateur,
-                'id_seance'         => $seance->id_seance
-            ]);
-
-            if(sizeof($request->personneAAjouter) > 0) {
-                // on reserve pour toutes les personnes ajoutées
-                foreach ($request->personnesAAjouter as $idPersonneAAjouter) {
-                    ReservationInterne::create([
-                        'etat_reservation' => 'reservee',
-                        'id_utilisateur' => $idPersonneAAjouter,
-                        'id_seance' => $seance->id_seance
-                    ]);
-                }
-            }
-
-            // on assigne le coach à la séance
-            if ($request->idCoach !== null) {
-                Seance::where('id_seance', $seance->id_seance)
-                    ->update(['id_coach' => $request->idCoach]);
-            }
-
-            $user = User::getUser(Auth::user()->id_utilisateur);
-
-            // si il n'est pas valide c'est paiement à l'unité donc on lui créé une carte avec 1 seance dispo
-            if(!$user->estValide()) {
-                Carte::create([
-                    'seance_dispo'   => 1,
-                    'active'         => true,
-                    'id_utilisateur' => $user->id_utilisateur
-                ]);
-            }
-
-            // on récupère si l'abonné a une carte
-            $carteActive = Carte::where([
-                ['id_utilisateur', '=', $user->id_utilisateur],
-                ['active', '=', true]
-            ])->first();
-
-            // si il a une carte on lui retire une séance
-            if (sizeof($carteActive) > 0) {
-                Carte::where('id_carte', '=', $carteActive->id_carte)
-                    ->update(['seance_dispo' => $carteActive->seance_dispo - 1]);
-            }
-
-            $message = "Votre réservation a bien été prise en compte.";
-        }
-        else {
-            $message = "Votre réservation n'a pas été prise en compte. La séance n'a plus assez de place libre.";
-        }
-
-        return $message;
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Collection;
 
 class User extends Authenticatable
 {
@@ -166,6 +167,40 @@ class User extends Authenticatable
         return Connexion::join('utilisateur', 'utilisateur.id_utilisateur', '=', 'connexion.id_utilisateur')
                 ->where('email', '=', $email)
                 ->first();
+    }
+
+    /**
+     * Méthode qui recupère l'ensemble des utilisateurs valides
+     *
+     * @param null $userAExclude
+     * @return Collection|static
+     */
+    public static function getUtilisateursValides($userAExclude = null) {
+
+        $utilisateursAboValides = User::select('email', 'utilisateur.id_utilisateur', 'nom_utilisateur', 'prenom_utilisateur')
+            ->join('connexion', 'utilisateur.id_utilisateur', '=', 'connexion.id_utilisateur')
+            ->join('abonnement', 'utilisateur.id_utilisateur', '=', 'abonnement.id_utilisateur')
+            ->where('abonnement.date_fin_abo', '>', date('Y-m-d', time()));
+
+        $utilisateursCartesValides = User::select('email', 'utilisateur.id_utilisateur', 'nom_utilisateur', 'prenom_utilisateur')
+            ->join('connexion', 'utilisateur.id_utilisateur', '=', 'connexion.id_utilisateur')
+            ->join('carte', 'utilisateur.id_utilisateur', '=', 'carte.id_utilisateur')
+            ->where('carte.active', '=', true);
+
+        if($userAExclude != null) {
+            $utilisateursAboValides->where('utilisateur.id_utilisateur', '!=', $userAExclude);
+            $utilisateursCartesValides->where('utilisateur.id_utilisateur', '!=', $userAExclude);
+        }
+
+        $utilisateursAboValides = $utilisateursAboValides->distinct()->get();
+        $utilisateursCartesValides = $utilisateursCartesValides->distinct()->get();
+
+        // on merge les resultats dans une collection commune
+        $utilisateursValides = new Collection();
+        $utilisateursValides = $utilisateursValides->merge($utilisateursAboValides);
+        $utilisateursValides = $utilisateursValides->merge($utilisateursCartesValides);
+
+        return $utilisateursValides;
     }
 
 }

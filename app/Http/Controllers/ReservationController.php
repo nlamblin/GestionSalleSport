@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-// use App\Models\ReservationInterne;
 use App\Models\ReservationInterne;
 use App\Models\Seance;
 use App\Models\User;
-use App\Models\Abonnement;
 use App\Models\Carte;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DateTime;
 
 class ReservationController extends Controller
 {

@@ -25,38 +25,6 @@ class SeancesController extends Controller
     }
 
     /**
-     * Récupère tous les utilisateurs valides dans la base hormis l'utilisateur qui fait la requete
-     *
-     * @param $userId
-     * @return Collection|static
-     */
-    public function getUtilisateursValides($userId) {
-        
-        $utilisateursAboValides = User::select('email', 'utilisateur.id_utilisateur', 'nom_utilisateur', 'prenom_utilisateur')
-            ->join('connexion', 'utilisateur.id_utilisateur', '=', 'connexion.id_utilisateur')
-            ->join('abonnement', 'utilisateur.id_utilisateur', '=', 'abonnement.id_utilisateur')
-            ->where('abonnement.date_fin_abo', '>', date('Y-m-d', time()))
-            ->where('utilisateur.id_utilisateur', '!=', $userId)
-            ->distinct()
-            ->get();
-
-        $utilisateursCartesValides = User::select('email', 'utilisateur.id_utilisateur', 'nom_utilisateur', 'prenom_utilisateur')
-            ->join('connexion', 'utilisateur.id_utilisateur', '=', 'connexion.id_utilisateur')
-            ->join('carte', 'utilisateur.id_utilisateur', '=', 'carte.id_utilisateur')
-            ->where('carte.active', '=', true)
-            ->where('utilisateur.id_utilisateur', '!=', $userId)
-            ->distinct()
-            ->get();
-
-        // on merge les resultats dans une collection commune
-        $utilisateursValides = new Collection();
-        $utilisateursValides = $utilisateursValides->merge($utilisateursAboValides);
-        $utilisateursValides = $utilisateursValides->merge($utilisateursCartesValides);
-
-        return $utilisateursValides;
-    }
-
-    /**
      * Méthode qui donne l'ensemble des coachs disponibles pour une seance donnée
      * appelle la fonction qui retourne si un coachs est disponible ou non
      *
@@ -117,7 +85,7 @@ class SeancesController extends Controller
         return view('listeSeances', [
             'listeSeances'          => $listeSeances,
             'utilisateurValide'     => $user->estValide(),
-            'utilisateursValides'   => $this->getUtilisateursValides($user->id_utilisateur)
+            'utilisateursValides'   => User::getUtilisateursValides($user->id_utilisateur)
         ]);
     }
 
@@ -198,7 +166,7 @@ class SeancesController extends Controller
             'recommandationsAutresActivitesMemeDateHeure' => $recommandationsAutresActiviteMemeDateHeure,
             'recommandationsMemeActiviteMemeHeure'        => $recommandationsMemeActiviteMemeHeure,
             'recommandationsMemeActiviteMemeDate'         => $recommandationsMemeActiviteMemeDate,
-            'utilisateursValides'                         => $this->getUtilisateursValides($user->id_utilisateur),
+            'utilisateursValides'                         => User::getUtilisateursValides($user->id_utilisateur),
             'utilisateurValide'                           => $user->estValide()
         ]);
     }
