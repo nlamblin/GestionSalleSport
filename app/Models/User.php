@@ -33,7 +33,7 @@ class User extends Authenticatable
     public function getEmail() {
         return Connexion::select('email')
             ->where('id_utilisateur', $this->id_utilisateur)
-            ->get()[0];
+            ->first();
     }
 
     /**
@@ -83,7 +83,7 @@ class User extends Authenticatable
                 ->select()
                 ->get();
         }
-        elseif($this->estCoach()) {
+        else if($this->estCoach()) {
             $reservations = Seance::select()
                 ->join('activite','seance.id_activite','=','activite.id_activite')
                 ->where('id_coach','=', $this->id_utilisateur)
@@ -177,15 +177,17 @@ class User extends Authenticatable
      */
     public static function getUtilisateursValides($userAExclude = null) {
 
-        $utilisateursAboValides = User::select('email', 'utilisateur.id_utilisateur', 'nom_utilisateur', 'prenom_utilisateur')
+        $utilisateursAboValides = User::select('email', 'utilisateur.id_utilisateur', 'nom_utilisateur', 'prenom_utilisateur', 'id_statut')
             ->join('connexion', 'utilisateur.id_utilisateur', '=', 'connexion.id_utilisateur')
             ->join('abonnement', 'utilisateur.id_utilisateur', '=', 'abonnement.id_utilisateur')
-            ->where('abonnement.date_fin_abo', '>', date('Y-m-d', time()));
+            ->where('abonnement.date_fin_abo', '>', date('Y-m-d', time()))
+            ->where('id_statut', 4);
 
-        $utilisateursCartesValides = User::select('email', 'utilisateur.id_utilisateur', 'nom_utilisateur', 'prenom_utilisateur')
+        $utilisateursCartesValides = User::select('email', 'utilisateur.id_utilisateur', 'nom_utilisateur', 'prenom_utilisateur', 'id_statut')
             ->join('connexion', 'utilisateur.id_utilisateur', '=', 'connexion.id_utilisateur')
             ->join('carte', 'utilisateur.id_utilisateur', '=', 'carte.id_utilisateur')
-            ->where('carte.active', '=', true);
+            ->where('carte.active', '=', true)
+            ->where('id_statut', 4);
 
         if($userAExclude != null) {
             $utilisateursAboValides->where('utilisateur.id_utilisateur', '!=', $userAExclude);

@@ -90,6 +90,31 @@ class SeancesController extends Controller
     }
 
     /**
+     * Récupère les utilisateurs valides pas encore inscrit à une séance
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function getUtilisateursValidesEtNonInscrit(Request $request) {
+        $user = User::getUser(Auth::user()->id_utilisateur);
+
+        // On récupère tous les utilisateurs valides
+        $utilisateursValides = User::getUtilisateursValides($user->id_utilisateur);
+
+        $utilisateursValidesEtNonInscrit = [];
+        // On vérifie pour chaque utilisateur si il est déjà inscrit ou pas à la séance
+        foreach ($utilisateursValides as $utilisateur) {
+            $reservation = $utilisateur->getSeancesAVenir();
+
+            if(!$reservation->contains('id_seance', $request->id_seance)) {
+                array_push($utilisateursValidesEtNonInscrit, $utilisateur);
+            }
+        }
+
+        return $utilisateursValidesEtNonInscrit;
+    }
+
+    /**
      * Méthode qui récupère toutes les recommandations pour un utilisateur
      *
      * @param Request $request

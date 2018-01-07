@@ -26,11 +26,7 @@
                         <div class="col-md-6">
                             <ul class="input-group">
                                 <select id="ajout-personne" class="form-control" name="ajout-personne">
-                                    <option value="default">Selectionner les personnes à ajouter</option>
-
-                                    @foreach($utilisateursValides as $utilisateur)
-                                        <option value="{{ $utilisateur->id_utilisateur }}" data-name="{{ $utilisateur->nom_utilisateur }}" data-prenom="{{ $utilisateur->prenom_utilisateur }}" data-email="{{ $utilisateur->email }}">{{ $utilisateur->prenom_utilisateur }} {{ $utilisateur->nom_utilisateur }} &lt{{ $utilisateur->email }}&gt</option>
-                                    @endforeach
+                                    <option id='default-value-ajout-personnes' value="default">Selectionner les personnes à ajouter</option>
                                 </select>
 
                                 <span class="input-group-btn">
@@ -41,6 +37,10 @@
                             <ul class="list-group listePersonneAAjouter">
 
                             </ul>
+
+                            <div class="alert alert-warning warning-places-restantes">
+                                Il ne reste qu'une place disponible pour cette séance, vous ne pouvez donc pas ajouter de personnes.
+                            </div>
                         </div>
                     </div>
 

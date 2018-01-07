@@ -32,6 +32,7 @@ Route::group(['prefix' => 'client', 'middleware' => 'client'], function() {
     Route::get('seances','SeancesController@index');
     Route::get('listeSeances','SeancesController@seancesParActivites');
     Route::get('coachsDisponibles', 'SeancesController@getCoachsDisponibles');
+    Route::get('utilisateursValidesEtNonInscrit', 'SeancesController@getUtilisateursValidesEtNonInscrit');
 
     Route::post('annulerReservation', 'ReservationController@annulerReservation');
 

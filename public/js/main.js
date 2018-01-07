@@ -6,7 +6,7 @@ $(document).ready(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    
+
     // affichage / ou non de délai de relance
     if($('#demande_relance').is(':checked')) {
         $('#divDelai').show();
@@ -187,6 +187,7 @@ $(document).ready(function () {
 $(document).on('show.bs.modal', '#reservationModal', function (e) {
 
     $('#lien-recommandations').hide();
+    $('.warning-places-restantes').hide();
 
     let typeSeance = $(e.relatedTarget).data('typeseance')
         , placesRestantes = $(e.relatedTarget).data('placesrestantes')
@@ -206,6 +207,17 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
         $('#reservation-seance').attr('disabled', false);
         $('.reservationForm :input').attr('disabled', false);
         $('.message-recommandations').hide();
+
+        if(placesRestantes === 1) {
+            $('.warning-places-restantes').show();
+            $('#ajout-personne').attr('disabled', true);
+            $('.bouton-ajout-personne').attr('disabled', true);
+        }
+        else {
+            $('.warning-places-restantes').hide();
+            $('#ajout-personne').removeAttr('disabled');
+            $('.bouton-ajout-personne').removeAttr('disabled');
+        }
     }
 
     $('.bouton-ajout-personne').on('click', function () {
@@ -268,7 +280,6 @@ $(document).on('show.bs.modal', '#gestionReservationClientModal', function (e) {
 
     let idClient =$('#select_client_reservation').val();
        
-
     choixCoach();
     typeSeanceEtCoach(typeSeance, avecCoach, idSeance);
     reservationSeance(idSeance, null, idClient);
@@ -310,6 +321,21 @@ function typeSeanceEtCoach(typeSeance, avecCoach, idSeance) {
         $('.div-choix-coach').hide();
         $('.div-select-coach').hide();
         $('.div-ajout-personne').show();
+
+        $.ajax({
+            method : 'GET',
+            url : 'utilisateursValidesEtNonInscrit',
+            data : {
+                'id_seance': idSeance
+            },
+            xhrFields: {withCredentials: true},
+            crossDomain: true
+        })
+        .done(function(data) {
+            $.each(data, function(i, item) {
+                $('#default-value-ajout-personnes').after("<option value='" + item.id_utilisateur + "' data-name='" + item.nom_utilisateur + "' data-prenom='" + item.prenom_utilisateur + "' data-email='" + item.email + "'>" + item.prenom_utilisateur + " " + item.nom_utilisateur + " &lt" + item.email + "&gt</option>");
+            });
+        });
     }
     else if(typeSeance === 'individuelle') {
         $('.div-ajout-personne').hide();
