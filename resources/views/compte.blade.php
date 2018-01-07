@@ -1,8 +1,3 @@
-@php
-    $userModel = \App\Models\User::class;
-    $userAuth = \Illuminate\Support\Facades\Auth::user();
-@endphp
-
 @extends('layout.layout')
 
 @section('content')
@@ -124,7 +119,7 @@
                         </div>
                     </div>
 
-                    @if($userModel::getUser($userAuth->id_utilisateur)->estClient())
+                    @if($user->estClient())
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">

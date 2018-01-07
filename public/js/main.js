@@ -6,8 +6,15 @@ $(document).ready(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-
+    
     // affichage / ou non de délai de relance
+    if($('#demande_relance').is(':checked')) {
+        $('#divDelai').show();
+    }
+    else {
+        $('#divDelai').hide();
+    }
+
     $('#demande_relance').change(function()  {
         if($(this).is(":checked")) {
             $('#divDelai').show('500');
