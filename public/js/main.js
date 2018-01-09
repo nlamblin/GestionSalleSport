@@ -255,9 +255,9 @@ $(document).on('show.bs.modal', '#reservationModal', function (e) {
         });
     });
 
-    reservationSeance(idSeance, personnesAAjouter, idSeance,null);
     choixCoach();
     typeSeanceEtCoach(typeSeance, avecCoach, idSeance);
+    reservationSeance(idSeance, personnesAAjouter, null);
 });
 
 // fonction appelée à la fermeture du modal pour la réservation
@@ -365,7 +365,7 @@ function typeSeanceEtCoach(typeSeance, avecCoach, idSeance) {
 }
 
 // fonction qui enregistre une seance
-function reservationSeance(idSeance, personnesAAjouter,idUtilisateur) {
+function reservationSeance(idSeance, personnesAAjouter, idUtilisateur) {
     $('#reservation-seance').on('click', function() {
 
         let idCoach = null,
@@ -412,22 +412,20 @@ function choixCoach() {
 }
 
 $(document).on('click','.bouton-annuler-reservation-employe',function() {
-        console.log('coucou');
-        let reservation = $(this).data('reservation');
-        console.log(reservation);
-        
-        $.ajax({
-            method  : 'POST',
-            url     : 'annulerReservation',
-            data    : {
-                id_reservation : reservation
-            },
+    let reservation = $(this).data('reservation');
 
-            xhrFields: { withCredentials: true },
-            crossDomain : true
-        }).done(function(data) {
-            alert(data);
-            window.location.reload();
-        })
-        
-    });
+    $.ajax({
+        method  : 'POST',
+        url     : 'annulerReservation',
+        data    : {
+            id_reservation : reservation
+        },
+
+        xhrFields: { withCredentials: true },
+        crossDomain : true
+    }).done(function(data) {
+        alert(data);
+        window.location.reload();
+    })
+
+});
