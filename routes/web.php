@@ -38,6 +38,10 @@ Route::group(['prefix' => 'client', 'middleware' => 'client'], function() {
 
     Route::put('prendreCarteAbonnement', 'CompteController@prendreCarteAbonnement');
     Route::put('effectuerReservation', 'ReservationController@effectuerReservation');
+
+    Route::get('seances','SalleExterneController@showSeances');
+    Route::get('seancesVenir','SalleExterneController@showSeancesVenir');
+    Route::get('seancesPassees','SalleExterneController@showSeancesPassees');
 });
 
 // ROUTE POUR LES COACHS
