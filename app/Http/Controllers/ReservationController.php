@@ -127,9 +127,16 @@ class ReservationController extends Controller
          
         
         // On récupère la séance de la reservation
-                $seance = Seance::select()
+        $seance = Seance::select()
         ->where('id_seance','=',$reservationInterne->id_seance)
         ->first();
+
+        //Si la séance est individuelle, on supprime le coach
+        $type = $seance->type_seance;
+        if($type == 'individuelle'){
+            Seance::where('id_seance', $seance->id_seance)
+                ->update(['id_coach' => null]);
+        }
 
         $date_seance = strtotime($seance->date_seance);
 
@@ -192,15 +199,21 @@ class ReservationController extends Controller
                         ['utilisateur.id_utilisateur','=',$id],
                         ])
                     ->distinct()
-                    ->first();   
+                    ->first();
 
-                    // On récupère l'id de la première carte invalide
-                    $carte = $carteInvalideUser->id_carte;
+                    if(sizeof($carteInvalideUser)>0){
+                        // On récupère l'id de la première carte invalide
+                        $carte = $carteInvalideUser->id_carte;
+                        
+                        Carte::where('id_carte', $carte)
+                            ->update(['seance_dispo' => 1]);
+
+                        $message = 'Votre annulation a bien était prise en compte. Nous avons réactivé une ancienne de vos cartes pour vous rembourser';
+                    }  
+                    else{
+                        $message = 'Votre annulation a bien était prise en compte. Nous n\'avons pas pu effectuer de remboursement pour cette annulation. Aucun de vos abonnements est à ce jour valide, et vous n\'avez aucune carte à votre nom.';
+                    }
                     
-                    Carte::where('id_carte', $carte)
-                        ->update(['seance_dispo' => 1]);
-
-                    $message = 'Votre annulation a bien était prise en compte. Nous avons réactivé une ancienne de vos cartes pour vous rembourser';
                 }
 
             } 
