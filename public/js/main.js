@@ -138,6 +138,7 @@ $(document).ready(function () {
         });
     });
 
+    /*
     // appel ajax pour annuler la reservation
     $('.bouton-annuler-reservation').on('click', function() {
         $.ajax({
@@ -153,7 +154,7 @@ $(document).ready(function () {
             window.location.reload();
         });
     });
-
+*/
     // appel ajax pour choisir abonnement ou carte
     $('#achat-abonnement').on('click', function() {
         let val = $('#choix-type-abo').val();
