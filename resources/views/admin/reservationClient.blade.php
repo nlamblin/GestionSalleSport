@@ -5,7 +5,9 @@
         <h1 class="page-header">
             Prendre une reservation pour un client
         </h1>
-
+        <div class="alert alert-warning">
+            Si un client n'est pas présent dans cette liste, c'est qu'il n'a aucun abonnement ou carte valide. Indiquez lui de renouveller son abonnement ou de prendre une carte.
+        </div>
 		<div class="row rowSelectClient">
 		<!-- Menu de selection du client -->
 
