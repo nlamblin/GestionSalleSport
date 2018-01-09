@@ -73,9 +73,9 @@
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMesSeances">
-                                	<li><a href="{{ url('client/seances') }}">Réserver une séance</a></li>
-                                    <li><a href="{{ url('client/seancesVenir') }}">Mes séances à venir</a></li>
-                                    <li><a href="{{ url('client/seancesPassees') }}">Mes séances passées</a></li>
+                                	<li><a href="{{ url('client/seancesExterne') }}">Réserver une séance</a></li>
+                                    <li><a href="{{ url('client/seancesVenirExterne') }}">Mes séances à venir</a></li>
+                                    <li><a href="{{ url('client/seancesPasseesExterne') }}">Mes séances passées</a></li>
                                 </ul>
                             </li>
                             <li>
