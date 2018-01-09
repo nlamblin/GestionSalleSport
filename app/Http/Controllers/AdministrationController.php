@@ -104,6 +104,24 @@ class AdministrationController extends Controller
         ]);
     }
 
+
+    /**
+     * Affiche le planning général
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showPlanningGeneral(){
+        $listeSeances = Seance::select()
+                    ->join('activite','seance.id_activite','=','activite.id_activite')
+                    ->orderBy('seance.date_seance', 'ASC')
+                    ->get();
+
+        return view('admin/planningGeneral', [
+            'listeSeances' => $listeSeances
+        ]);
+    }
+
+
     /**
      * Affiche les seances avec encore de la place
      *
