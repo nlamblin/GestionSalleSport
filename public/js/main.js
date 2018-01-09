@@ -93,6 +93,28 @@ $(document).ready(function () {
         }
     });
 
+    // appel ajax pour récupérer les séances d'un coach
+    $('#select_coach').change(function() {
+        // on supprime les seances avec les reservations à venir
+        $('.listeSeancesCoach').remove();
+
+        // si ce n'est pas l'option par defaut
+        if($(this).val() !== 'default') {
+            $.ajax({
+                method : 'GET',
+                url : 'seanceVenirCoach',
+                data : {
+                    id_coach : $(this).val()
+                },
+                xhrFields: { withCredentials: true },
+                crossDomain : true
+            }).done(function (data) {
+                // on affiche les nouvelles seances
+                $('.rowSelectCoach').after(data);
+            });
+        }
+    });
+
     //appel ajax dans le cas de la reservation par un empployé
     $('#select_client_reservation').change(function() { 
         //Si le client change   

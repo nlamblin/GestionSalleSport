@@ -89,6 +89,22 @@ class AdministrationController extends Controller
     }
 
     /**
+     * Selectionne tous les coachs
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showPlanningCoach(){
+        $coach = User::select()
+        ->join('connexion','connexion.id_utilisateur','=','utilisateur.id_utilisateur')
+        ->where('id_statut','=','2')
+        ->get();
+
+        return view('admin/planningCoach', [
+            'listecoach' => $coach
+        ]);
+    }
+
+    /**
      * Affiche les seances avec encore de la place
      *
      * @param Request $request
@@ -331,4 +347,23 @@ class AdministrationController extends Controller
             'reservationVenirClient' => $reservationVenirClient
         ]);
     }
+
+    /**
+     * Récupère les séances d'un coach donné
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function seancesVenirCoach(Request $request) {
+
+        // On récupère le coach
+        $user = User::getUser($request->id_coach);
+        $seanceCoach = Seance::select()
+        ->where('id_coach','=',$user->id_utilisateur)
+        ->get();
+        return view ('admin/listeSeanceCoach', [
+            'listeSeanceCoach' => $seanceCoach
+        ]);
+    }
+
 }

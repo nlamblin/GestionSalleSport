@@ -64,6 +64,10 @@
                                     <li><a href="{{ url('admin/showAnnulationClient') }}">Annuler pour un client</a></li>
                                 </ul>
                             </li>
+
+                            <li>
+                                <a href="{{ url('admin/planningCoach') }}"><span class="glyphicon glyphicon-list"></span> Planning des coachs</a>
+                            </li>
                         @endif
 
                         @if($userModel::getUser($userAuth->id_utilisateur)->estClient())

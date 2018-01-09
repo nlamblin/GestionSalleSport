@@ -66,6 +66,8 @@ Route::group(['prefix' => 'admin'], function() {
         Route::post('annulerReservation', 'ReservationController@annulerReservation');
 
         Route::put('effectuerReservation', 'ReservationController@effectuerReservation');
+        Route::get('planningCoach','AdministrationController@showPlanningCoach');
+        Route::get('seanceVenirCoach','AdministrationController@seancesVenirCoach');
 
     });
 
