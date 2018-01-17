@@ -47,6 +47,8 @@ Then, create a `.env` into root folder (like `.env.example`) file which content 
     MAIL_PASSWORD=null
     MAIL_ENCRYPTION=null
     
+The database script of the external group is stored into `/baseExterne.sql`. Into Postgres, external database name must be `M1_BASE_EXTERNE`.
+    
 Finally, execute both following commands : 
 
     composer install
