@@ -57,11 +57,9 @@ class SalleExterneController extends Controller
             }
         }
 
-        DB::connection('pgsql_externe')->table('Reservation')->insert([
-            'idUtilisateur'      => $utilisateur->id_utilisateur,
+        DB::connection('pgsql_externe')->table('vueReservationExterne')->insert([
             'idSeance'           => $idSeance,
-            'idEtatReservation'  => 2,
-            'idTypePaiement'      => $typePaiment
+            'idUtilisateur'      => $utilisateur->id_utilisateur
         ]);
 
         return 'Votre réservation a bien été prise en compte';
