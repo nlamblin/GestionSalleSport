@@ -47,7 +47,7 @@ Then, create a `.env` into root folder (like `.env.example`) file which content 
     MAIL_PASSWORD=null
     MAIL_ENCRYPTION=null
     
-The database script of the external group is stored into `/baseExterne.sql`. Into Postgres, external database name must be `M1_BASE_EXTERNE`.
+The database script of the external group is stored into `/baseExterne.sql`. Into Postgres, external database name must be `M1_BASE_EXTERNE`. If you need to change the default configuration to change password for example, it is into `/config/database.php` -> `pgsql_externe`
     
 Finally, execute both following commands : 
 
