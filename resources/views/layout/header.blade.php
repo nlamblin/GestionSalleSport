@@ -64,6 +64,18 @@
                                     <li><a href="{{ url('admin/showAnnulationClient') }}">Annuler pour un client</a></li>
                                 </ul>
                             </li>
+
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" id="dropdownPlannings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="glyphicon glyphicon-list"></span> Plannings
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownPlannings">
+                                    <li><a href="{{ url('admin/planningCoach') }}"> Planning des coachs</a></li>
+                                    <li><a href="{{ url('admin/planningGeneral') }}">Planning général des séances</a></li>
+                                </ul>
+                            </li>
+
                         @endif
 
                         @if($userModel::getUser($userAuth->id_utilisateur)->estClient())

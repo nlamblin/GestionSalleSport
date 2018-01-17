@@ -52,6 +52,9 @@ class LoginController extends Controller
         User::where('id_utilisateur', '=', $user->id_utilisateur)
             ->update(['date_derniere_activite' => date('Y-m-d', time())]);
 
+        User::where('id_utilisateur', '=', $user->id_utilisateur)
+            ->update(['actif' => true]);
+            
         return redirect()->intended($this->redirectPath());
     }
 
