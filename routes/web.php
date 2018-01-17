@@ -12,6 +12,7 @@
 */
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index');
@@ -42,6 +43,8 @@ Route::group(['prefix' => 'client', 'middleware' => 'client'], function() {
     Route::get('seancesExterne','SalleExterneController@showSeances');
     Route::get('seancesVenirExterne','SalleExterneController@showSeancesVenir');
     Route::get('seancesPasseesExterne','SalleExterneController@showSeancesPassees');
+
+    Route::put('effectuerReservationSalleExterne', 'SalleExterneController@effectuerReservation');
 });
 
 // ROUTE POUR LES COACHS

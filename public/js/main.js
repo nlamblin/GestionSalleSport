@@ -138,23 +138,6 @@ $(document).ready(function () {
         });
     });
 
-    /*
-    // appel ajax pour annuler la reservation
-    $('.bouton-annuler-reservation').on('click', function() {
-        $.ajax({
-            method  : 'POST',
-            url     : 'annulerReservation',
-            data    : {
-                id_reservation : $(this).data('reservation')
-            },
-            xhrFields: { withCredentials: true },
-            crossDomain : true
-        }).done(function(data) {
-            alert(data);
-            window.location.reload();
-        });
-    });
-*/
     // appel ajax pour choisir abonnement ou carte
     $('#achat-abonnement').on('click', function() {
         let val = $('#choix-type-abo').val();
@@ -162,7 +145,7 @@ $(document).ready(function () {
         if(val !== 'default') {
             $.ajax({
                 method : 'PUT',
-                url    : 'client/prendreCarteAbonnement',
+                url    : 'prendreCarteAbonnement',
                 data   : {
                    typeAbo : val
                 },
@@ -174,6 +157,23 @@ $(document).ready(function () {
                 window.location.reload();
             });
         }
+    });
+
+    $('.bouton-reservation-salle-externe').on('click', function() {
+        $.ajax({
+            method : 'PUT',
+            url : 'effectuerReservationSalleExterne',
+            data: {
+                idSeance : $(this).data('idseance')
+            },
+            xhrFields: { withCredentials: true },
+            crossDomain : true
+        })
+        .done(function(data) {
+            alert(data);
+            window.location.reload();
+        });
+
     });
 
 });
