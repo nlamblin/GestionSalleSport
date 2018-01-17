@@ -80,32 +80,34 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="demande_relance" class="col-md-4 control-label">Demande de relance </label>
-
-                                        <div class="col-md-6">
-                                            <input id="demande_relance" type="checkbox" class="form-control" name="demande_relance"
-                                                   @if($user->demande_relance)
-                                                        checked
-                                                   @endif
-                                            >
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div id="divDelai">
-                                            <label for="select_delai" class="col-md-4 control-label">Delai de relance (jours)</label>
+                                    @if($user->estClient())
+                                        <div class="form-group">
+                                            <label for="demande_relance" class="col-md-4 control-label">Demande de relance </label>
 
                                             <div class="col-md-6">
-                                                <select id="select_delai" class="form-control" name="select_delai">
-                                                    @for ($i = 1; $i <= 7; $i++)
-                                                        <option value="{{ $i }}"
-                                                        @if($i == $user->delai_relance) selected @endif>{{ $i }}</option>
-                                                    @endfor
-                                                </select>
+                                                <input id="demande_relance" type="checkbox" class="form-control" name="demande_relance"
+                                                       @if($user->demande_relance)
+                                                            checked
+                                                       @endif
+                                                >
                                             </div>
                                         </div>
-                                    </div>
+
+                                        <div class="form-group">
+                                            <div id="divDelai">
+                                                <label for="select_delai" class="col-md-4 control-label">Delai de relance (jours)</label>
+
+                                                <div class="col-md-6">
+                                                    <select id="select_delai" class="form-control" name="select_delai">
+                                                        @for ($i = 1; $i <= 7; $i++)
+                                                            <option value="{{ $i }}"
+                                                            @if($i == $user->delai_relance) selected @endif>{{ $i }}</option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
 
                                     <div class="form-group">
                                         <div class="col-md-6 col-md-offset-4">
