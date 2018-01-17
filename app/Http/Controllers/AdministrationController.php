@@ -262,11 +262,19 @@ class AdministrationController extends Controller
         ]);
 
         $user = User::getUserByEmail($request->email);
-
-        User::where('id_utilisateur', '=', $user->id_utilisateur)
+        if($user->id_statut == 4){
+             User::where('id_utilisateur', '=', $user->id_utilisateur)
             ->update(['id_statut' => 2]);
 
-        return redirect()->back()->with('message', 'Le coach a bien été ajouté.');
+            return redirect()->back()->with('message', 'Le coach a bien été ajouté.');
+        }
+        else if($user->id_statut == 2){
+            return redirect()->back()->with('messageDanger', 'Cette personne est déjà coach.');
+        }
+        else{
+            return redirect()->back()->with('messageDanger', 'Vous ne pouvez pas rétrograder un employé ou un administrateur au rôle de coach.');
+        }
+
     }
 
 
