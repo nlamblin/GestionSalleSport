@@ -78,7 +78,7 @@ class CompteController extends Controller
             Abonnement::create($data);
         }
 
-        return 'Votre abonnement a bien été pris en compte.';
+        return 'Votre achat a bien été pris en compte.';
     }
 
     public function mettreAJour(Request $request) {
