@@ -15,6 +15,18 @@
                     </div>
                 @endif
 
+                @if(session()->has('messageWarning'))
+                    <div class="alert alert-warning">
+                        {{ session()->get('messageWarning') }}
+                    </div>
+                @endif
+
+                @if(session()->has('messageDanger'))
+                    <div class="alert alert-danger">
+                        {{ session()->get('messageDanger') }}
+                    </div>
+                @endif
+
                 <form class="form-horizontal" method="POST" action="{{ route('admin/ajouterCoach') }}">
                     {{ csrf_field()}}
 
