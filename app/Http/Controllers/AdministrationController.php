@@ -326,7 +326,7 @@ class AdministrationController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function archiverSeance(Request $request) {
+    public function archiver(Request $request) {
 
         try {
             DB::select('SELECT changementetatreservationinterne()');

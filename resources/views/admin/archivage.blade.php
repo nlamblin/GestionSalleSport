@@ -21,13 +21,13 @@
                     </div>
                 @endif
 
-                <p>MESSAGE EXPLICATIF DE L'ARCHIVAGE</p>
+                <p>L'archivage permet de sauvegarder les séances qui ont été effectuées ainsi que les réservations passées des clients internes et externes.</p>
 
-                <form method="POST" action="{{ route('admin/archiverSeance') }}">
+                <form method="POST" action="{{ route('admin/archiver') }}">
                     {{ csrf_field()}}
 
                     <button type="submit" class="btn btn-primary">
-                        Lancer l'archivage des séances
+                        Lancer l'archivage des séances et des réservations
                     </button>
                 </form>
             </div>

@@ -83,7 +83,7 @@ Route::group(['prefix' => 'admin'], function() {
 
         Route::post('creerActivite', 'AdministrationController@creerActivite')->name('admin/creerActivite');
         Route::post('ajouterEmploye', 'AdministrationController@ajouterEmploye')->name('admin/ajouterEmploye');
-        Route::post('archiverSeance', 'AdministrationController@archiverSeance')->name('admin/archiverSeance');
+        Route::post('archiver', 'AdministrationController@archiver')->name('admin/archiver');
     });
 });
 
