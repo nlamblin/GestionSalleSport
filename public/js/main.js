@@ -167,7 +167,7 @@ $(document).ready(function () {
         if(val !== 'default') {
             $.ajax({
                 method : 'PUT',
-                url    : 'prendreCarteAbonnement',
+                url    : 'client/prendreCarteAbonnement',
                 data   : {
                    typeAbo : val
                 },

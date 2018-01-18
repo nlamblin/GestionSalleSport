@@ -37,7 +37,7 @@ Route::group(['prefix' => 'client', 'middleware' => 'client'], function() {
 
     Route::post('annulerReservation', 'ReservationController@annulerReservation');
 
-    Route::put('prendreCarteAbonnement', 'CompteController@prendreCarteAbonnement');
+    Route::put('prendreCarteAbonnement', 'CompteController@prendreCarteAbonnement')->name('client/prendreCarteAbonnement');
     Route::put('effectuerReservation', 'ReservationController@effectuerReservation');
 
     Route::get('seancesExterne','SalleExterneController@showSeances');
